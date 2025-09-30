@@ -9,7 +9,7 @@ if (!NEXT_PUBLIC_SUPABASE_URL || !NEXT_PUBLIC_SUPABASE_API_KEY) {
 
 const supabase = createClient<Database>(
   NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_API_KEY
+  NEXT_PUBLIC_SUPABASE_API_KEY,
 );
 
 export default supabase;
