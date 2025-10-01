@@ -5,22 +5,45 @@ import supabase from "@/libs/supabase";
 
 export default function CrudTest() {
   const [result, setResult] = useState<string>("");
+  const buttonClass = "px-5 py-2 border border-white cursor-pointer";
 
   const log = (data: any, error: any) =>
     setResult(JSON.stringify({ data, error }, null, 2));
 
+  interface UserInputValue {
+    email: string;
+    password: string;
+    nickname: string;
+    runnerType: string;
+  }
+
+  const userInputValue: UserInputValue = {
+    email: "dduk2684@naver.com",
+    password: "wh13467913",
+    nickname: "잔디",
+    runnerType: "guide_runner",
+  };
+
   // ✅ AUTH
-  const signUp = async () => {
+  const signUp = (userInputValue: UserInputValue) => async () => {
+    console.log(userInputValue);
     const { data, error } = await supabase.auth.signUp({
-      email: "peacheese17@naver.com",
-      password: "password123",
+      email: userInputValue.email,
+      password: userInputValue.password,
+      options: {
+        data: {
+          nickname: userInputValue.nickname,
+          runner_type: userInputValue.runnerType,
+        },
+      },
     });
+
     log(data, error);
   };
 
   const signIn = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: "peacheese17@naver.com",
+      email: "950823cjw@gmail.com",
       password: "password123",
     });
     log(data, error);
@@ -43,7 +66,7 @@ export default function CrudTest() {
 
     const { data, error } = await supabase.from("profiles").insert({
       id: user.id,
-      nickname: "테스트닉네임",
+      nickname: "잔디",
       runner_type: "guide_runner",
       is_verified: false,
     });
@@ -51,7 +74,12 @@ export default function CrudTest() {
   };
 
   const readProfiles = async () => {
-    const { data, error } = await supabase.from("profiles").select("*");
+    const user = (await supabase.auth.getUser()).data.user;
+    if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id);
     log(data, error);
   };
 
@@ -61,7 +89,7 @@ export default function CrudTest() {
 
     const { data, error } = await supabase
       .from("profiles")
-      .update({ nickname: "다시닉네임수정" })
+      .update({ nickname: "잔디" })
       .eq("id", user.id);
     log(data, error);
   };
@@ -97,7 +125,7 @@ export default function CrudTest() {
 
     // ⚠️ 실제 존재하는 post_id로 바꿔야 함
     const { data, error } = await supabase.from("matches").insert({
-      post_id: "실제-게시글-uuid-여기에",
+      post_id: "7e27ee63-bcd2-4b11-9585-11e76c7d2747",
       matched_runner_id: user.id,
       status: "matched",
       message: "안녕하세요, 동행하고 싶습니다!",
@@ -123,9 +151,9 @@ export default function CrudTest() {
 
     // ⚠️ 실제 존재하는 room_id로 바꿔야 함
     const { data, error } = await supabase.from("chat_messages").insert({
-      room_id: "실제-채팅방-uuid-여기에",
+      room_id: "313bf9a6-f6c2-4f2a-b18b-19636fa87ed8",
       sender_id: user.id,
-      body: "안녕하세요, 첫 채팅입니다!",
+      body: "ㅎㅇ",
     });
     log(data, error);
   };
@@ -135,7 +163,7 @@ export default function CrudTest() {
     const { data, error } = await supabase
       .from("chat_messages")
       .select("*")
-      .eq("room_id", "실제-채팅방-uuid-여기에");
+      .eq("room_id", "313bf9a6-f6c2-4f2a-b18b-19636fa87ed8");
     log(data, error);
   };
 
@@ -144,56 +172,60 @@ export default function CrudTest() {
       <h1>CRUD Test Page</h1>
 
       <h2>Auth</h2>
-      <button type="button" onClick={signUp}>
+      <button
+        type="button"
+        className={buttonClass}
+        onClick={signUp(userInputValue)}
+      >
         Sign Up
       </button>
-      <button type="button" onClick={signIn}>
+      <button type="button" className={buttonClass} onClick={signIn}>
         Sign In
       </button>
-      <button type="button" onClick={signOut}>
+      <button type="button" className={buttonClass} onClick={signOut}>
         Sign Out
       </button>
-      <button type="button" onClick={getUser}>
+      <button type="button" className={buttonClass} onClick={getUser}>
         Get Current User
       </button>
 
       <h2>Profiles</h2>
-      <button type="button" onClick={createProfile}>
+      <button type="button" className={buttonClass} onClick={createProfile}>
         Create Profile
       </button>
-      <button type="button" onClick={readProfiles}>
+      <button type="button" className={buttonClass} onClick={readProfiles}>
         Read Profiles
       </button>
-      <button type="button" onClick={updateProfile}>
+      <button type="button" className={buttonClass} onClick={updateProfile}>
         Update Profile
       </button>
 
       <h2>Posts</h2>
-      <button type="button" onClick={createPost}>
+      <button type="button" className={buttonClass} onClick={createPost}>
         Create Post
       </button>
-      <button type="button" onClick={readPosts}>
+      <button type="button" className={buttonClass} onClick={readPosts}>
         Read Posts
       </button>
 
       <h2>Matches</h2>
-      <button type="button" onClick={createMatch}>
+      <button type="button" className={buttonClass} onClick={createMatch}>
         Create Match
       </button>
-      <button type="button" onClick={readMatches}>
+      <button type="button" className={buttonClass} onClick={readMatches}>
         Read Matches
       </button>
 
       <h2>Chat Rooms</h2>
-      <button type="button" onClick={readChatRooms}>
+      <button type="button" className={buttonClass} onClick={readChatRooms}>
         Read Chat Rooms
       </button>
 
       <h2>Chat Messages</h2>
-      <button type="button" onClick={createChatMessage}>
+      <button type="button" className={buttonClass} onClick={createChatMessage}>
         Create Chat Message
       </button>
-      <button type="button" onClick={readChatMessages}>
+      <button type="button" className={buttonClass} onClick={readChatMessages}>
         Read Chat Messages
       </button>
 
