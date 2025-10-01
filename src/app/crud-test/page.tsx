@@ -3,6 +3,36 @@
 import { useState } from "react";
 import supabase from "@/libs/supabase";
 
+/* 닉네임 중복 체크
+export const checkNickname = async (nickname: string) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("nickname", nickname)
+    .maybeSingle(); // 0개 또는 1개 row만
+
+  if (error) {
+    console.error("닉네임 중복 확인 실패:", error.message);
+    return { exists: false, error };
+  }
+
+  if (data) {
+    return { exists: true }; // 이미 존재
+  }
+
+  return { exists: false }; // 사용 가능
+};
+
+const handleCheckNickname = async () => {
+  const res = await checkNickname("테스트닉네임");
+  if (res.exists) {
+    alert("이미 사용 중인 닉네임입니다.");
+  } else {
+    alert("사용 가능한 닉네임입니다.");
+  }
+};
+*/
+
 export default function CrudTest() {
   const [result, setResult] = useState<string>("");
   const buttonClass = "px-5 py-2 border border-white cursor-pointer";
@@ -17,6 +47,7 @@ export default function CrudTest() {
     runnerType: string;
   }
 
+  // 테스트용 객체
   const userInputValue: UserInputValue = {
     email: "dduk2684@naver.com",
     password: "wh13467913",
@@ -26,7 +57,6 @@ export default function CrudTest() {
 
   // ✅ AUTH
   const signUp = (userInputValue: UserInputValue) => async () => {
-    console.log(userInputValue);
     const { data, error } = await supabase.auth.signUp({
       email: userInputValue.email,
       password: userInputValue.password,
@@ -38,13 +68,22 @@ export default function CrudTest() {
       },
     });
 
-    log(data, error);
+    if (error) {
+      throw new Error("회원가입 실패");
+    } else if (
+      // 이메일 중복확인 버튼 없이 검증하는 로직
+      data.user &&
+      !data.session &&
+      data.user.identities?.length === 0
+    ) {
+      throw new Error("이미 가입된 이메일 주소 입니다.");
+    }
   };
 
-  const signIn = async () => {
+  const signIn = (userInputValue: UserInputValue) => async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: "950823cjw@gmail.com",
-      password: "password123",
+      email: userInputValue.email,
+      password: userInputValue.password,
     });
     log(data, error);
   };
@@ -60,20 +99,21 @@ export default function CrudTest() {
   };
 
   // ✅ PROFILES
-  const createProfile = async () => {
-    const user = (await supabase.auth.getUser()).data.user;
-    if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
+  // 프로필 생성 (그러나 회원 가입 후 )
+  // const createProfile = async () => {
+  //   const user = (await supabase.auth.getUser()).data.user;
+  //   if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
 
-    const { data, error } = await supabase.from("profiles").insert({
-      id: user.id,
-      nickname: "잔디",
-      runner_type: "guide_runner",
-      is_verified: false,
-    });
-    log(data, error);
-  };
+  //   const { data, error } = await supabase.from("profiles").insert({
+  //     id: user.id,
+  //     nickname: "잔디",
+  //     runner_type: "guide_runner",
+  //     is_verified: false,
+  //   });
+  //   log(data, error);
+  // };
 
-  const readProfiles = async () => {
+  const readMyProfiles = async () => {
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
     const { data, error } = await supabase
@@ -83,13 +123,23 @@ export default function CrudTest() {
     log(data, error);
   };
 
+  const readAllProfiles = async () => {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("nickname, profile_image_url, runner_type");
+    log(data, error);
+  };
+
   const updateProfile = async () => {
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
 
     const { data, error } = await supabase
       .from("profiles")
-      .update({ nickname: "잔디" })
+      .update({
+        nickname: "jandi",
+        profile_image_url: "template-user-image-01.png",
+      })
       .eq("id", user.id);
     log(data, error);
   };
@@ -101,7 +151,7 @@ export default function CrudTest() {
 
     const { data, error } = await supabase.from("posts").insert({
       author_id: user.id,
-      title: "테스트 글",
+      title: "잔디의 테스트 러닝 게시글",
       description: "러닝 같이 하실 분?",
       meeting_place: "울산대 운동장",
       meeting_detail_place: "정문 앞",
@@ -179,7 +229,11 @@ export default function CrudTest() {
       >
         Sign Up
       </button>
-      <button type="button" className={buttonClass} onClick={signIn}>
+      <button
+        type="button"
+        className={buttonClass}
+        onClick={signIn(userInputValue)}
+      >
         Sign In
       </button>
       <button type="button" className={buttonClass} onClick={signOut}>
@@ -190,11 +244,14 @@ export default function CrudTest() {
       </button>
 
       <h2>Profiles</h2>
-      <button type="button" className={buttonClass} onClick={createProfile}>
+      {/* <button type="button" className={buttonClass} onClick={createProfile}>
         Create Profile
+      </button> */}
+      <button type="button" className={buttonClass} onClick={readMyProfiles}>
+        Read My Profiles
       </button>
-      <button type="button" className={buttonClass} onClick={readProfiles}>
-        Read Profiles
+      <button type="button" className={buttonClass} onClick={readAllProfiles}>
+        Read All Profiles
       </button>
       <button type="button" className={buttonClass} onClick={updateProfile}>
         Update Profile
