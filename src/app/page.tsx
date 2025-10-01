@@ -1,3 +1,5 @@
+import CrudTest from "./crud-test/page";
+
 export default function Home() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Home() {
         있도록 문해력(Literacy)을 기르는 것이 필요합니다. 다만 AI 도구를 완전히
         배제하는 것이 아닌 학습을 위한 파트너로서 활용할 것을 추천합니다.
       </p>
+      <CrudTest />
     </div>
   );
 }
