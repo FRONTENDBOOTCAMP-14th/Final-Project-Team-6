@@ -49,13 +49,14 @@ export default function CrudTest() {
 
   // 테스트용 객체
   const userInputValue: UserInputValue = {
-    email: "dduk2684@naver.com",
-    password: "wh13467913",
-    nickname: "잔디",
+    email: "peacheese17@naver.com",
+    password: "wldus123",
+    nickname: "지연",
     runnerType: "guide_runner",
   };
 
-  // ✅ AUTH
+  // --------------------------------------------------------------
+  // AUTH
   const signUp = (userInputValue: UserInputValue) => async () => {
     const { data, error } = await supabase.auth.signUp({
       email: userInputValue.email,
@@ -98,7 +99,8 @@ export default function CrudTest() {
     log(data, error);
   };
 
-  // ✅ PROFILES
+  // --------------------------------------------------------------
+  // PROFILES
   // 프로필 생성 (그러나 회원 가입 후 )
   // const createProfile = async () => {
   //   const user = (await supabase.auth.getUser()).data.user;
@@ -144,17 +146,18 @@ export default function CrudTest() {
     log(data, error);
   };
 
-  // ✅ POSTS
+  // --------------------------------------------------------------
+  // POSTS
   const createPost = async () => {
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
 
     const { data, error } = await supabase.from("posts").insert({
       author_id: user.id,
-      title: "잔디의 테스트 러닝 게시글",
-      description: "러닝 같이 하실 분?",
-      meeting_place: "울산대 운동장",
-      meeting_detail_place: "정문 앞",
+      title: "지연의 러닝 게시글",
+      description: "나랑 같이 러닝할래~?",
+      meeting_place: "울산",
+      meeting_detail_place: "태화강 국가정원",
       meeting_time: new Date().toISOString(),
       goal_km: 5,
       pace: 8,
@@ -168,18 +171,31 @@ export default function CrudTest() {
     log(data, error);
   };
 
-  // ✅ MATCHES (매칭 → chat_rooms 자동 생성됨)
+  // --------------------------------------------------------------
+  // MATCHES (매칭 → chat_rooms 자동 생성됨)
   const createMatch = async () => {
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
 
     // ⚠️ 실제 존재하는 post_id로 바꿔야 함
     const { data, error } = await supabase.from("matches").insert({
-      post_id: "7e27ee63-bcd2-4b11-9585-11e76c7d2747",
+      post_id: "a7ab448a-0f39-45e9-acfc-6fa9ebf90e72",
       matched_runner_id: user.id,
       status: "matched",
-      message: "안녕하세요, 동행하고 싶습니다!",
+      message: "동동동대문을 열어라~",
     });
+    log(data, error);
+  };
+
+  const cancelMatch = async () => {
+    const user = (await supabase.auth.getUser()).data.user;
+    if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
+
+    // ⚠️ 실제 존재하는 id로 바꿔야 함(매칭 아이디)
+    const { data, error } = await supabase
+      .from("matches")
+      .update({ status: "cancelled" })
+      .eq("id", "55b0d878-b783-4934-908e-34be8447cc78");
     log(data, error);
   };
 
@@ -188,22 +204,24 @@ export default function CrudTest() {
     log(data, error);
   };
 
-  // ✅ CHAT ROOMS (트리거로 자동 생성됨)
+  // --------------------------------------------------------------
+  // CHAT ROOMS (트리거로 자동 생성됨)
   const readChatRooms = async () => {
     const { data, error } = await supabase.from("chat_rooms").select("*");
     log(data, error);
   };
 
-  // ✅ CHAT MESSAGES
+  // --------------------------------------------------------------
+  // CHAT MESSAGES
   const createChatMessage = async () => {
     const user = (await supabase.auth.getUser()).data.user;
     if (!user) return log(null, "사용자가 로그인되어 있지 않습니다.");
 
     // ⚠️ 실제 존재하는 room_id로 바꿔야 함
     const { data, error } = await supabase.from("chat_messages").insert({
-      room_id: "313bf9a6-f6c2-4f2a-b18b-19636fa87ed8",
+      room_id: "87fe3d3c-4938-4f9a-be08-86290e8530c4",
       sender_id: user.id,
-      body: "ㅎㅇ",
+      body: "안녕하세요, 같이 러닝합시당~!",
     });
     log(data, error);
   };
@@ -213,7 +231,7 @@ export default function CrudTest() {
     const { data, error } = await supabase
       .from("chat_messages")
       .select("*")
-      .eq("room_id", "313bf9a6-f6c2-4f2a-b18b-19636fa87ed8");
+      .eq("room_id", "87fe3d3c-4938-4f9a-be08-86290e8530c4");
     log(data, error);
   };
 
@@ -271,6 +289,9 @@ export default function CrudTest() {
       </button>
       <button type="button" className={buttonClass} onClick={readMatches}>
         Read Matches
+      </button>
+      <button type="button" className={buttonClass} onClick={cancelMatch}>
+        Cancel Match
       </button>
 
       <h2>Chat Rooms</h2>
