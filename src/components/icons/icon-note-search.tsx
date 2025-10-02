@@ -1,7 +1,7 @@
 import type IconType from "./icon-type";
 
 export default function IconNoteSearch({
-  color = "white",
+  color = "currentColor",
   size = 24,
 }: IconType) {
   return (

@@ -1,6 +1,9 @@
 import type IconType from "./icon-type";
 
-export default function IconChat({ color = "white", size = 24 }: IconType) {
+export default function IconChat({
+  color = "currentColor",
+  size = 24,
+}: IconType) {
   return (
     <svg
       width={size}

@@ -1,6 +1,9 @@
 import type IconType from "./icon-type";
 
-export default function IconRequest({ color = "white", size = 24 }: IconType) {
+export default function IconRequest({
+  color = "currentColor",
+  size = 24,
+}: IconType) {
   return (
     <svg
       width={size}
