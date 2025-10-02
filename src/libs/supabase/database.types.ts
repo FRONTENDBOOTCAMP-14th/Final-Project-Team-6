@@ -14,62 +14,6 @@ export type Database = {
   };
   public: {
     Tables: {
-      applications: {
-        Row: {
-          applicant_id: string;
-          created_at: string;
-          id: string;
-          message: string | null;
-          post_id: string;
-          status: string;
-        };
-        Insert: {
-          applicant_id: string;
-          created_at?: string;
-          id?: string;
-          message?: string | null;
-          post_id: string;
-          status?: string;
-        };
-        Update: {
-          applicant_id?: string;
-          created_at?: string;
-          id?: string;
-          message?: string | null;
-          post_id?: string;
-          status?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "applications_applicant_id_fkey";
-            columns: ["applicant_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "applications_applicant_id_fkey";
-            columns: ["applicant_id"];
-            isOneToOne: false;
-            referencedRelation: "v_profiles_with_email";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "applications_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: false;
-            referencedRelation: "posts";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "applications_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: false;
-            referencedRelation: "v_posts";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
       chat_messages: {
         Row: {
           body: string;
@@ -107,44 +51,40 @@ export type Database = {
             referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
-          {
-            foreignKeyName: "chat_messages_sender_id_fkey";
-            columns: ["sender_id"];
-            isOneToOne: false;
-            referencedRelation: "v_profiles_with_email";
-            referencedColumns: ["id"];
-          },
         ];
       };
       chat_rooms: {
         Row: {
           created_at: string;
           id: string;
+          matches_id: string;
           post_id: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
+          matches_id: string;
           post_id: string;
         };
         Update: {
           created_at?: string;
           id?: string;
+          matches_id?: string;
           post_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "chat_rooms_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: true;
-            referencedRelation: "posts";
+            foreignKeyName: "chat_rooms_matches_id_fkey";
+            columns: ["matches_id"];
+            isOneToOne: false;
+            referencedRelation: "matches";
             referencedColumns: ["id"];
           },
           {
             foreignKeyName: "chat_rooms_post_id_fkey";
             columns: ["post_id"];
-            isOneToOne: true;
-            referencedRelation: "v_posts";
+            isOneToOne: false;
+            referencedRelation: "posts";
             referencedColumns: ["id"];
           },
         ];
@@ -153,22 +93,25 @@ export type Database = {
         Row: {
           created_at: string;
           id: string;
+          matched_runner_id: string;
+          message: string | null;
           post_id: string;
-          runner_id: string;
           status: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
+          matched_runner_id: string;
+          message?: string | null;
           post_id: string;
-          runner_id: string;
           status?: string;
         };
         Update: {
           created_at?: string;
           id?: string;
+          matched_runner_id?: string;
+          message?: string | null;
           post_id?: string;
-          runner_id?: string;
           status?: string;
         };
         Relationships: [
@@ -180,24 +123,10 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "matches_post_id_fkey";
-            columns: ["post_id"];
-            isOneToOne: false;
-            referencedRelation: "v_posts";
-            referencedColumns: ["id"];
-          },
-          {
             foreignKeyName: "matches_runner_id_fkey";
-            columns: ["runner_id"];
+            columns: ["matched_runner_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "matches_runner_id_fkey";
-            columns: ["runner_id"];
-            isOneToOne: false;
-            referencedRelation: "v_profiles_with_email";
             referencedColumns: ["id"];
           },
         ];
@@ -206,44 +135,50 @@ export type Database = {
         Row: {
           author_id: string;
           created_at: string;
-          description: string | null;
-          distance_km: number | null;
+          description: string;
+          goal_km: number;
           id: string;
-          meeting_place: string | null;
+          is_completed: boolean;
+          is_expired: boolean;
+          meeting_detail_place: string;
+          meeting_place: string;
           meeting_time: string;
-          pace_max_sec: number | null;
-          pace_min_sec: number | null;
-          pace_range: unknown | null;
+          pace: number;
           status: string;
           title: string;
+          updated_at: string | null;
         };
         Insert: {
           author_id: string;
           created_at?: string;
-          description?: string | null;
-          distance_km?: number | null;
+          description: string;
+          goal_km: number;
           id?: string;
-          meeting_place?: string | null;
+          is_completed?: boolean;
+          is_expired?: boolean;
+          meeting_detail_place: string;
+          meeting_place: string;
           meeting_time: string;
-          pace_max_sec?: number | null;
-          pace_min_sec?: number | null;
-          pace_range?: unknown | null;
+          pace: number;
           status?: string;
           title: string;
+          updated_at?: string | null;
         };
         Update: {
           author_id?: string;
           created_at?: string;
-          description?: string | null;
-          distance_km?: number | null;
+          description?: string;
+          goal_km?: number;
           id?: string;
-          meeting_place?: string | null;
+          is_completed?: boolean;
+          is_expired?: boolean;
+          meeting_detail_place?: string;
+          meeting_place?: string;
           meeting_time?: string;
-          pace_max_sec?: number | null;
-          pace_min_sec?: number | null;
-          pace_range?: unknown | null;
+          pace?: number;
           status?: string;
           title?: string;
+          updated_at?: string | null;
         };
         Relationships: [
           {
@@ -251,13 +186,6 @@ export type Database = {
             columns: ["author_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "posts_author_id_fkey";
-            columns: ["author_id"];
-            isOneToOne: false;
-            referencedRelation: "v_profiles_with_email";
             referencedColumns: ["id"];
           },
         ];
@@ -266,119 +194,43 @@ export type Database = {
         Row: {
           created_at: string;
           id: string;
-          is_verified: boolean;
+          is_verified: boolean | null;
           nickname: string;
           profile_image_url: string | null;
           runner_type: string;
+          total_join: number | null;
+          total_mileage: number | null;
+          updated_at: string | null;
         };
         Insert: {
           created_at?: string;
           id: string;
-          is_verified?: boolean;
+          is_verified?: boolean | null;
           nickname: string;
           profile_image_url?: string | null;
           runner_type: string;
+          total_join?: number | null;
+          total_mileage?: number | null;
+          updated_at?: string | null;
         };
         Update: {
           created_at?: string;
           id?: string;
-          is_verified?: boolean;
+          is_verified?: boolean | null;
           nickname?: string;
           profile_image_url?: string | null;
           runner_type?: string;
+          total_join?: number | null;
+          total_mileage?: number | null;
+          updated_at?: string | null;
         };
         Relationships: [];
       };
     };
     Views: {
-      v_posts: {
-        Row: {
-          author_id: string | null;
-          created_at: string | null;
-          description: string | null;
-          distance_km: number | null;
-          id: string | null;
-          meeting_place: string | null;
-          meeting_time: string | null;
-          pace_max_sec: number | null;
-          pace_max_text: string | null;
-          pace_min_sec: number | null;
-          pace_min_text: string | null;
-          pace_range: unknown | null;
-          status: string | null;
-          title: string | null;
-        };
-        Insert: {
-          author_id?: string | null;
-          created_at?: string | null;
-          description?: string | null;
-          distance_km?: number | null;
-          id?: string | null;
-          meeting_place?: string | null;
-          meeting_time?: string | null;
-          pace_max_sec?: number | null;
-          pace_max_text?: never;
-          pace_min_sec?: number | null;
-          pace_min_text?: never;
-          pace_range?: unknown | null;
-          status?: string | null;
-          title?: string | null;
-        };
-        Update: {
-          author_id?: string | null;
-          created_at?: string | null;
-          description?: string | null;
-          distance_km?: number | null;
-          id?: string | null;
-          meeting_place?: string | null;
-          meeting_time?: string | null;
-          pace_max_sec?: number | null;
-          pace_max_text?: never;
-          pace_min_sec?: number | null;
-          pace_min_text?: never;
-          pace_range?: unknown | null;
-          status?: string | null;
-          title?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "posts_author_id_fkey";
-            columns: ["author_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "posts_author_id_fkey";
-            columns: ["author_id"];
-            isOneToOne: false;
-            referencedRelation: "v_profiles_with_email";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
-      v_profiles_with_email: {
-        Row: {
-          created_at: string | null;
-          email: string | null;
-          id: string | null;
-          is_verified: boolean | null;
-          nickname: string | null;
-          profile_image_url: string | null;
-          runner_type: string | null;
-        };
-        Relationships: [];
-      };
+      [_ in never]: never;
     };
     Functions: {
-      accept_application: {
-        Args: { p_application_id: string };
-        Returns: undefined;
-      };
-      format_pace_km: {
-        Args: { p_seconds: number };
-        Returns: string;
-      };
       gbt_bit_compress: {
         Args: { "": unknown };
         Returns: unknown;
