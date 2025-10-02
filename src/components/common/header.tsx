@@ -9,7 +9,7 @@ interface HeaderProps {
 export default function Header({ className }: HeaderProps) {
   return (
     <header
-      className={`max-w-[480px] min-w-[320px] w-full h-[70px] bg-black flex items-center justify-between px-5 ${className}`}
+      className={`w-full h-[70px] bg-black flex items-center justify-between fixed px-5 top-0 z-50  ${className}`}
     >
       <Link href="/">
         <h1 className="text-xl font-bold text-white">눈길</h1>
