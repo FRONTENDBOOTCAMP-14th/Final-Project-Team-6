@@ -9,16 +9,19 @@ interface HeaderProps {
 export default function Header({ className }: HeaderProps) {
   return (
     <header
-      className={`w-full h-[70px] bg-black flex items-center justify-between fixed px-5 top-0 z-50  ${className}`}
+      className={`fixed w-full h-[70px] bg-black flex items-center justify-between px-5 top-0 z-50  ${className}`}
     >
-      <Link href="/">
+      <Link
+        className="focus:outline-none focus:ring-2 focus:ring-white"
+        href="/"
+      >
         <h1 className="text-xl font-bold text-white">눈길</h1>
       </Link>
 
       <button
         type="button"
         aria-label="설정 페이지로 이동"
-        className="w-10 h-10 flex items-center justify-center"
+        className="w-10 h-10 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white"
       >
         <IconSettings />
       </button>
