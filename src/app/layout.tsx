@@ -15,8 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR">
-      <body className={`${pretendard.variable} antialiased`}>{children}</body>
-      <DialogProvider />
+      <body className={`${pretendard.variable} antialiased`}>
+        {children}
+        <DialogProvider />
+      </body>
     </html>
   );
 }
