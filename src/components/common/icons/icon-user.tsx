@@ -1,4 +1,4 @@
-import type IconType from "./icon-type";
+import type IconType from "./type";
 
 export default function IconUser({
   color = "currentColor",

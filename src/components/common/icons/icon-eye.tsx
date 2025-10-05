@@ -1,4 +1,5 @@
 import type IconType from "./type";
+
 export default function IconEye({
   color = "currentColor",
   size = 24,

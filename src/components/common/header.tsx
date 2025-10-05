@@ -1,11 +1,10 @@
-import Link from "next/link";
 import IconSettings from "@/components/common/icons/icon-settings";
-import Container from "./container";
+import Link from "./link";
 
 export default function Header() {
   return (
     <header className="fixed w-full h-[70px] top-0 z-50 bg-[var(--color-site-black)]">
-      <Container className="h-full flex items-center justify-between px-[20px]">
+      <div className="flex items-center justify-between px-[20px]">
         <Link href="/">
           <h1 className="text-xl font-bold text-[var(--color-site-white)]">
             눈길
@@ -19,7 +18,7 @@ export default function Header() {
         >
           <IconSettings />
         </button>
-      </Container>
+      </div>
     </header>
   );
 }

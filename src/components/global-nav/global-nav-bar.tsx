@@ -5,9 +5,9 @@ import {
   IconNoteSearch,
   IconRequest,
   IconUser,
-} from "@/components/icons";
+} from "@/components/common/icons";
+import NavLink from "@/components/common/nav-link";
 import { useAuthStore } from "@/stores/auth";
-import NavLink from "./nav-link";
 
 // type GlobalNavBarProps = {
 //   isLoggedIn: boolean;

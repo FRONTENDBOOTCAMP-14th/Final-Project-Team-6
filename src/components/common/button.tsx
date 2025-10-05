@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { tw } from "@/utils";
 import { siteHexColor } from "@/utils/site-hex-color";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,7 +23,7 @@ export default function Button({
   className,
   ...restProps
 }: Props) {
-  const heighValue = {
+  const heightValue = {
     small: "40px",
     medium: "52px",
   };
@@ -30,18 +31,23 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`flex gap-1 px-4 items-center rounded-sm font-semibold ${disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"} ${fullWidth && "w-full justify-center"} ${className}`}
+      className={tw(
+        "flex gap-1 px-4 items-center rounded-sm font-semibold ",
+        disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer",
+        fullWidth && "w-full justify-center",
+        className,
+      )}
       style={
         fill
           ? {
               color: textColor,
               backgroundColor: buttonColor,
-              height: heighValue[height],
+              height: heightValue[height],
             }
           : {
               color: buttonColor,
               border: `1px solid ${buttonColor}`,
-              height: heighValue[height],
+              height: heightValue[height],
             }
       }
       {...restProps}

@@ -1,4 +1,5 @@
 import type IconType from "./type";
+
 export default function IconEyeOff({
   color = "currentColor",
   size = 24,
