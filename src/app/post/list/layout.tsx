@@ -4,6 +4,6 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function WriteLayout({ children }: Props) {
+export default function PostListLayout({ children }: Props) {
   return <PageLayout>{children}</PageLayout>;
 }

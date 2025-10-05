@@ -3,8 +3,8 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import Button from "@/components/common/button";
 import IconCheck from "@/components/common/icons/icon-check";
 import IconClose from "@/components/common/icons/icon-close";
+import { siteHexColor } from "@/constructor/";
 import { useDialog } from "@/stores/use-dialog";
-import { siteHexColor } from "@/utils/site-hex-color";
 
 export default function DialogTrigger() {
   const { closeDialog } = useDialog();

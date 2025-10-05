@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: var(--color-black);
+  --background: #000;
   --foreground: #fff;
 
-  --color-black: #0f0f0f;
+  --viewport-size: 480px;
 }
 
 @theme inline {

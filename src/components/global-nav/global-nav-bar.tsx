@@ -22,16 +22,16 @@ export default function GlobalNavBar() {
   // name: 메뉴 이름, icon: 아이콘 컴포넌트, href: 링크 경로
   // 페이지명 결정되면, href 수정 필요
   const menus = [
-    { name: "동행찾기", icon: IconNoteSearch, href: "/posts" },
-    { name: "동행신청", icon: IconRequest, href: "/write" },
-    { name: "채팅", icon: IconChat, href: "/chats" },
+    { name: "동행찾기", icon: IconNoteSearch, href: "/post/list" },
+    { name: "동행신청", icon: IconRequest, href: "/post/write" },
+    { name: "채팅", icon: IconChat, href: "/chat/list" },
     isLoggedIn
       ? { name: "내 정보", icon: IconUser, href: "/profile/my-profile" }
       : { name: "시작하기", icon: IconUser, href: "/auth/login" },
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full bg-site-lightblack">
+    <nav className="fixed bottom-0 w-full bg-site-lightblack max-w-(--viewport-size)">
       <ul className="flex justify-around ">
         {menus.map(({ name, icon: Icon, href }) => (
           <li key={name} className=" w-full h-[80px]">

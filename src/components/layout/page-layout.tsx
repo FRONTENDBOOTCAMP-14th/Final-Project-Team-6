@@ -9,7 +9,7 @@ export default function PageLayout({ children }: Props) {
   return (
     <div className="pt-[70px] pb-[80px] flex flex-col min-h-[100dvh]">
       <Header />
-      <main>{children}</main>
+      <main className="px-5">{children}</main>
       <GlobalNavBar />
       <Footer />
     </div>

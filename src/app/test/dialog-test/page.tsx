@@ -8,7 +8,7 @@ import {
   IconLockOpen,
   IconTrash,
 } from "@/components/common/icons";
-import { siteHexColor } from "@/utils/site-hex-color";
+import { siteHexColor } from "@/constructor/";
 import DialogTrigger from "./dialog-trigger";
 
 export default function DialogTestPage() {

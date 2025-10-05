@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { pretendard } from "./fonts";
+import { pretendard } from "../fonts";
 import "./globals.css";
 import DialogProvider from "@/components/dialogs/dialog-provider";
 
@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="ko-KR">
       <body className={`${pretendard.variable} antialiased`}>
-        {children}
+        <div className="max-w-(--viewport-size) mx-auto bg-site-black">
+          {children}
+        </div>
         <DialogProvider />
       </body>
     </html>
