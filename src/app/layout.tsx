@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import { pretendard } from "./fonts";
+import "./globals.css";
+import DialogProvider from "@/components/dialogs/dialog-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="ko-KR">
       <body className={`${pretendard.variable} antialiased`}>{children}</body>
+      <DialogProvider />
     </html>
   );
 }
