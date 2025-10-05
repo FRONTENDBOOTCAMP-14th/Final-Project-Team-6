@@ -1,0 +1,15 @@
+export { default as IconArrowRight } from "./icon-arrow-right";
+export { default as IconChat } from "./icon-chat";
+export { default as IconCheck } from "./icon-check";
+export { default as IconClose } from "./icon-close";
+export { default as IconEdit } from "./icon-edit";
+export { default as IconEye } from "./icon-eye";
+export { default as IconEyeOff } from "./icon-eye-off";
+export { default as IconLockOpen } from "./icon-lock-open";
+export { default as IconMessage } from "./icon-message";
+export { default as IconNoteSearch } from "./icon-note-search";
+export { default as IconRequest } from "./icon-request";
+export { default as IconRouterBack } from "./icon-router-back";
+export { default as IconSettings } from "./icon-settings";
+export { default as IconTrash } from "./icon-trash";
+export { default as IconUser } from "./icon-user";
