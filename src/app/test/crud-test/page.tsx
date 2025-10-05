@@ -37,7 +37,7 @@ export default function CrudTest() {
   const [result, setResult] = useState<string>("");
   const buttonClass = "px-5 py-2 border border-white cursor-pointer";
 
-  const log = (data: any, error: any) =>
+  const log = (data: unknown, error: unknown) =>
     setResult(JSON.stringify({ data, error }, null, 2));
 
   interface UserInputValue {
