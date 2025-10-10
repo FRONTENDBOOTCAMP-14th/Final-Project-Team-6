@@ -5,3 +5,6 @@
 *.gif binary
 *.ico binary
 *.lock binary
+*.woff2 binary
+*.woff binary
+*.ttf binary
