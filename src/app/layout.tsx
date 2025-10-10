@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
-import { pretendard } from "../fonts";
 import "./globals.css";
+import localFont from "next/font/local";
 import DialogProvider from "@/components/dialogs/dialog-provider";
+
+const pretendard = localFont({
+  src: "../../public/fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
