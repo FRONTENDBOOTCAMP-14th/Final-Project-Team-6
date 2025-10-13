@@ -1,3 +1,4 @@
+export { default as IconArrowLeft } from "./icon-arrow-left";
 export { default as IconArrowRight } from "./icon-arrow-right";
 export { default as IconChat } from "./icon-chat";
 export { default as IconCheck } from "./icon-check";
