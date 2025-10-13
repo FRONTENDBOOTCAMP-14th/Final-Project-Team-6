@@ -22,13 +22,53 @@ export default function PostWritePage() {
           required
         />
         <Input
+          label="상세 장소"
+          name="meeting_detail_place"
+          type="text"
+          placeholder="예시) OOO역 3번 출구"
+          required
+        />
+        <Input
           label="시간"
           name="meeting_time"
           type="datetime-local"
           required
         />
+        <Input
+          label="목표 거리 (km)"
+          name="goal_km"
+          type="number"
+          placeholder="숫자만 입력 (예: 10)"
+          required
+        />
+        <Input
+          label="페이스 (km당 분)"
+          name="pace"
+          type="text"
+          placeholder="예시) 5분 30초"
+          required
+        />
 
-        <Button type="submit">작성완료</Button>
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium mb-[4px] text-[var(--color-site-gray)]"
+          >
+            상세한 러닝 내용
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            rows={5}
+            placeholder="상세한 러닝 계획을 알려주세요."
+            required
+            className="focus:outline-none w-full bg-transparent border border-[var(--color-site-gray)] focus:border-[var(--color-site-white)] rounded-md p-[12px] text-[var(--color-site-gray)]"
+          />
+        </div>
+
+        <Button type="submit" fullWidth>
+          작성완료
+        </Button>
       </form>
     </main>
   );
