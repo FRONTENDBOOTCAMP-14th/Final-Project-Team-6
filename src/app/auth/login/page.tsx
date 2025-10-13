@@ -1,21 +1,32 @@
-"use client";
+import { signIn } from "@/app/auth/action";
+import { Button } from "@/components/common";
 
-import { useAuthStore } from "@/stores/auth";
-
-// 로그인 테스트 페이지
 export default function LoginPage() {
-  const { isLoggedIn, toggle } = useAuthStore();
-
   return (
-    <div>
-      <p>로그인 페이지</p>
-      <button
-        type="button"
-        onClick={toggle}
-        className="px-4 py-2 bg-site-blue text-[0.625rem] rounded"
-      >
-        {isLoggedIn ? "로그아웃" : "로그인"}
-      </button>
-    </div>
+    <form className="flex flex-col gap-5">
+      <div>
+        <label htmlFor="email">이메일</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          className="border"
+        />
+      </div>
+      <div>
+        <label htmlFor="password">패스워드</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          className="border"
+        />
+      </div>
+      <Button formAction={signIn} fullWidth height="medium">
+        로그인
+      </Button>
+    </form>
   );
 }
