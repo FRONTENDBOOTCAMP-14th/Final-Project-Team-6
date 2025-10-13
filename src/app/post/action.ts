@@ -16,16 +16,23 @@ export async function createPost(formData: FormData) {
     return redirect("/auth/login");
   }
 
+  const paceValue = formData.get("pace") as string;
+  const paceNumber = Number(paceValue);
+
+  if (Number.isNaN(paceNumber)) {
+    console.error("Pace 값이 유효한 숫자가 아닙니다:", paceValue);
+    return redirect(`/error?message=페이스는 숫자로만 입력해야 합니다.`);
+  }
+
   const postData: TablesInsert<"posts"> = {
     title: formData.get("title") as string,
     meeting_place: formData.get("meeting_place") as string,
+    meeting_detail_place: formData.get("meeting_detail_place") as string,
     meeting_time: formData.get("meeting_time") as string,
+    goal_km: Number(formData.get("goal_km")),
+    pace: paceNumber,
+    description: formData.get("description") as string,
     author_id: user.id,
-    // 타입 오류 해결을 위해 필수 필드에 기본값 추가
-    meeting_detail_place: "",
-    goal_km: 0,
-    pace: 0,
-    description: "",
     is_completed: false,
     is_expired: false,
   };
