@@ -1,3 +1,4 @@
+import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
 import ChatItem from "./chat-item";
 
@@ -5,13 +6,11 @@ export default async function ChatList() {
   const supabase = await createClient();
 
   // 현재 로그인한 사용자 정보
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
-  if (userError || !user) {
-    throw new Error("로그인 정보를 불러오지 못했습니다.");
+  if (!user) {
+    // throw new Error("로그인 정보를 불러오지 못했습니다.");
+    return <div>로그인이 필요합니다.</div>;
   }
 
   const myId = user.id;
