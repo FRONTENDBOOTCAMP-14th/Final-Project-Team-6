@@ -22,7 +22,6 @@ export default async function ChatList() {
     .select(`
     id,
     posts (
-      id,
       title,
       author:profiles!posts_author_id_fkey (
         id,
@@ -72,6 +71,7 @@ export default async function ChatList() {
   const chatItems = rooms.map((room) => {
     const post = room.posts;
     const postAuthor = post.author;
+    const matchesId = room.matches.id;
     const matchedRunner = room.matches?.matched_runner;
     const lastMsg = latestByRoom?.[room.id];
 
@@ -81,7 +81,7 @@ export default async function ChatList() {
     const opponent = isAuthor ? matchedRunner : postAuthor;
 
     return {
-      roomId: room.id,
+      matchedId: matchesId,
       nickname: opponent.nickname,
       runnerType: opponent.runner_type as "blind_runner" | "guide_runner",
       postTitle: post.title,
@@ -95,8 +95,8 @@ export default async function ChatList() {
     <ul>
       {chatItems.map((room) => (
         <ChatItem
-          key={room.roomId}
-          roomId={room.roomId}
+          key={room.matchedId}
+          matchedId={room.matchedId}
           nickname={room.nickname}
           runnerType={room.runnerType}
           postTitle={room.postTitle}

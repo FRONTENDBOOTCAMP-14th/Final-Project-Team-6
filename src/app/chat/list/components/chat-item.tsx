@@ -3,7 +3,7 @@ import Link from "@/components/common/link";
 import tw from "@/utils/tw";
 
 interface ChatItemProps {
-  roomId: string;
+  matchedId: string;
   nickname: string;
   runnerType: "blind_runner" | "guide_runner";
   postTitle: string;
@@ -13,7 +13,7 @@ interface ChatItemProps {
 }
 
 export default function ChatItem({
-  roomId,
+  matchedId,
   nickname,
   runnerType,
   postTitle,
@@ -60,7 +60,7 @@ export default function ChatItem({
 
   return (
     <Link
-      href={`/chat/detail/${roomId}`}
+      href={`/chat/detail/${matchedId}`}
       className="flex flex-row gap-y-3 py-5 w-full"
     >
       <Image
