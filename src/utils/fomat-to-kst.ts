@@ -42,7 +42,3 @@ export default function formatUTCtoKST(utcDate: string | Date): string {
 
   return `${yy}.${MM}.${dd} ${HH}:${mm}`;
 }
-
-// 사용 예시
-console.log(formatUTCtoKST("2025-10-13T04:54:39+00:00")); // "25.10.13 13:54"
-console.log(formatUTCtoKST(new Date())); // 현재 KST 기준 시간
