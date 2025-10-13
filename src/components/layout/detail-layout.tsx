@@ -13,7 +13,7 @@ export default function DetailLayout({ children, title }: Props) {
 
   return (
     <div className="pt-[70px] min-h-[100dvh]">
-      <header className="fixed top-0 w-full border-b border-b-white/10 max-w-(--viewport-size)">
+      <header className="fixed top-0 w-full border-b border-b-white/10 max-w-(--viewport-size) bg-site-black">
         <div className="flex items-center px-5 h-[70px] relative">
           <button
             type="button"
