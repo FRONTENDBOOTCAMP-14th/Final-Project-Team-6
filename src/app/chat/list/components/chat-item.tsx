@@ -22,7 +22,7 @@ export default function ChatItem({
   imgSrc,
 }: ChatItemProps) {
   // 프로필 이미지 경로 설정
-  const src = `/assets/${imgSrc}`;
+  const src = `/images/${imgSrc}`;
 
   // 러너 타입 텍스트 변환
   const runnerTypeText =
@@ -68,8 +68,7 @@ export default function ChatItem({
         alt="상대방 프로필"
         width={50}
         height={50}
-        className="w-12.5 h-12.5"
-        blurDataURL=""
+        className="w-12.5 h-12.5 rounded-full"
       />
       <div className="flex flex-col ms-4 gap-y-3 min-w-0 w-full">
         <div className="flex flex-col relative gap-y-2">
