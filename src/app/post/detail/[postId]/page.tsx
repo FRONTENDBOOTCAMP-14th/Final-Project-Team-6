@@ -213,7 +213,10 @@ function ActionButtons({
     return <UnmatchedAuthorView actions={actions} />;
   }
 
-  // 아직 동일 타입 러너 체크 로직은 없음
+  if (currentUserRunnerType && currentUserRunnerType === authorRunnerType) {
+    return <SameTypeRunnerView />;
+  }
+
   return <DefaultView actions={actions} />;
 }
 
@@ -292,6 +295,12 @@ const UnmatchedAuthorView = ({ actions }: Pick<ActionsProp, "actions">) => (
       </form>
     </div>
   </div>
+);
+
+const SameTypeRunnerView = () => (
+  <Button disabled fullWidth buttonColor="var(--color-site-lightblack)">
+    같은 타입의 러너와는 매칭할 수 없습니다
+  </Button>
 );
 
 const DefaultView = ({ actions }: Pick<ActionsProp, "actions">) => (
