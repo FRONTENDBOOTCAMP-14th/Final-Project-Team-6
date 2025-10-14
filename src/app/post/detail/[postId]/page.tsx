@@ -1,9 +1,17 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Button } from "@/components/common";
 import formatUTCtoKST from "@/utils/fomat-utc-to-kst";
 import { createClient } from "@/utils/supabase/server";
+import {
+  cancelMatch,
+  completePost,
+  createMatchAndChat,
+  deletePost,
+} from "./action";
 
-// --- 데이터 가져오는 함수 ---
+// --- 데이터 가져오는 함수들 ---
+
 async function getPostById(id: string) {
   const supabase = await createClient();
   const { data: post, error } = await supabase
@@ -19,6 +27,27 @@ async function getPostById(id: string) {
   return post;
 }
 
+async function getMatchForPost(postId: string) {
+  const supabase = await createClient();
+  const { data: match } = await supabase
+    .from("matches")
+    .select("*, applicant:profiles(*)")
+    .eq("post_id", postId)
+    .neq("status", "cancelled")
+    .maybeSingle();
+  return match;
+}
+
+async function getCurrentUserProfile(userId: string) {
+  const supabase = await createClient();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("runner_type")
+    .eq("id", userId)
+    .single();
+  return profile;
+}
+
 // --- 메인 페이지 컴포넌트 ---
 export default async function PostDetailPage({
   params,
@@ -26,11 +55,39 @@ export default async function PostDetailPage({
   params: { postId: string };
 }) {
   const { postId } = params;
-  const post = await getPostById(postId);
+
+  const supabase = await createClient();
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser();
+
+  const [post, match] = await Promise.all([
+    getPostById(postId),
+    getMatchForPost(postId),
+  ]);
+
+  const currentUserProfile = authUser
+    ? await getCurrentUserProfile(authUser.id)
+    : null;
 
   if (!post) {
     notFound();
   }
+
+  const isAuthor = authUser?.id === post.author_id;
+  const isApplicant = authUser?.id === match?.matched_runner_id;
+  const isMatched = !!match;
+  const isCompleted = post.is_completed;
+
+  const completePostAction = completePost.bind(null, post.id);
+  const createMatchAction = createMatchAndChat.bind(null, {
+    postId: post.id,
+    authorId: post.author_id,
+  });
+  const deletePostAction = deletePost.bind(null, post.id);
+  const cancelMatchAction = match
+    ? cancelMatch.bind(null, match.id, post.id)
+    : () => {};
 
   return (
     <div className="flex flex-col gap-6 p-4">
@@ -91,7 +148,156 @@ export default async function PostDetailPage({
         {post.description}
       </p>
 
-      {/* --- 액션 버튼 영역 (추후 구현) --- */}
+      <ActionButtons
+        isAuthor={isAuthor}
+        isApplicant={isApplicant}
+        isMatched={isMatched}
+        isCompleted={isCompleted}
+        currentUserRunnerType={
+          currentUserProfile?.runner_type as "guide_runner" | "blind_runner"
+        }
+        authorRunnerType={
+          post.author?.runner_type as "guide_runner" | "blind_runner"
+        }
+        actions={{
+          complete: completePostAction,
+          createMatch: createMatchAction,
+          delete: deletePostAction,
+          cancel: cancelMatchAction,
+        }}
+      />
     </div>
   );
 }
+
+// --- ActionButtons 컴포넌트 Props 타입 정의 ---
+type RunnerType = "guide_runner" | "blind_runner";
+
+interface ActionButtonsProps {
+  isAuthor: boolean;
+  isApplicant: boolean;
+  isMatched: boolean;
+  isCompleted: boolean;
+  currentUserRunnerType?: RunnerType | null;
+  authorRunnerType?: RunnerType | null;
+  actions: {
+    complete: () => void;
+    createMatch: () => void;
+    delete: () => void;
+    cancel: () => void;
+  };
+}
+
+// --- [수정됨] ActionButtons 컴포넌트 리팩터링 ---
+function ActionButtons({
+  isAuthor,
+  isApplicant,
+  isMatched,
+  isCompleted,
+  currentUserRunnerType,
+  authorRunnerType,
+  actions,
+}: ActionButtonsProps) {
+  if (isCompleted) {
+    return <CompletedView />;
+  }
+
+  if (isMatched) {
+    if (isAuthor) return <MatchedAuthorView actions={actions} />;
+    if (isApplicant) return <MatchedApplicantView actions={actions} />;
+    return <AlreadyMatchedView />;
+  }
+
+  // 매칭 안 된 상태
+  if (isAuthor) {
+    return <UnmatchedAuthorView actions={actions} />;
+  }
+
+  // 아직 동일 타입 러너 체크 로직은 없음
+  return <DefaultView actions={actions} />;
+}
+
+// --- 각 상태별 뷰 컴포넌트 ---
+type ActionsProp = {
+  actions: Pick<
+    ActionButtonsProps["actions"],
+    "complete" | "cancel" | "delete" | "createMatch"
+  >;
+};
+
+const CompletedView = () => (
+  <Button disabled fullWidth>
+    러닝 완료
+  </Button>
+);
+
+const MatchedAuthorView = ({ actions }: Pick<ActionsProp, "actions">) => (
+  <div className="flex flex-col gap-2">
+    <form action={actions.complete}>
+      <Button type="submit" buttonColor="var(--color-site-blue)" fullWidth>
+        러닝 완료
+      </Button>
+    </form>
+    <div className="flex items-center gap-2">
+      <form action={actions.cancel}>
+        <Button type="submit" buttonColor="var(--color-site-lightblack)">
+          매칭취소
+        </Button>
+      </form>
+      <div className="flex-grow" />
+      <Button buttonColor="var(--color-site-lightblack)">편집</Button>
+      <form action={actions.delete}>
+        <Button type="submit" buttonColor="var(--color-site-red)">
+          삭제
+        </Button>
+      </form>
+    </div>
+  </div>
+);
+
+const MatchedApplicantView = ({ actions }: Pick<ActionsProp, "actions">) => (
+  <div className="flex flex-col gap-2">
+    <form action={actions.complete} className="w-full">
+      <Button type="submit" buttonColor="var(--color-site-blue)" fullWidth>
+        러닝 완료
+      </Button>
+    </form>
+    <div className="flex">
+      <form action={actions.cancel}>
+        <Button type="submit" buttonColor="var(--color-site-lightblack)">
+          매칭취소
+        </Button>
+      </form>
+    </div>
+  </div>
+);
+
+const AlreadyMatchedView = () => (
+  <Button disabled fullWidth>
+    매칭 완료
+  </Button>
+);
+
+const UnmatchedAuthorView = ({ actions }: Pick<ActionsProp, "actions">) => (
+  <div className="flex flex-col gap-2">
+    <Button disabled fullWidth>
+      매칭을 기다리는 중...
+    </Button>
+    <div className="flex justify-end gap-2">
+      <Button buttonColor="var(--color-site-lightblack)">편집</Button>
+      <form action={actions.delete}>
+        <Button type="submit" buttonColor="var(--color-site-red)">
+          삭제
+        </Button>
+      </form>
+    </div>
+  </div>
+);
+
+const DefaultView = ({ actions }: Pick<ActionsProp, "actions">) => (
+  <form action={actions.createMatch}>
+    <Button type="submit" buttonColor="var(--color-site-blue)" fullWidth>
+      매칭 신청하기
+    </Button>
+  </form>
+);
