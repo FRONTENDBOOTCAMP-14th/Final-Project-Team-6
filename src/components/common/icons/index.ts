@@ -1,3 +1,4 @@
+export { default as IconArrowLeft } from "./icon-arrow-left";
 export { default as IconArrowRight } from "./icon-arrow-right";
 export { default as IconChat } from "./icon-chat";
 export { default as IconCheck } from "./icon-check";
@@ -5,6 +6,7 @@ export { default as IconClose } from "./icon-close";
 export { default as IconEdit } from "./icon-edit";
 export { default as IconEye } from "./icon-eye";
 export { default as IconEyeOff } from "./icon-eye-off";
+export { default as IconLetter } from "./icon-letter";
 export { default as IconLockOpen } from "./icon-lock-open";
 export { default as IconMessage } from "./icon-message";
 export { default as IconNoteSearch } from "./icon-note-search";
