@@ -1,4 +1,4 @@
-import { createPost } from "@/app/post/action";
+import { createPost } from "@/app/post/write/action";
 import { Button, Input } from "@/components/common/index";
 
 export default function PostWritePage() {

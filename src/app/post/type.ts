@@ -18,3 +18,12 @@ export interface Post {
   is_completed: boolean;
   is_expired: boolean;
 }
+
+export interface PostWithAuthor extends Post {
+  author: {
+    id: string;
+    nickname: string;
+    runner_type: string;
+    profile_image_url: string | null;
+  } | null;
+}
