@@ -119,30 +119,13 @@ export default async function PostDetailPage({
         <p className="text-[var(--color-site-gray)]">지도 영역</p>
       </div>
       <div className="flex flex-col gap-4 text-sm">
-        <div className="flex justify-between items-center">
-          <span className="text-[var(--color-site-gray)]">러닝 희망 장소</span>
-          <span className="font-semibold text-[var(--color-site-white)]">
-            {post.meeting_place}
-          </span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-[var(--color-site-gray)]">러닝 시작 시간</span>
-          <span className="font-semibold text-[var(--color-site-white)]">
-            {formatUTCtoKST(post.meeting_time)}
-          </span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-[var(--color-site-gray)]">목표 거리</span>
-          <span className="font-semibold text-[var(--color-site-white)]">
-            {post.goal_km}km
-          </span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-[var(--color-site-gray)]">목표 페이스</span>
-          <span className="font-semibold text-[var(--color-site-white)]">
-            {post.pace}분/km
-          </span>
-        </div>
+        <InfoItem label="러닝 희망 장소" value={post.meeting_place} />
+        <InfoItem
+          label="러닝 시작 시간"
+          value={formatUTCtoKST(post.meeting_time)}
+        />
+        <InfoItem label="목표 거리" value={`${post.goal_km}km`} />
+        <InfoItem label="목표 페이스" value={`${post.pace}분/km`} />
       </div>
       <p className="text-base leading-relaxed text-[var(--color-site-gray)]">
         {post.description}
@@ -310,3 +293,15 @@ const DefaultView = ({ actions }: Pick<ActionsProp, "actions">) => (
     </Button>
   </form>
 );
+
+// --- 상세 정보 항목을 위한 작은 도우미 컴포넌트 ---
+function InfoItem({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="flex justify-between items-center">
+      <span className="text-[var(--color-site-gray)]">{label}</span>
+      <span className="font-semibold text-[var(--color-site-white)]">
+        {value}
+      </span>
+    </div>
+  );
+}
