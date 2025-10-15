@@ -3,7 +3,7 @@ import { formatUTCtoKST } from "@/utils";
 
 interface Props {
   postData: {
-    description: string;
+    title: string;
     goal_km: number;
     meeting_place: string;
     meeting_time: string;
@@ -19,7 +19,7 @@ export default function PostLink({ postData }: Props) {
     >
       <span className="w-full">
         <strong className="mb-2 block overflow-hidden text-ellipsis whitespace-nowrap w-full">
-          {postData.description}
+          {postData.title}
         </strong>
         <span className="flex gap-3 text-xs text-site-gray">
           <span>러닝 시작일 | {formatUTCtoKST(postData.meeting_time)}</span>

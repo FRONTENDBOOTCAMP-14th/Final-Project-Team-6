@@ -28,7 +28,7 @@ export default async function ChatDetailPage({ params }: Props) {
             runner_type
           )
         ),
-        posts(description, goal_km, meeting_place, meeting_time)
+        posts(title, goal_km, meeting_place, meeting_time)
       `)
     .eq("matches_id", matchedId)
     .single();
@@ -40,7 +40,7 @@ export default async function ChatDetailPage({ params }: Props) {
   const postData = chatRoomData.posts;
 
   return (
-    <div className="pt-20">
+    <div className="pt-20 pb-15">
       <PostLink postData={postData} />
       <MsgList messagesData={messagesData} currentUserId={currentUser.id} />
       <SendMessage />
