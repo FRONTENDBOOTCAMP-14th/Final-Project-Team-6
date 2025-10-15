@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+멋쟁이사자처럼 프론트엔드 부트캠프 14기 파이널 프로젝트 6조 - 육회
 
-## Getting Started
+# Final Project - 눈길
 
-First, run the development server:
+> 안녕하세요, 저희는 육회입니다!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 프로젝트 개요
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+가이드러너라는 존재를 알리는 한편, 시각장애인에게 보다 쉽게, 방구석에서 가이드러너를 구할 수 있는 서비스인 **눈길** 제작
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 👥 팀 구성 및 역할
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 육회 팀원 | 전지연                                                                                                                                                                                        | 성정은                                                                                                                                                                                              | 이형민                                                                                                                                                                                      | 조장원                                                                                                                                                                                    |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 역할      | PM, FE                                                                                                                                                                                        | PL, FE                                                                                                                                                                                              | 발표자, FE                                                                                                                                                                                  | 디자이너, FE                                                                                                                                                                              |
+| GitHub    | <a href="https://github.com/jeonjyeon" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/jeonjyeon-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/jeongeunsung" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/jeongeunsung-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/hunky1st" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/hunky1st-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/Jandi95" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Jandi95-lightgray?style=plastic&logo=github&labelColor=black"/></a> |
 
-## Learn More
+## 🛠 기술 스택
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| 분류             | 기술                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 프론트엔드       | <img src="https://img.shields.io/badge/next.js-ffffff?style=for-the-badge&logo=nextdotjs&logoColor=black"> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">                                                                              |
+| 백엔드           | <img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white">                                                                                                                                                                                                                                                                                                              |
+| 상태 관리 도구   | <img src="https://img.shields.io/badge/Tanstack Query-ffff?style=for-the-badge&logo=TanstackQuery&logoColor=white"> <img src="https://img.shields.io/badge/Zustand-5B4638?style=for-the-badge&logo=Zustand&logoColor=white">                                                                                                                                                                                            |
+| 패키지 매니저    | <img src="https://img.shields.io/badge/bun-000000?style=for-the-badge&logo=bun&logoColor=white">                                                                                                                                                                                                                                                                                                                        |
+| 코드 검수        | <img src="https://img.shields.io/badge/biome-60A5FA?style=for-the-badge&logo=biome&logoColor=white">                                                                                                                                                                                                                                                                                                                    |
+| 배포             | <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">                                                                                                                                                                                                                                                                                                                  |
+| 버전 관리 & 협업 | <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"> <img src="https://img.shields.io/badge/notion-ffffff?style=for-the-badge&logo=notion&logoColor=black"> |
+| 디자인           | <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">                                                                                                                                                                                                                                                                                                                    |
