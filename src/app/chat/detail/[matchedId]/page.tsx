@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
-import { MsgList, PostLink, SendMessage } from "./components";
+import { MsgList, PostLink, SendMessageForm } from "./components";
 
 interface Props {
   params: Promise<{ matchedId: string }>;
@@ -17,6 +17,7 @@ export default async function ChatDetailPage({ params }: Props) {
   const { data: chatRoomData, error: chatRoomError } = await supabase
     .from("chat_rooms")
     .select(`
+        id,
         chat_messages(
           id,
           body,
@@ -34,16 +35,16 @@ export default async function ChatDetailPage({ params }: Props) {
     .single();
   if (chatRoomError) throw new Error("메세지를 불러오기 오류");
 
-  console.log(chatRoomData);
-
   const messagesData = chatRoomData.chat_messages;
   const postData = chatRoomData.posts;
+  const currentUserId = currentUser.id;
+  const roomId = chatRoomData.id;
 
   return (
-    <div className="pt-20 pb-15">
+    <div className="pt-20 pb-18">
       <PostLink postData={postData} />
-      <MsgList messagesData={messagesData} currentUserId={currentUser.id} />
-      <SendMessage />
+      <MsgList messagesData={messagesData} currentUserId={currentUserId} />
+      <SendMessageForm roomId={roomId} currentUserId={currentUserId} />
     </div>
   );
 }
