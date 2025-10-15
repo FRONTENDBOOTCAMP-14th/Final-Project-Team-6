@@ -18,7 +18,7 @@ interface Props {
 
 export default async function MsgList({ messagesData, currentUserId }: Props) {
   return (
-    <ul className="flex flex-col gap-8 py-6">
+    <>
       {messagesData.map(({ id, body, created_at, sender_id, profiles }) => {
         const sendedDate = formatUTCtoKST(created_at);
         const isBlindRunner = profiles?.runner_type === "blind_runner";
@@ -62,6 +62,6 @@ export default async function MsgList({ messagesData, currentUserId }: Props) {
           );
         }
       })}
-    </ul>
+    </>
   );
 }

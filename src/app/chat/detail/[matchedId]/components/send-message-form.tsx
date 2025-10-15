@@ -23,6 +23,7 @@ export default function SendMessageForm({ roomId, currentUserId }: Props) {
         await sendMessage(formData);
         setMsgBody("");
       }}
+      autoComplete="off"
       className="flex bg-site-lightblack px-3 h-18 items-center fixed bottom-0 w-full max-w-(--viewport-size) left-1/2 -translate-x-1/2 gap-3"
     >
       <label htmlFor="message-body" className="sr-only">
