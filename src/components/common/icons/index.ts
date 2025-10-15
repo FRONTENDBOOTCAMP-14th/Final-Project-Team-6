@@ -10,6 +10,7 @@ export { default as IconLetter } from "./icon-letter";
 export { default as IconLockOpen } from "./icon-lock-open";
 export { default as IconMessage } from "./icon-message";
 export { default as IconNoteSearch } from "./icon-note-search";
+export { default as IconPaperPlane } from "./icon-paper-plane";
 export { default as IconRequest } from "./icon-request";
 export { default as IconRouterBack } from "./icon-router-back";
 export { default as IconSettings } from "./icon-settings";
