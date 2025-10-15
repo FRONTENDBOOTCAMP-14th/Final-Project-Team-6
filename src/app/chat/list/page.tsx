@@ -5,9 +5,9 @@ import ChatList from "./components/chat-list";
 import EmptyChatList from "./components/empty-chat-list";
 
 type ChatListPageProps = {
-  searchParams: {
-    page?: string;
-  };
+  searchParams: Promise<{
+    page: string;
+  }>;
 };
 
 export default async function ChatListPage({
