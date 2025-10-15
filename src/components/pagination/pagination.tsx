@@ -13,7 +13,6 @@ export default function Pagination({
   totalPages,
 }: PaginationProps) {
   const router = useRouter();
-
   const handleCurrentPage = (page: number) => {
     router.push(`?page=${page}`);
   };
@@ -25,14 +24,25 @@ export default function Pagination({
         <PaginationButton
           direction="prev"
           className={currentPage <= 1 ? "invisible" : ""}
+          aria-hidden={currentPage <= 1 ? "true" : undefined}
           onClick={() => handleCurrentPage(currentPage - 1)}
         />
-        <div className="px-4 py-2.5">
-          {currentPage} / {totalPages}
+        <div
+          aria-live="assertive"
+          aria-atomic="true"
+          className="px-4 py-2.5 relative"
+        >
+          <span aria-hidden="true">
+            {currentPage} / {totalPages}
+          </span>
+          <span className="sr-only">
+            현재 페이지는 {currentPage}, 전체 페이지는 {totalPages}개 입니다.
+          </span>
         </div>
         <PaginationButton
           direction="next"
           className={currentPage >= totalPages ? "invisible" : ""}
+          aria-hidden={currentPage >= totalPages ? "true" : undefined}
           onClick={() => handleCurrentPage(currentPage + 1)}
         />
       </nav>

@@ -13,6 +13,7 @@ export default function PaginationButton({
   direction,
   className,
   onClick,
+  ...restProps
 }: PaginationButtonProps) {
   const Icon = direction === "prev" ? IconArrowLeft : IconArrowRight;
   const label = direction === "prev" ? "이전 페이지" : "다음 페이지";
@@ -23,6 +24,7 @@ export default function PaginationButton({
       className={tw("p-2", className)}
       aria-label={label}
       onClick={onClick}
+      {...restProps}
     >
       <Icon />
     </Button>
