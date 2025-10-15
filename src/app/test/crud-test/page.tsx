@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import supabase from "@/libs/supabase";
 
 /* 닉네임 중복 체크
 export const checkNickname = async (nickname: string) => {
@@ -36,7 +36,6 @@ const handleCheckNickname = async () => {
 export default function CrudTest() {
   const [result, setResult] = useState<string>("");
   const buttonClass = "px-5 py-2 border border-white cursor-pointer";
-  const supabase = createClient();
 
   const log = (data: unknown, error: unknown) =>
     setResult(JSON.stringify({ data, error }, null, 2));
