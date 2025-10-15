@@ -52,9 +52,9 @@ async function getCurrentUserProfile(userId: string) {
 export default async function PostDetailPage({
   params,
 }: {
-  params: { postId: string };
+  params: Promise<{ postId: string }>;
 }) {
-  const { postId } = params;
+  const { postId } = await params;
 
   const supabase = await createClient();
   const {
