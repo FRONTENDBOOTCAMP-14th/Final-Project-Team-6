@@ -1,32 +1,49 @@
 import { signIn } from "@/app/auth/action";
-import { Button } from "@/components/common";
+import { Button, Input, Link } from "@/components/common";
+import { IconLockOpen } from "@/components/common/icons";
+import { tw } from "@/utils";
+import PasswordInput from "../component/password-input";
 
 export default function LoginPage() {
   return (
-    <form className="flex flex-col gap-5">
-      <div>
-        <label htmlFor="email">이메일</label>
-        <input
-          id="email"
+    <div className="mt-[3.75rem]">
+      <h1 className="sr-only">로그인 페이지</h1>
+      <h2
+        className={tw(
+          "text-[2rem] leading-[1.5] font-bold mb-[3.75rem] break-keep",
+        )}
+      >
+        어서오세요 :&#41;
+        <br />
+        함께 달리는 동행 ‘눈길’ 입니다.
+      </h2>
+      <form className="flex flex-col gap-6">
+        <Input
+          label="이메일"
           name="email"
           type="email"
+          placeholder="이메일 주소를 입력해주세요."
           required
-          className="border"
         />
-      </div>
-      <div>
-        <label htmlFor="password">패스워드</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          className="border"
-        />
-      </div>
-      <Button formAction={signIn} fullWidth height="medium">
-        로그인
-      </Button>
-    </form>
+        <PasswordInput />
+        <Button
+          type="submit"
+          formAction={signIn}
+          // onClick={toggle}
+          height="medium"
+          fullWidth={true}
+        >
+          로그인
+          {/* {isLoggedIn ? "로그아웃" : "로그인"} */}
+          <IconLockOpen />
+        </Button>
+        <div className="flex justify-center gap-2 mt-6">
+          <p className="text-[var(--color-site-gray)]">회원이 아니신가요?</p>
+          <Link href="/auth/signup" className="underline font-bold">
+            회원가입
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }
