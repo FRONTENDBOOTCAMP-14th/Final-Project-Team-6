@@ -1,19 +1,24 @@
-import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
 import ChatItem from "./chat-item";
 
-export default async function ChatList() {
+type ChatListProps = {
+  userId: string;
+  currentPage: number;
+  limit: number;
+};
+
+export default async function ChatList({
+  userId,
+  currentPage,
+  limit,
+}: ChatListProps) {
+  // 불러올 데이터의 시작점 계산
+  // 예: limit=5, currentPage=1 -> offset=0 / 1페이지
+  // 예: limit=5, currentPage=2 -> offset=5 / 2페이지
+  // 예: limit=5, currentPage=3 -> offset=10 / 3페이지
+  const offset = (currentPage - 1) * limit;
+
   const supabase = await createClient();
-
-  // 현재 로그인한 사용자 정보
-  const user = await getCurrentUser();
-
-  if (!user) {
-    // throw new Error("로그인 정보를 불러오지 못했습니다.");
-    return <div>로그인이 필요합니다.</div>;
-  }
-
-  const myId = user.id;
 
   // -------------------------------------------------------------------------------
   // 1. 채팅방 리스트 불러오기 (채팅방의 사용자 ID, 포스트 제목 등 필요한 정보들 함께 불러오기)
@@ -29,7 +34,8 @@ export default async function ChatList() {
       id,
       matched_runner_id
     )
-  `);
+  `)
+    .range(offset, offset + limit - 1); // 오프셋과 개수로 불러 올 데이터 범위 지정
 
   if (roomsError) {
     throw new Error("채팅방 정보를 불러오지 못했습니다.");
@@ -40,7 +46,7 @@ export default async function ChatList() {
   const mappedRooms = rooms.map((room) => {
     const authorId = room.posts.author_id;
     const matchedId = room.matches.matched_runner_id;
-    const isAuthor = authorId === myId;
+    const isAuthor = authorId === userId;
     const opponentId = isAuthor ? matchedId : authorId; // 내가 작성자면 상대는 매칭된 러너, 내가 매칭된 러너면 상대는 작성자
 
     return {
