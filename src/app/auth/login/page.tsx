@@ -2,7 +2,7 @@ import { signIn } from "@/app/auth/action";
 import { Button, Input, Link } from "@/components/common";
 import { IconLockOpen } from "@/components/common/icons";
 import { tw } from "@/utils";
-import PasswordInput from "../component/password-input";
+import PasswordInput from "../_components/password-input";
 
 export default function LoginPage() {
   return (
