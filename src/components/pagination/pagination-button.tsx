@@ -20,6 +20,7 @@ export default function PaginationButton({
 
   return (
     <Button
+      type="button"
       buttonColor={siteHexColor.lightblack}
       className={tw("p-2", className)}
       aria-label={label}
