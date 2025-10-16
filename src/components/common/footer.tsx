@@ -10,7 +10,7 @@ export default function Footer() {
           <Link href="/privacy">개인정보 처리방침</Link>
           <Link href="/terms">이용약관</Link>
         </div>
-        <p>&copy; {currentYear} Eyepath.</p>
+        <small className="text-sm">&copy; {currentYear} Eyepath.</small>
       </div>
     </footer>
   );
