@@ -455,6 +455,14 @@ export type Database = {
         Args: { "": unknown };
         Returns: unknown;
       };
+      get_latest_messages_per_room: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          body: string;
+          created_at: string;
+          room_id: string;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;

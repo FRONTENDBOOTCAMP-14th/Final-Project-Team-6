@@ -59,41 +59,43 @@ export default function ChatItem({
   };
 
   return (
-    <Link
-      href={`/chat/detail/${matchedId}`}
-      className="flex flex-row gap-y-3 py-5 w-full"
-    >
-      <Image
-        src={src}
-        alt="상대방 프로필"
-        width={50}
-        height={50}
-        className="w-12.5 h-12.5 rounded-full"
-      />
-      <div className="flex flex-col ms-4 gap-y-3 min-w-0 w-full">
-        <div className="flex flex-col relative gap-y-2">
-          <div className="flex flex-row gap-x-2">
-            <h2 className="text-site-white text-sm font-semibold">
-              {nickname}
-            </h2>
-            <span
-              className={tw(
-                "self-center rounded-sm px-1.5 py-[0.1875rem] text-[0.625rem] font-semibold",
-                runnerTypeStyle,
-              )}
-            >
-              {runnerTypeText}
+    <li className="border-b-1 border-site-lightblack">
+      <Link
+        href={`/chat/detail/${matchedId}`}
+        className="flex flex-row gap-y-3 py-5 w-full"
+      >
+        <Image
+          src={src}
+          alt="상대방 프로필"
+          width={50}
+          height={50}
+          className="w-12.5 h-12.5 rounded-full"
+        />
+        <div className="flex flex-col ms-4 gap-y-3 min-w-0 w-full">
+          <div className="flex flex-col relative gap-y-2">
+            <div className="flex flex-row gap-x-2">
+              <h2 className="text-site-white text-sm font-semibold">
+                {nickname}
+              </h2>
+              <span
+                className={tw(
+                  "self-center rounded-sm px-1.5 py-[0.1875rem] text-[0.625rem] font-semibold",
+                  runnerTypeStyle,
+                )}
+              >
+                {runnerTypeText}
+              </span>
+            </div>
+            <p className="text-[1rem] text-site-gray truncate">{lastMessage}</p>
+            <span className="absolute right-0 text-site-gray text-sm">
+              {formatTime(lastMessageTime)}
             </span>
           </div>
-          <p className="text-[1rem] text-site-gray truncate">{lastMessage}</p>
-          <span className="absolute right-0 text-site-gray text-sm">
-            {formatTime(lastMessageTime)}
-          </span>
+          <p className="bg-site-lightblack px-2 py-1 rounded-sm text-site-gray text-[0.625rem] max-w-fit truncate">
+            {postTitle}
+          </p>
         </div>
-        <p className="bg-site-lightblack px-2 py-1 rounded-sm text-site-gray text-[0.625rem] max-w-fit truncate">
-          {postTitle}
-        </p>
-      </div>
-    </Link>
+      </Link>
+    </li>
   );
 }
