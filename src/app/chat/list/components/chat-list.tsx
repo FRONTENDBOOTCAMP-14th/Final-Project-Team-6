@@ -20,8 +20,43 @@ export default async function ChatList({
 
   const supabase = await createClient();
 
-  // -------------------------------------------------------------------------------
-  // 1. 채팅방 리스트 불러오기 (채팅방의 사용자 ID, 포스트 제목 등 필요한 정보들 함께 불러오기)
+  // ----------------------------------------------------------------
+  // 1. 모든 메시지 불러오기
+  const { data: allMessages, error: messageError } = await supabase
+    .from("chat_messages")
+    .select("room_id, body, created_at")
+    .order("created_at", { ascending: false });
+
+  if (messageError) {
+    throw new Error("메시지를 불러오지 못했습니다.");
+  }
+
+  // ----------------------------------------------------------------
+  // 2. 각 room_id별로 가장 최근 메시지 1개만 추리기
+  const latestByRoom: Record<string, { body: string; created_at: string }> = {};
+  const recentRooms: { room_id: string; created_at: string }[] = [];
+
+  for (const msg of allMessages) {
+    if (!latestByRoom[msg.room_id]) {
+      latestByRoom[msg.room_id] = msg;
+      recentRooms.push(msg);
+    }
+  }
+
+  // console.log("recentRooms:", recentRooms);
+  // console.log("latestByRoom:", latestByRoom);
+  // ----------------------------------------------------------------
+  // 3. 최신 메시지 순으로 정렬된 room_id 목록 추출 오프셋과 개수에 맞는 부분 추출
+  const sortedRoomIds = recentRooms
+    .sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )
+    .slice(offset, offset + limit)
+    .map((room) => room.room_id);
+
+  // ----------------------------------------------------------------
+  // 4. 추출된 room_id 목록으로 채팅방 정보 불러오기
   const { data: rooms, error: roomsError } = await supabase
     .from("chat_rooms")
     .select(`
@@ -35,15 +70,21 @@ export default async function ChatList({
       matched_runner_id
     )
   `)
-    .range(offset, offset + limit - 1); // 오프셋과 개수로 불러 올 데이터 범위 지정
+    .in("id", sortedRoomIds); // 오프셋과 개수로 불러 올 데이터 범위 지정
 
   if (roomsError) {
     throw new Error("채팅방 정보를 불러오지 못했습니다.");
   }
 
-  // -------------------------------------------------------------------------------
-  // 2. 각 방의 상대방 ID 계산
-  const mappedRooms = rooms.map((room) => {
+  // ----------------------------------------------------------------
+  // 5. room_id 순서대로 rooms 배열 정렬(supabase in()은 순서를 보장하지 않음)
+  const sortedRooms = sortedRoomIds
+    .map((id) => rooms.find((r) => r.id === id))
+    .filter(Boolean) as typeof rooms;
+
+  // ----------------------------------------------------------------
+  // 6. 각 방의 상대방 ID 계산
+  const mappedRooms = sortedRooms.map((room) => {
     const authorId = room.posts.author_id;
     const matchedId = room.matches.matched_runner_id;
     const isAuthor = authorId === userId;
@@ -57,8 +98,8 @@ export default async function ChatList({
     };
   });
 
-  // -------------------------------------------------------------------------------
-  // 3. 상대방 프로필 데이터 가져오기
+  // ----------------------------------------------------------------
+  // 7. 상대방 프로필 데이터 가져오기
   const opponentIds = mappedRooms.map((room) => room.opponentId);
   const { data: opponents, error: profileError } = await supabase
     .from("profiles")
@@ -70,32 +111,8 @@ export default async function ChatList({
     throw new Error("상대방 프로필 정보를 불러오지 못했습니다.");
   }
 
-  // -------------------------------------------------------------------------------
-  // 4. 각 채팅방의 가장 최근 메시지 가져오기
-  const roomIds = rooms.map((room) => room.id) ?? [];
-
-  // 4-1. 모든 메시지 불러오기
-  const { data: allMessages, error: messageError } = await supabase
-    .from("chat_messages")
-    .select("room_id, body, created_at")
-    .in("room_id", roomIds)
-    .order("created_at", { ascending: false });
-
-  if (messageError) {
-    throw new Error("메시지를 불러오지 못했습니다.");
-  }
-
-  // 4-2. 각 room_id별로 가장 최근 메시지 1개만 추리기
-  const latestByRoom = allMessages.reduce(
-    (acc, msg) => {
-      if (!acc[msg.room_id]) acc[msg.room_id] = msg; // 첫 번째(가장 최근)만 저장
-      return acc;
-    },
-    {} as Record<string, { body: string; created_at: string }>, // room_id를 키로, 메시지 객체를 값으로
-  );
-
-  // -------------------------------------------------------------------------------
-  // 5. 최종 데이터 병합
+  // ----------------------------------------------------------------
+  // 8. 최종 데이터 병합
   const chatItems = mappedRooms.map((room) => {
     const opponent = opponents.find((p) => p.id === room.opponentId);
     const lastMsg = latestByRoom[room.roomId];
