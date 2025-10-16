@@ -16,7 +16,7 @@ export default function ConfirmDialog() {
   };
 
   return (
-    <div>
+    <>
       <DialogTitle className="text-2xl font-bold mb-6">확인</DialogTitle>
       <p className="text-site-gray mb-10">{message}</p>
       <div className="flex gap-4 items-center justify-center">
@@ -33,6 +33,6 @@ export default function ConfirmDialog() {
           <IconClose />
         </Button>
       </div>
-    </div>
+    </>
   );
 }
