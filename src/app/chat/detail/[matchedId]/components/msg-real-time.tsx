@@ -1,34 +1,50 @@
-// "use client";
+"use client";
 
-// import { useEffect } from "react";
-// import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 
-// interface Props {
-//   roomId: string;
-// }
+interface Props {
+  roomId: string;
+  currentUserId: string;
+}
 
-// export default function MsgRealTime({ roomId }: Props) {
-//   const supabase = createClient();
+interface NewMsgData {
+  nickname: string;
+  profile_image_url: string | null;
+  body: string;
+  created_at: string;
+  id: string;
+  room_id: string;
+  sender_id: string;
+}
 
-//   useEffect(() => {
-//     const channel = supabase
-//       .channel("chat-room")
-//       .on(
-//         "postgres_changes",
-//         {
-//           event: "INSERT",
-//           schema: "public",
-//           table: "chat_messages",
-//           filter: `room_id=eq.${roomId}`,
-//         },
-//         (payload) => {
-//           console.log("실시간 메세지 감지");
-//         },
-//       )
-//       .subscribe();
+export default function MsgRealTime({ roomId, currentUserId }: Props) {
+  const supabase = createClient();
+  const [newMsgData, setNewMsgData] = useState<NewMsgData[]>([]);
 
-//     return () => supabase.removeChannel(channel);
-//   }, [roomId, supabase]);
+  useEffect(() => {
+    const msgRealTimeChannel = supabase
+      .channel(`room-${roomId}`)
+      .on("broadcast", { event: "new_message" }, (payload) => {
+        setNewMsgData((prev) => [...prev, payload.payload as NewMsgData]);
+      })
+      .subscribe();
 
-//   return <li>asdasd</li>;
-// }
+    return () => {
+      supabase.removeChannel(msgRealTimeChannel);
+    };
+  }, [supabase, roomId]);
+
+  return (
+    <>
+      {newMsgData.map((i) => {
+        console.log(i);
+        if (i.sender_id === currentUserId) {
+          return <li key={i.id}>{i.body}</li>;
+        } else {
+          return <li key={i.id}>{i.body}</li>;
+        }
+      })}
+    </>
+  );
+}
