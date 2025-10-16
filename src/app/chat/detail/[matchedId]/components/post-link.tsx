@@ -3,6 +3,7 @@ import { formatUTCtoKST } from "@/utils";
 
 interface Props {
   postData: {
+    id: string;
     title: string;
     goal_km: number;
     meeting_place: string;
@@ -13,7 +14,7 @@ interface Props {
 export default function PostLink({ postData }: Props) {
   return (
     <Link
-      href="/"
+      href={`/post/detail/${postData.id}`}
       aria-label="채팅방과 연결된 게시물 이동"
       className="h-20 flex flex-wrap flex-row items-center fixed top-[71px] bg-site-lightblack left-1/2 -translate-x-1/2 w-full max-w-(--viewport-size) px-5"
     >

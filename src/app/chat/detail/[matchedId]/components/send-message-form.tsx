@@ -15,14 +15,16 @@ export default function SendMessageForm({ roomId, currentUserId }: Props) {
   const handleMsgBody = (e: ChangeEvent<HTMLInputElement>) =>
     setMsgBody(e.target.value);
 
+  const handleFormAction = async (formData: FormData) => {
+    formData.append("roomId", roomId);
+    formData.append("currentUserId", currentUserId);
+    await sendMessage(formData);
+    setMsgBody("");
+  };
+
   return (
     <form
-      action={async (formData) => {
-        formData.append("roomId", roomId);
-        formData.append("currentUserId", currentUserId);
-        await sendMessage(formData);
-        setMsgBody("");
-      }}
+      action={handleFormAction}
       autoComplete="off"
       className="flex bg-site-lightblack px-3 h-18 items-center fixed bottom-0 w-full max-w-(--viewport-size) left-1/2 -translate-x-1/2 gap-3"
     >
