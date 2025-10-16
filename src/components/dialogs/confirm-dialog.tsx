@@ -1,7 +1,7 @@
 "use client";
 
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { siteHexColor } from "@/constructor";
+import { siteHexColor } from "@/constant";
 import { useDialog } from "@/stores/use-dialog";
 import Button from "../common/button";
 import IconCheck from "../common/icons/icon-check";

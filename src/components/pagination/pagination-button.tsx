@@ -1,5 +1,5 @@
 import { IconArrowLeft, IconArrowRight } from "@/components/common/icons";
-import siteHexColor from "@/constructor/site-hex-color";
+import siteHexColor from "@/constant/site-hex-color";
 import tw from "@/utils/tw";
 import { Button } from "../common";
 
