@@ -42,7 +42,6 @@ export async function createMatchAndChat({
     .single();
 
   if (error || !data) {
-    console.error("매칭 생성 오류:", error);
     const errorMessage = error
       ? error.message
       : "매칭 정보를 생성하지 못했습니다.";
@@ -54,38 +53,58 @@ export async function createMatchAndChat({
 
 export async function cancelMatch(matchId: string, postId: string) {
   const supabase = await createClient();
+
   const { error } = await supabase
     .from("matches")
     .update({ status: "cancelled" })
     .eq("id", matchId);
 
   if (error) {
-    console.error("매칭 취소 오류:", error);
+    return redirect(`/error?message=${encodeURIComponent(error.message)}`);
   }
+
   revalidatePath(`/post/detail/${postId}`);
 }
 
-export async function deletePost(postId: string) {
+export async function deletePost(formData: FormData) {
   const supabase = await createClient();
-  const { error } = await supabase.from("posts").delete().eq("id", postId);
+  const postId = formData.get("postId") as string;
+
+  if (!postId) {
+    return redirect(
+      `/error?message=${encodeURIComponent("잘못된 요청입니다.")}`,
+    );
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/auth/login");
+  }
+
+  const { error } = await supabase
+    .from("posts")
+    .update({ status: "deleted" })
+    .eq("id", postId);
 
   if (error) {
-    console.error("게시글 삭제 오류:", error);
     return redirect(`/error?message=${encodeURIComponent(error.message)}`);
   }
+
   redirect("/post/list");
 }
 
 export async function completePost(postId: string) {
   const supabase = await createClient();
+
   const { error } = await supabase
     .from("posts")
     .update({ is_completed: true })
     .eq("id", postId);
 
   if (error) {
-    console.error("러닝 완료 처리 오류:", error);
-
     return redirect(`/error?message=${encodeURIComponent(error.message)}`);
   }
 
