@@ -9,6 +9,7 @@ async function getMyPosts(userId: string) {
     .from("posts")
     .select("*, author:profiles(*)")
     .eq("author_id", userId)
+    .neq("status", "deleted") // 👇 'deleted' 상태가 아닌 게시글만 필터링
     .order("created_at", { ascending: false });
   return data;
 }
@@ -20,11 +21,12 @@ async function getOtherPosts(userId: string) {
     .from("posts")
     .select("*, author:profiles(*)")
     .neq("author_id", userId)
+    .neq("status", "deleted") // 👇 'deleted' 상태가 아닌 게시글만 필터링
     .order("created_at", { ascending: false });
   return data;
 }
 
-// --- 메인 페이지 컴포넌트 ---
+// --- 메인 페이지 컴포넌트 (이 아래는 수정할 필요 없어!) ---
 export default async function PostListPage() {
   const supabase = await createClient();
   const {
@@ -32,7 +34,6 @@ export default async function PostListPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    // 로그인 안 한 사용자는 로그인 페이지로 보낼 수도 있음
     return <p>로그인이 필요합니다.</p>;
   }
 
