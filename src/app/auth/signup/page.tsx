@@ -1,8 +1,8 @@
+import { signUp } from "@/app/auth/action";
 import { Button, Input } from "@/components/common";
 import { IconCheck } from "@/components/common/icons";
 import { tw } from "@/utils";
 import PasswordInput from "../_components/password-input";
-import { signUp } from "../action";
 
 export default function SiginUpPage() {
   return (
