@@ -1,5 +1,5 @@
 // 인풋 컴포넌트에선 :focus 같은 CSS 상태를 useState 없이 간결하게 관리하기 위해 className(global.css)사용했습니다.
-import { type InputHTMLAttributes, useId } from "react";
+import type { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -17,7 +17,7 @@ export default function Input({
   suffixIcon,
   ...props
 }: InputProps) {
-  const id = useId();
+  const id = crypto.randomUUID();
 
   const borderColor = isError
     ? "border-[var(--color-site-red)]"
