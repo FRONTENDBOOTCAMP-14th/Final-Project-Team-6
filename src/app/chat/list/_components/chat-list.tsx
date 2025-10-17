@@ -104,7 +104,7 @@ export default async function ChatList({
 
     return {
       matchedId: room.matchedId,
-      nickname: opponent?.nickname ?? "알 수 없음",
+      opponent_nickname: opponent?.nickname ?? "알 수 없음",
       runnerType:
         (opponent?.runner_type as "blind_runner" | "guide_runner") ??
         "guide_runner",
@@ -121,7 +121,7 @@ export default async function ChatList({
         <ChatItem
           key={room.matchedId}
           matchedId={room.matchedId}
-          nickname={room.nickname}
+          opponent_nickname={room.opponent_nickname}
           runnerType={room.runnerType}
           postTitle={room.postTitle}
           lastMessage={room.lastMessage}

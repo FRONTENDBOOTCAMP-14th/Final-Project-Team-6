@@ -4,7 +4,7 @@ import tw from "@/utils/tw";
 
 interface ChatItemProps {
   matchedId: string;
-  nickname: string;
+  opponent_nickname: string;
   runnerType: "blind_runner" | "guide_runner";
   postTitle: string;
   lastMessage: string;
@@ -14,7 +14,7 @@ interface ChatItemProps {
 
 export default function ChatItem({
   matchedId,
-  nickname,
+  opponent_nickname,
   runnerType,
   postTitle,
   lastMessage,
@@ -63,10 +63,11 @@ export default function ChatItem({
       <Link
         href={`/chat/detail/${matchedId}`}
         className="flex flex-row gap-y-3 py-5 w-full"
+        aria-label={`${runnerTypeText} ${opponent_nickname}님과의 채팅방이고 마지막 대화는 ${formatTime(lastMessageTime)}에 "${lastMessage}"입니다. 관련 게시글 제목은 "${postTitle}"입니다.`}
       >
         <Image
           src={src}
-          alt="상대방 프로필"
+          alt=""
           width={50}
           height={50}
           className="w-12.5 h-12.5 rounded-full"
@@ -75,7 +76,7 @@ export default function ChatItem({
           <div className="flex flex-col relative gap-y-2">
             <div className="flex flex-row gap-x-2">
               <h2 className="text-site-white text-sm font-semibold">
-                {nickname}
+                {opponent_nickname}
               </h2>
               <span
                 className={tw(
