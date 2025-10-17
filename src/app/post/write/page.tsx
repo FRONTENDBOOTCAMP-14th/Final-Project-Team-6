@@ -19,6 +19,7 @@ export default function PostWritePage() {
           name="meeting_place"
           type="text"
           placeholder="주소를 입력해주세요."
+          suffixButton={<Button type="button">찾기</Button>}
           required
         />
         <Input
@@ -38,8 +39,11 @@ export default function PostWritePage() {
         <Input
           label="목표 거리 (km)"
           name="goal_km"
-          type="number"
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           placeholder="숫자만 입력 (예: 10)"
+          suffixText="km"
           required
         />
         <Input
