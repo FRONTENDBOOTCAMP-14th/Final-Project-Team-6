@@ -7,6 +7,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   suffixButton?: React.ReactNode;
   suffixIcon?: React.ReactNode;
+  clssName?: string;
 }
 
 export default function Input({
@@ -15,6 +16,7 @@ export default function Input({
   errorMessage,
   suffixButton,
   suffixIcon,
+  className,
   ...props
 }: InputProps) {
   const id = crypto.randomUUID();
@@ -55,7 +57,7 @@ export default function Input({
       <div className="relative flex items-center">
         <input
           id={id}
-          className={`focus:outline-none w-full bg-transparent border rounded-md p-[12px] text-[var(--color-site-gray)] ${borderColor} ${paddingClass}`}
+          className={`focus:outline-none w-full bg-transparent border rounded-md p-[12px] text-[var(--color-site-gray)] ${borderColor} ${paddingClass} ${className}`}
           {...props}
         />
         <div className={`absolute flex items-center ${suffixPositionClass}`}>

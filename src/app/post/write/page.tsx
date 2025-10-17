@@ -33,6 +33,7 @@ export default function PostWritePage() {
           name="meeting_time"
           type="datetime-local"
           required
+          className="date-input"
         />
         <Input
           label="목표 거리 (km)"
