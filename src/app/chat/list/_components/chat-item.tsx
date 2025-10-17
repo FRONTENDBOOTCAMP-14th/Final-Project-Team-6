@@ -35,8 +35,12 @@ export default function ChatItem({
       ? "bg-site-yellow text-site-black"
       : "bg-site-blue text-site-white";
 
+  // UTC 시간을 KST로 변환
+  const utcDate = new Date(lastMessageTime);
+  const kstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000);
+
   // 마지막 메시지 시간 포맷팅 (예: "6분 전")
-  const formatTime = formatChatTime(lastMessageTime);
+  const formatTime = formatChatTime(kstDate);
 
   return (
     <li className="border-b-1 border-site-lightblack">
@@ -68,9 +72,12 @@ export default function ChatItem({
               </span>
             </div>
             <p className="text-[1rem] text-site-gray truncate">{lastMessage}</p>
-            <span className="absolute right-0 text-site-gray text-sm">
+            <time
+              dateTime={lastMessageTime}
+              className="absolute right-0 text-site-gray text-sm"
+            >
               {formatTime}
-            </span>
+            </time>
           </div>
           <p className="bg-site-lightblack px-2 py-1 rounded-sm text-site-gray text-[0.625rem] max-w-fit truncate">
             {postTitle}

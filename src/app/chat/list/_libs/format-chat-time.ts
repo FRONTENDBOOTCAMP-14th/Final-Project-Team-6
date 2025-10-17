@@ -1,8 +1,9 @@
-export default function formatChatTime(time: string) {
+export default function formatChatTime(kstDate: Date) {
   const now = new Date();
-  const messageTime = new Date(time);
+  const kstNow = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+  const messageTime = new Date(kstDate);
   const diffInMinutes = Math.floor(
-    (now.getTime() - messageTime.getTime()) / 60000,
+    (kstNow.getTime() - messageTime.getTime()) / 60000,
   );
 
   if (diffInMinutes < 1) {
