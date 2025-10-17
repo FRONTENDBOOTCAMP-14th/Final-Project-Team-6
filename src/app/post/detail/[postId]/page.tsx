@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import ActionButtons from "@/app/post/detail/components/action-buttons";
-import AuthorProfile from "@/app/post/detail/components/author-profile";
-import PostInfo from "@/app/post/detail/components/post-info";
+import ActionButtons from "@/app/post/detail/_components/action-buttons";
+import AuthorProfile from "@/app/post/detail/_components/author-profile";
+import PostInfo from "@/app/post/detail/_components/post-info";
 import type { Match, PostWithAuthor, RunnerType } from "@/app/post/type";
 import { createClient } from "@/utils/supabase/server";
 
