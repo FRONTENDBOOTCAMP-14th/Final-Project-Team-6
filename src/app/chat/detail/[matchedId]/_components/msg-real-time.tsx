@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatUTCtoKST } from "@/utils";
 import { createClient } from "@/utils/supabase/client";
+import MsgPartnerItem from "./msg-partner-item";
+import MsgSelfItem from "./msg-self-item";
 
 interface Props {
   roomId: string;
@@ -16,6 +19,7 @@ interface NewMsgData {
   id: string;
   room_id: string;
   sender_id: string;
+  runner_type: string;
 }
 
 export default function MsgRealTime({ roomId, currentUserId }: Props) {
@@ -37,14 +41,35 @@ export default function MsgRealTime({ roomId, currentUserId }: Props) {
 
   return (
     <>
-      {newMsgData.map((i) => {
-        console.log(i);
-        if (i.sender_id === currentUserId) {
-          return <li key={i.id}>{i.body}</li>;
-        } else {
-          return <li key={i.id}>{i.body}</li>;
-        }
-      })}
+      {newMsgData.map(
+        ({
+          nickname,
+          profile_image_url,
+          body,
+          created_at,
+          id,
+          sender_id,
+          runner_type,
+        }) => {
+          const sendedDate = formatUTCtoKST(created_at);
+          const isBlindRunner = runner_type === "blind_runner";
+
+          if (sender_id === currentUserId) {
+            return <MsgSelfItem key={id} body={body} sendedDate={sendedDate} />;
+          } else {
+            return (
+              <MsgPartnerItem
+                key={id}
+                body={body}
+                sendedDate={sendedDate}
+                nickname={nickname}
+                profile_image_url={profile_image_url}
+                isBlindRunner={isBlindRunner}
+              />
+            );
+          }
+        },
+      )}
     </>
   );
 }

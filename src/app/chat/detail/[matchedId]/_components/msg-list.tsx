@@ -1,5 +1,5 @@
 import { formatUTCtoKST } from "@/utils";
-import { MsgPartnerIten } from ".";
+import MsgPartnerItem from "./msg-partner-item";
 import MsgSelfItem from "./msg-self-item";
 
 interface Props {
@@ -28,7 +28,7 @@ export default async function MsgList({ messagesData, currentUserId }: Props) {
           return <MsgSelfItem key={id} body={body} sendedDate={sendedDate} />;
         } else {
           return (
-            <MsgPartnerIten
+            <MsgPartnerItem
               key={id}
               body={body}
               sendedDate={sendedDate}

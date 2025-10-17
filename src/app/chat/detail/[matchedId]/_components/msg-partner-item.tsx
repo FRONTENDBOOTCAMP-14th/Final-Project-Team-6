@@ -9,7 +9,7 @@ interface Props {
   isBlindRunner: boolean;
 }
 
-export default function MsgSelfItem({
+export default function MsgPartnerItem({
   body,
   sendedDate,
   profile_image_url,
