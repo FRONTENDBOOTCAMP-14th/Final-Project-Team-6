@@ -1,7 +1,30 @@
+"use client";
+
+import { useState } from "react";
+import DaumPostcode from "@/app/post/write/_components/daum-post-search";
 import { createPost } from "@/app/post/write/action";
 import { Button, Input } from "@/components/common/index";
+import type { Address } from "./address-type";
 
 export default function PostWritePage() {
+  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
+
+  const [meetingPlace, setMeetingPlace] = useState("");
+
+  const handleOpenPostcode = () => {
+    setIsPostcodeOpen(true);
+  };
+
+  const handleClosePostcode = () => {
+    setIsPostcodeOpen(false);
+  };
+
+  const handleCompletePostcode = (data: Address) => {
+    const fullAddress = data.roadAddress || data.jibunAddress;
+    setMeetingPlace(fullAddress);
+    handleClosePostcode();
+  };
+
   return (
     <main className="w-full max-w-md mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-6">동행 신청 페이지</h1>
@@ -19,8 +42,17 @@ export default function PostWritePage() {
           name="meeting_place"
           type="text"
           placeholder="주소를 입력해주세요."
-          suffixButton={<Button type="button">찾기</Button>}
+          value={meetingPlace}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setMeetingPlace(e.target.value)
+          }
+          suffixButton={
+            <Button type="button" onClick={handleOpenPostcode}>
+              찾기
+            </Button>
+          }
           required
+          readOnly
         />
         <Input
           label="상세 장소"
@@ -67,7 +99,7 @@ export default function PostWritePage() {
             rows={5}
             placeholder="상세한 러닝 계획을 알려주세요."
             required
-            className="focus:outline-none w-full bg-transparent border border-[var(--color-site-gray)] focus:border-[var(--color-site-white)] rounded-md p-[12px] text-[var(--color-site-gray)]"
+            className="focus:outline-none w-full bg-transparent border border-[var(--color-site-gray)] focus:border-[var(--color-site-white)] rounded-md p-[12px] text-[var(--color-site-gray) resize-none ]"
           />
         </div>
 
@@ -75,6 +107,13 @@ export default function PostWritePage() {
           작성완료
         </Button>
       </form>
+
+      {isPostcodeOpen && (
+        <DaumPostcode
+          onComplete={handleCompletePostcode}
+          onClose={handleClosePostcode}
+        />
+      )}
     </main>
   );
 }
