@@ -2,28 +2,13 @@
 
 import type React from "react";
 import { useState } from "react";
-import DaumPostcode from "@/app/post/write/_components/daum-post-search";
+import MeetingPlaceInput from "@/app/post/write/_components/meeting-place-input";
+import PaceInput from "@/app/post/write/_components/pace-input";
 import { createPost } from "@/app/post/write/action";
 import { Button, Input } from "@/components/common/index";
-import type { Address } from "./address-type";
 
 export default function PostWritePage() {
-  const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const [meetingPlace, setMeetingPlace] = useState("");
-  const [paceMinutes, setPaceMinutes] = useState("");
-  const [paceSeconds, setPaceSeconds] = useState("");
-
-  const handleOpenPostcode = () => setIsPostcodeOpen(true);
-  const handleClosePostcode = () => setIsPostcodeOpen(false);
-
-  const handleCompletePostcode = (data: Address) => {
-    const fullAddress = data.roadAddress || data.jibunAddress;
-    setMeetingPlace(fullAddress);
-    handleClosePostcode();
-  };
-
-  const totalPaceInSeconds =
-    (Number(paceMinutes) || 0) * 60 + (Number(paceSeconds) || 0);
 
   return (
     <main className="w-full max-w-md mx-auto p-4">
@@ -37,23 +22,15 @@ export default function PostWritePage() {
           placeholder="제목을 입력해주세요."
           required
         />
-        <Input
-          label="만남 장소"
-          name="meeting_place"
-          type="text"
-          placeholder="주소를 입력해주세요."
+
+        <MeetingPlaceInput
           value={meetingPlace}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setMeetingPlace(e.target.value)
           }
-          suffixButton={
-            <Button type="button" onClick={handleOpenPostcode}>
-              찾기
-            </Button>
-          }
-          required
-          readOnly
+          onAddressSelect={setMeetingPlace}
         />
+
         <Input
           label="상세 장소"
           name="meeting_detail_place"
@@ -79,42 +56,7 @@ export default function PostWritePage() {
           required
         />
 
-        <div>
-          <label
-            htmlFor="paceMinutes"
-            className="block text-sm font-medium mb-[4px] text-[var(--color-site-gray)]"
-          >
-            페이스 (km당)
-          </label>
-          <div className="flex items-center gap-2">
-            <Input
-              id="paceMinutes"
-              name="paceMinutes"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              placeholder="예: 6"
-              value={paceMinutes}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPaceMinutes(e.target.value)
-              }
-              suffixText="분"
-            />
-            <Input
-              name="paceSeconds"
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              placeholder="예: 30"
-              value={paceSeconds}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setPaceSeconds(e.target.value)
-              }
-              suffixText="초"
-            />
-          </div>
-          <input type="hidden" name="pace" value={totalPaceInSeconds} />
-        </div>
+        <PaceInput />
 
         <div>
           <label
@@ -137,13 +79,6 @@ export default function PostWritePage() {
           작성완료
         </Button>
       </form>
-
-      {isPostcodeOpen && (
-        <DaumPostcode
-          onComplete={handleCompletePostcode}
-          onClose={handleClosePostcode}
-        />
-      )}
     </main>
   );
 }
