@@ -1,5 +1,6 @@
 "use client";
 
+import type React from "react";
 import { useState } from "react";
 import DaumPostcode from "@/app/post/write/_components/daum-post-search";
 import { createPost } from "@/app/post/write/action";
@@ -8,22 +9,21 @@ import type { Address } from "./address-type";
 
 export default function PostWritePage() {
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
-
   const [meetingPlace, setMeetingPlace] = useState("");
+  const [paceMinutes, setPaceMinutes] = useState("");
+  const [paceSeconds, setPaceSeconds] = useState("");
 
-  const handleOpenPostcode = () => {
-    setIsPostcodeOpen(true);
-  };
-
-  const handleClosePostcode = () => {
-    setIsPostcodeOpen(false);
-  };
+  const handleOpenPostcode = () => setIsPostcodeOpen(true);
+  const handleClosePostcode = () => setIsPostcodeOpen(false);
 
   const handleCompletePostcode = (data: Address) => {
     const fullAddress = data.roadAddress || data.jibunAddress;
     setMeetingPlace(fullAddress);
     handleClosePostcode();
   };
+
+  const totalPaceInSeconds =
+    (Number(paceMinutes) || 0) * 60 + (Number(paceSeconds) || 0);
 
   return (
     <main className="w-full max-w-md mx-auto p-4">
@@ -78,13 +78,43 @@ export default function PostWritePage() {
           suffixText="km"
           required
         />
-        <Input
-          label="페이스 (km당 분)"
-          name="pace"
-          type="text"
-          placeholder="예시) 5분 30초"
-          required
-        />
+
+        <div>
+          <label
+            htmlFor="paceMinutes"
+            className="block text-sm font-medium mb-[4px] text-[var(--color-site-gray)]"
+          >
+            페이스 (km당)
+          </label>
+          <div className="flex items-center gap-2">
+            <Input
+              id="paceMinutes"
+              name="paceMinutes"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              placeholder="예: 6"
+              value={paceMinutes}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPaceMinutes(e.target.value)
+              }
+              suffixText="분"
+            />
+            <Input
+              name="paceSeconds"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              placeholder="예: 30"
+              value={paceSeconds}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPaceSeconds(e.target.value)
+              }
+              suffixText="초"
+            />
+          </div>
+          <input type="hidden" name="pace" value={totalPaceInSeconds} />
+        </div>
 
         <div>
           <label
