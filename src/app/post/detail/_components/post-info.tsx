@@ -15,9 +15,7 @@ function InfoItem({
   return (
     <div className="flex flex-col gap-[4px]">
       <span className="text-[var(--color-site-gray)] text-sm">{label}</span>
-      <span className="font-semibold text-[var(--color-site-white)] text-base">
-        {value}
-      </span>
+      <span className=" text-[var(--color-site-white)] text-base">{value}</span>
     </div>
   );
 }
@@ -33,7 +31,7 @@ export default function PostInfo({ post }: PostInfoProps) {
 
       <div className="w-full aspect-video bg-[var(--color-site-lightblack)] rounded-lg overflow-hidden">
         <iframe
-          title="러닝 약속 장소"
+          title="러닝 희망 장소 지도"
           src={mapSrc}
           width="100%"
           height="100%"
@@ -56,9 +54,14 @@ export default function PostInfo({ post }: PostInfoProps) {
           value={`${Math.floor(post.pace / 60)}분 ${post.pace % 60}초/km`}
         />
       </div>
-      <p className="text-base leading-relaxed text-[var(--color-site-gray)]">
-        {post.description}
-      </p>
+      <div className="flex flex-col gap-2">
+        <h4 className=" text-[var(--color-site-gray)] text-sm">
+          상세 러닝 내용
+        </h4>
+        <p className="text-base leading-relaxed text-[var(--color-site-white)]">
+          {post.description}
+        </p>
+      </div>
     </>
   );
 }
