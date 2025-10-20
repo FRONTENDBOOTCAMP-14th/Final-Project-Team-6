@@ -7,9 +7,9 @@ interface PostInfoProps {
 
 function InfoItem({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="flex justify-between items-center">
-      <span className="text-[var(--color-site-gray)]">{label}</span>
-      <span className="font-semibold text-[var(--color-site-white)]">
+    <div className="flex flex-col ">
+      <span className="text-[var(--color-site-gray)] text-sm">{label}</span>
+      <span className="font-semibold text-[var(--color-site-white)] text-base">
         {value}
       </span>
     </div>
