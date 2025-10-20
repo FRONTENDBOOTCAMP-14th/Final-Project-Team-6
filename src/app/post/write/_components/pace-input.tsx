@@ -11,6 +11,8 @@ export default function PaceInput() {
   const totalPaceInSeconds =
     (Number(paceMinutes) || 0) * 60 + (Number(paceSeconds) || 0);
 
+  const numericRegex = /^[0-9]*$/;
+
   return (
     <div>
       <label
@@ -22,31 +24,35 @@ export default function PaceInput() {
       <div className="flex items-center gap-2">
         <Input
           id="paceMinutes"
-          name="paceMinutes" // 폼 데이터에 포함시킬 수 있지만, pace만 써도 무방
+          name="paceMinutes"
           type="text"
           inputMode="numeric"
-          pattern="[0-9]*"
           placeholder="예: 6"
           value={paceMinutes}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPaceMinutes(e.target.value)
-          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const { value } = e.target;
+            if (numericRegex.test(value)) {
+              setPaceMinutes(value);
+            }
+          }}
           suffixText="분"
         />
         <Input
-          name="paceSeconds" // 폼 데이터에 포함시킬 수 있지만, pace만 써도 무방
+          name="paceSeconds"
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
           placeholder="예: 30"
           value={paceSeconds}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPaceSeconds(e.target.value)
-          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const { value } = e.target;
+            if (numericRegex.test(value)) {
+              setPaceSeconds(value);
+            }
+          }}
           suffixText="초"
         />
       </div>
-      {/* 실제 폼으로 전송될 숨겨진 값 */}
       <input type="hidden" name="pace" value={totalPaceInSeconds} />
     </div>
   );

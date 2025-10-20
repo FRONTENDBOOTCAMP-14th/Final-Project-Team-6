@@ -4,11 +4,21 @@ import type React from "react";
 import { useState } from "react";
 import MeetingPlaceInput from "@/app/post/write/_components/meeting-place-input";
 import PaceInput from "@/app/post/write/_components/pace-input";
+import TextAreaInput from "@/app/post/write/_components/text-area-input";
 import { createPost } from "@/app/post/write/action";
 import { Button, Input } from "@/components/common/index";
 
 export default function PostWritePage() {
   const [meetingPlace, setMeetingPlace] = useState("");
+  const [goalKm, setGoalKm] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleGoalKmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (/^[0-9]*$/.test(value)) {
+      setGoalKm(value);
+    }
+  };
 
   return (
     <main className="w-full max-w-md mx-auto p-4">
@@ -54,26 +64,23 @@ export default function PostWritePage() {
           placeholder="숫자만 입력 (예: 10)"
           suffixText="km"
           required
+          value={goalKm}
+          onChange={handleGoalKmChange}
         />
 
         <PaceInput />
 
-        <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium mb-[4px] text-[var(--color-site-gray)]"
-          >
-            상세한 러닝 내용
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            rows={5}
-            placeholder="상세한 러닝 계획을 알려주세요."
-            required
-            className="focus:outline-none w-full bg-transparent border border-[var(--color-site-gray)] focus:border-[var(--color-site-white)] rounded-md p-[12px] text-[var(--color-site-gray) resize-none ]"
-          />
-        </div>
+        <TextAreaInput
+          label="상세한 러닝 내용"
+          id="description"
+          name="description"
+          placeholder="상세한 러닝 계획을 알려주세요."
+          required
+          rows={5}
+          maxLength={500}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
 
         <Button type="submit" fullWidth>
           작성완료
