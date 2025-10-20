@@ -6,11 +6,6 @@ import { createClient } from "@/utils/supabase/client";
 import MsgPartnerItem from "./msg-partner-item";
 import MsgSelfItem from "./msg-self-item";
 
-interface Props {
-  roomId: string;
-  currentUserId: string;
-}
-
 interface NewMsgData {
   nickname: string;
   profile_image_url: string | null;
@@ -20,6 +15,11 @@ interface NewMsgData {
   room_id: string;
   sender_id: string;
   runner_type: string;
+}
+
+interface Props {
+  roomId: string;
+  currentUserId: string;
 }
 
 export default function MsgRealTime({ roomId, currentUserId }: Props) {

@@ -17,7 +17,7 @@ interface Props {
   currentUserId: string;
 }
 
-export default async function MsgList({ messagesData, currentUserId }: Props) {
+export default function MsgList({ messagesData, currentUserId }: Props) {
   return (
     <>
       {messagesData.map(({ id, body, created_at, sender_id, profiles }) => {

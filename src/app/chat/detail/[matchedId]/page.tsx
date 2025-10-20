@@ -1,7 +1,6 @@
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
-import { MsgList, PostLink, SendMessageForm } from "./_components";
-import MsgRealTime from "./_components/msg-real-time";
+import { PostLink, SendMessageForm } from "./_components";
 import MsgScrollContainer from "./_components/msg-scroll-container";
 
 interface Props {
@@ -46,12 +45,11 @@ export default async function ChatDetailPage({ params }: Props) {
   return (
     <>
       <PostLink postData={postData} />
-      <MsgScrollContainer>
-        <ul className="flex flex-col gap-8 py-6">
-          <MsgList messagesData={messagesData} currentUserId={currentUserId} />
-          <MsgRealTime roomId={roomId} currentUserId={currentUserId} />
-        </ul>
-      </MsgScrollContainer>
+      <MsgScrollContainer
+        currentUserId={currentUserId}
+        roomId={roomId}
+        messagesData={messagesData}
+      ></MsgScrollContainer>
       <SendMessageForm roomId={roomId} currentUserId={currentUserId} />
     </>
   );

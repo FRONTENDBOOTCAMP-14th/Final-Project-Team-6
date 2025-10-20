@@ -26,7 +26,7 @@ export default function SendMessageForm({ roomId, currentUserId }: Props) {
     <form
       action={handleFormAction}
       autoComplete="off"
-      className="flex bg-site-lightblack px-3 h-18 items-center fixed bottom-0 w-full max-w-(--viewport-size) left-1/2 -translate-x-1/2 gap-3"
+      className="flex bg-site-lightblack px-3 h-18 items-center fixed bottom-0 w-full max-w-(--viewport-size) left-1/2 -translate-x-1/2 gap-3 rounded-t-xl"
     >
       <label htmlFor="message-body" className="sr-only">
         보낼 메세지
@@ -39,9 +39,9 @@ export default function SendMessageForm({ roomId, currentUserId }: Props) {
         onChange={handleMsgBody}
         placeholder="보낼 메세지를 입력해주세요."
         className={tw(
-          "w-full h-11 border-1 rounded-full pl-5 border-site-gray",
-          "focus:border-white focus:outline-0",
-          "transition-[border] duration-300",
+          "w-full h-11 rounded-full pl-5 pr-2 bg-site-black/50",
+          "focus:bg-site-black focus:outline-0",
+          "transition-[background-color] duration-300",
         )}
         required
       />
