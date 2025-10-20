@@ -77,7 +77,7 @@ export default async function PostDetailPage({
 
   return (
     <div className="flex flex-col gap-6 p-4">
-      <AuthorProfile author={post.author} />
+      <AuthorProfile author={post.author} created_at={post.created_at} />
 
       <PostInfo post={post} />
 
