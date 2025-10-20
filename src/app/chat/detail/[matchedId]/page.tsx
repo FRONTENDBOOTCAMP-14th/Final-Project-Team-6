@@ -30,7 +30,8 @@ export default async function ChatDetailPage({ params }: Props) {
             runner_type
           )
         ),
-        posts(id, title, goal_km, meeting_place, meeting_time)
+        posts(id, title, goal_km, meeting_place, meeting_time),
+        matches(status)
       `)
     .eq("matches_id", matchedId)
     .single();
@@ -41,6 +42,7 @@ export default async function ChatDetailPage({ params }: Props) {
   const postData = chatRoomData.posts;
   const currentUserId = currentUser.id;
   const roomId = chatRoomData.id;
+  const matchedStatus = chatRoomData.matches.status;
 
   return (
     <>
@@ -50,7 +52,11 @@ export default async function ChatDetailPage({ params }: Props) {
         roomId={roomId}
         messagesData={messagesData}
       ></MsgScrollContainer>
-      <SendMessageForm roomId={roomId} currentUserId={currentUserId} />
+      <SendMessageForm
+        roomId={roomId}
+        currentUserId={currentUserId}
+        matchedStatus={matchedStatus}
+      />
     </>
   );
 }
