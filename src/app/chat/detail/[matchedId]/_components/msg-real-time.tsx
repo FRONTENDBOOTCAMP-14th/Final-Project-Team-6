@@ -1,44 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { formatUTCtoKST } from "@/utils";
-import { createClient } from "@/utils/supabase/client";
 import MsgPartnerItem from "./msg-partner-item";
+import type { NewMsgData } from "./msg-scroll-container";
 import MsgSelfItem from "./msg-self-item";
 
-interface NewMsgData {
-  nickname: string;
-  profile_image_url: string | null;
-  body: string;
-  created_at: string;
-  id: string;
-  room_id: string;
-  sender_id: string;
-  runner_type: string;
-}
-
 interface Props {
-  roomId: string;
   currentUserId: string;
+  newMsgData: NewMsgData[];
 }
 
-export default function MsgRealTime({ roomId, currentUserId }: Props) {
-  const supabase = createClient();
-  const [newMsgData, setNewMsgData] = useState<NewMsgData[]>([]);
-
-  useEffect(() => {
-    const msgRealTimeChannel = supabase
-      .channel(`room-${roomId}`)
-      .on("broadcast", { event: "new_message" }, (payload) => {
-        setNewMsgData((prev) => [...prev, payload.payload as NewMsgData]);
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(msgRealTimeChannel);
-    };
-  }, [supabase, roomId]);
-
+export default function MsgRealTime({ newMsgData, currentUserId }: Props) {
   return (
     <>
       {newMsgData.map(

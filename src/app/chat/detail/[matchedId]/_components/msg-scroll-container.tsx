@@ -1,8 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 import MsgList from "./msg-list";
 import MsgRealTime from "./msg-real-time";
+
+export interface NewMsgData {
+  nickname: string;
+  profile_image_url: string | null;
+  body: string;
+  created_at: string;
+  id: string;
+  room_id: string;
+  sender_id: string;
+  runner_type: string;
+}
 
 interface Props {
   currentUserId: string;
@@ -25,11 +37,33 @@ export default function MsgScrollContainer({
   roomId,
   messagesData,
 }: Props) {
+  const supabase = createClient();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [newMsgData, setNewMsgData] = useState<NewMsgData[]>([]);
+
+  useEffect(() => {
+    const msgRealTimeChannel = supabase
+      .channel(`room-${roomId}`)
+      .on("broadcast", { event: "new_message" }, (payload) => {
+        setNewMsgData((prev) => [...prev, payload.payload as NewMsgData]);
+
+        setTimeout(() => {
+          const el = scrollRef.current;
+          if (!el) return;
+
+          el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+        }, 50);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(msgRealTimeChannel);
+    };
+  }, [supabase, roomId]);
 
   useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "auto" });
   }, []);
 
   return (
@@ -39,7 +73,7 @@ export default function MsgScrollContainer({
     >
       <ul className="flex flex-col gap-8 py-6">
         <MsgList messagesData={messagesData} currentUserId={currentUserId} />
-        <MsgRealTime roomId={roomId} currentUserId={currentUserId} />
+        <MsgRealTime newMsgData={newMsgData} currentUserId={currentUserId} />
       </ul>
     </div>
   );
