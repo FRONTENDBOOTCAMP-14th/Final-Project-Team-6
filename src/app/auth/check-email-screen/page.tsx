@@ -1,5 +1,5 @@
 import { Button, Link } from "@/components/common";
-import { IconArrowRight, IconLetter } from "@/components/common/icons";
+import { IconCheck, IconLetter } from "@/components/common/icons";
 
 export default function CheckEmailScreenPage() {
   return (
@@ -17,8 +17,8 @@ export default function CheckEmailScreenPage() {
       </p>
       <Link href="/auth/login" className="block mt-10">
         <Button type="button" height="medium" fullWidth={true}>
-          로그인 페이지로 이동
-          <IconArrowRight />
+          확인
+          <IconCheck />
         </Button>
       </Link>
     </div>
