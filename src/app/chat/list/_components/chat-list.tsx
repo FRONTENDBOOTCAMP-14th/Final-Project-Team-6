@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { fetchChatRoomsData, fetchOpponentData } from "../_libs";
 import ChatItem from "./chat-item";
 
 type ChatListProps = {
@@ -18,49 +18,14 @@ export default async function ChatList({
   // 예: limit=5, currentPage=3 -> offset=10 / 3페이지
   const offset = (currentPage - 1) * limit;
 
-  const supabase = await createClient();
-
   // ----------------------------------------------------------------
   // 1. 각 room_id마다 가장 최근 메시지 1개만 가져오기
-  const { data: latestMessages, error: latestError } = await supabase.rpc(
-    "get_latest_messages_per_room",
-  );
-
-  if (latestError) {
-    throw new Error("최신 메시지 목록을 불러오지 못했습니다.");
-  }
-
-  // ----------------------------------------------------------------
   // 2. 최신 메시지들을 created_at 기준으로 정렬 + 페이지네이션 적용
-  const paged = (latestMessages ?? [])
-    .sort(
-      (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-    )
-    .slice(offset, offset + limit);
-
-  const roomIds = paged.map((m) => m.room_id);
-
-  // ----------------------------------------------------------------
   // 3. 추출된 room_id 목록으로 채팅방 정보 불러오기
-  const { data: rooms, error: roomsError } = await supabase
-    .from("chat_rooms")
-    .select(`
-    id,
-    posts (
-      title,
-      author_id
-    ),
-    matches:matches!chat_rooms_matches_id_fkey (
-      id,
-      matched_runner_id
-    )
-  `)
-    .in("id", roomIds); // 오프셋과 개수로 불러 올 데이터 범위 지정
-
-  if (roomsError) {
-    throw new Error("채팅방 정보를 불러오지 못했습니다.");
-  }
+  const { latestMessages, roomIds, rooms } = await fetchChatRoomsData({
+    offset,
+    limit,
+  });
 
   // ----------------------------------------------------------------
   // 4. room_id 순서대로 rooms 배열 정렬(supabase in()은 순서를 보장하지 않음)
@@ -70,31 +35,10 @@ export default async function ChatList({
 
   // ----------------------------------------------------------------
   // 5. 각 방의 상대방 ID 계산 및 필요한 데이터 매핑
-  const mappedRooms = sortedRooms.map((room) => {
-    const authorId = room.posts.author_id;
-    const matchedId = room.matches.matched_runner_id;
-    const isAuthor = authorId === userId;
-    const opponentId = isAuthor ? matchedId : authorId; // 내가 작성자면 상대는 매칭된 러너, 내가 매칭된 러너면 상대는 작성자
-
-    return {
-      roomId: room.id,
-      matchedId: room.matches.id,
-      opponentId,
-      postTitle: room.posts.title,
-    };
+  const { opponents, mappedRooms } = await fetchOpponentData({
+    sortedRooms,
+    userId,
   });
-
-  const opponentIds = mappedRooms.map((room) => room.opponentId);
-
-  const { data: opponents, error: profileError } = await supabase
-    .from("profiles")
-    .select("id, nickname, runner_type, profile_image_url")
-    .in("id", opponentIds);
-
-  if (profileError) {
-    console.error(profileError);
-    throw new Error("상대방 프로필 정보를 불러오지 못했습니다.");
-  }
 
   // ----------------------------------------------------------------
   // 6. 최종 데이터 병합
@@ -104,7 +48,7 @@ export default async function ChatList({
 
     return {
       matchedId: room.matchedId,
-      nickname: opponent?.nickname ?? "알 수 없음",
+      opponent_nickname: opponent?.nickname ?? "알 수 없음",
       runnerType:
         (opponent?.runner_type as "blind_runner" | "guide_runner") ??
         "guide_runner",
@@ -121,7 +65,7 @@ export default async function ChatList({
         <ChatItem
           key={room.matchedId}
           matchedId={room.matchedId}
-          nickname={room.nickname}
+          opponent_nickname={room.opponent_nickname}
           runnerType={room.runnerType}
           postTitle={room.postTitle}
           lastMessage={room.lastMessage}

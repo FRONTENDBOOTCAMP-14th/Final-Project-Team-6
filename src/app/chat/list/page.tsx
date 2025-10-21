@@ -1,8 +1,8 @@
 import Pagination from "@/components/pagination/pagination";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
-import ChatList from "./components/chat-list";
-import EmptyChatList from "./components/empty-chat-list";
+import ChatList from "./_components/chat-list";
+import EmptyChatList from "./_components/empty-chat-list";
 
 type ChatListPageProps = {
   searchParams: Promise<{

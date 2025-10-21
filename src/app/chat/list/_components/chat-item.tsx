@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "@/components/common/link";
 import tw from "@/utils/tw";
+import { formatChatTime } from "../_libs";
 
 interface ChatItemProps {
   matchedId: string;
-  nickname: string;
+  opponent_nickname: string;
   runnerType: "blind_runner" | "guide_runner";
   postTitle: string;
   lastMessage: string;
@@ -14,7 +15,7 @@ interface ChatItemProps {
 
 export default function ChatItem({
   matchedId,
-  nickname,
+  opponent_nickname,
   runnerType,
   postTitle,
   lastMessage,
@@ -34,39 +35,23 @@ export default function ChatItem({
       ? "bg-site-yellow text-site-black"
       : "bg-site-blue text-site-white";
 
+  // UTC 시간을 KST로 변환
+  const utcDate = new Date(lastMessageTime);
+  const kstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000);
+
   // 마지막 메시지 시간 포맷팅 (예: "6분 전")
-  const formatTime = (time: string) => {
-    const now = new Date();
-    const messageTime = new Date(time);
-    const diffInMinutes = Math.floor(
-      (now.getTime() - messageTime.getTime()) / 60000,
-    );
-
-    if (diffInMinutes < 1) {
-      return "방금 전";
-    }
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes}분 전`;
-    }
-
-    const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) {
-      return `${diffInHours}시간 전`;
-    }
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays}일 전`;
-  };
+  const formatTime = formatChatTime(kstDate);
 
   return (
     <li className="border-b-1 border-site-lightblack">
       <Link
         href={`/chat/detail/${matchedId}`}
         className="flex flex-row gap-y-3 py-5 w-full"
+        aria-label={`${runnerTypeText} ${opponent_nickname}님과의 채팅방이고 마지막 대화는 ${formatTime}에 "${lastMessage}"입니다. 관련 게시글 제목은 "${postTitle}"입니다.`}
       >
         <Image
           src={src}
-          alt="상대방 프로필"
+          alt=""
           width={50}
           height={50}
           className="w-12.5 h-12.5 rounded-full"
@@ -75,7 +60,7 @@ export default function ChatItem({
           <div className="flex flex-col relative gap-y-2">
             <div className="flex flex-row gap-x-2">
               <h2 className="text-site-white text-sm font-semibold">
-                {nickname}
+                {opponent_nickname}
               </h2>
               <span
                 className={tw(
@@ -87,9 +72,12 @@ export default function ChatItem({
               </span>
             </div>
             <p className="text-[1rem] text-site-gray truncate">{lastMessage}</p>
-            <span className="absolute right-0 text-site-gray text-sm">
-              {formatTime(lastMessageTime)}
-            </span>
+            <time
+              dateTime={lastMessageTime}
+              className="absolute right-0 text-site-gray text-sm"
+            >
+              {formatTime}
+            </time>
           </div>
           <p className="bg-site-lightblack px-2 py-1 rounded-sm text-site-gray text-[0.625rem] max-w-fit truncate">
             {postTitle}
