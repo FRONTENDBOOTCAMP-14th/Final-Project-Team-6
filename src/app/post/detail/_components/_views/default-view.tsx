@@ -9,7 +9,12 @@ interface DefaultViewProps {
 export default function DefaultView({ actions }: DefaultViewProps) {
   return (
     <form action={actions.createMatch}>
-      <Button type="submit" buttonColor="var(--color-site-blue)" fullWidth>
+      <Button
+        type="submit"
+        buttonColor="var(--color-site-blue)"
+        fullWidth
+        height="medium"
+      >
         매칭 신청하기
       </Button>
     </form>

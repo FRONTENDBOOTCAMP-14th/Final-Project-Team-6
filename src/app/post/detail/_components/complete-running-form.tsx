@@ -18,6 +18,7 @@ export default function CompleteRunningForm({
           buttonColor="var(--color-site-blue)"
           fullWidth
           disabled={!post.is_expired}
+          height="medium"
         >
           {post.is_expired
             ? "러닝 완료"

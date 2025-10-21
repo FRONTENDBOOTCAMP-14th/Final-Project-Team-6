@@ -14,14 +14,20 @@ export default function UnmatchedAuthorView({
 }: UnmatchedAuthorViewProps) {
   return (
     <div className="flex flex-col gap-2">
-      <Button disabled fullWidth>
+      <Button disabled fullWidth height="medium">
         매칭을 기다리는 중...
       </Button>
       <div className="flex justify-end gap-2">
-        <Button buttonColor="var(--color-site-lightblack)">편집</Button>
+        <Button buttonColor="var(--color-site-lightblack)" height="medium">
+          편집
+        </Button>
         <form action={actions.delete}>
           <input type="hidden" name="postId" value={post.id} />
-          <Button type="submit" buttonColor="var(--color-site-red)">
+          <Button
+            type="submit"
+            buttonColor="var(--color-site-red)"
+            height="medium"
+          >
             삭제
           </Button>
         </form>

@@ -20,7 +20,11 @@ export default function MatchedApplicantView({
 
       <div className="flex">
         <form action={actions.cancel}>
-          <Button type="submit" buttonColor="var(--color-site-lightblack)">
+          <Button
+            type="submit"
+            buttonColor="var(--color-site-lightblack)"
+            height="medium"
+          >
             매칭취소
           </Button>
         </form>
