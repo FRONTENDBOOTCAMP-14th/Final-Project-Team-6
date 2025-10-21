@@ -25,7 +25,9 @@ export default function ListCard({ post }: Props) {
     : "";
 
   let overlayText = "";
-  if (post.is_expired) {
+  if (post.is_completed) {
+    overlayText = "완료된 러닝입니다.";
+  } else if (post.is_expired) {
     overlayText = "기간 종료";
   } else if (post.status === "matched") {
     overlayText = "매칭 중 ...";
