@@ -17,13 +17,14 @@ export async function signIn(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect("/error");
+    console.error("로그인 오류:", error);
+    redirect("/auth/login?error=invalid_credentials");
   }
 
   // 레이아웃 경로 재검증
   // 레이아웃을 공유하는 모든 URL이 다음 페이지 방문 시 재검증
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/profile/my-profile");
 }
 
 // 회원가입 서버 액션
