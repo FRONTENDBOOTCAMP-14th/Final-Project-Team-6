@@ -25,7 +25,7 @@ export default function LoginPage() {
           placeholder="이메일 주소를 입력해주세요."
           required
         />
-        <PasswordInput />
+        <PasswordInput label="비밀번호" />
         <Button
           type="submit"
           formAction={signIn}
