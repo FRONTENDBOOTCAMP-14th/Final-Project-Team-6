@@ -11,6 +11,7 @@ interface MatchedAuthorViewProps {
 }
 
 interface MatchedApplicantViewProps {
+  post: PostWithAuthor; // post 타입 추가
   actions: {
     complete: () => void;
     cancel: () => void;
@@ -37,7 +38,7 @@ interface ActionButtonsProps {
   isApplicant: boolean;
   currentUserRunnerType?: RunnerType | null;
   actions: {
-    completePost: (postId: string) => void;
+    completePost: (postId: string, matchId: string) => void;
     createMatchAndChat: (params: { postId: string; authorId: string }) => void;
     deletePost: (formData: FormData) => void; // FormData를 받는 타입
     cancelMatch: (matchId: string, postId: string) => void;
@@ -57,20 +58,20 @@ export default function ActionButtons({
   const isCompleted = post.is_completed;
   const authorRunnerType = post.author?.runner_type;
 
-  const completeAction = actions.completePost.bind(null, post.id);
   const createMatchAction = actions.createMatchAndChat.bind(null, {
     postId: post.id,
     authorId: post.author_id,
   });
-  const cancelAction = match
-    ? actions.cancelMatch.bind(null, match.id, post.id)
-    : () => {};
 
   if (isCompleted) {
     return <CompletedView />;
   }
 
   if (isMatched) {
+    // 이 블록 안에서는 'match'가 null이 아님 (린트 에러 방지)
+    const completeAction = actions.completePost.bind(null, post.id, match.id);
+    const cancelAction = actions.cancelMatch.bind(null, match.id, post.id);
+
     if (isAuthor)
       return (
         <MatchedAuthorView
@@ -85,6 +86,7 @@ export default function ActionButtons({
     if (isApplicant)
       return (
         <MatchedApplicantView
+          post={post}
           actions={{ complete: completeAction, cancel: cancelAction }}
         />
       );
@@ -112,7 +114,7 @@ export default function ActionButtons({
 function CompletedView() {
   return (
     <Button disabled fullWidth>
-      러닝 완료
+      러닝이 완료 된 게시물입니다.
     </Button>
   );
 }
@@ -123,11 +125,20 @@ function MatchedAuthorView({
 }: { post: PostWithAuthor } & MatchedAuthorViewProps) {
   return (
     <div className="flex flex-col gap-2">
-      <form action={actions.complete}>
-        <Button type="submit" buttonColor="var(--color-site-blue)" fullWidth>
-          러닝 완료
-        </Button>
-      </form>
+      <fieldset disabled={!post.is_expired}>
+        <form action={actions.complete}>
+          <Button
+            type="submit"
+            buttonColor="var(--color-site-blue)"
+            fullWidth
+            disabled={!post.is_expired}
+          >
+            {post.is_expired
+              ? "러닝 완료"
+              : "러닝완료버튼은 기간이 지난 후 가능합니다"}
+          </Button>
+        </form>
+      </fieldset>
       <div className="flex items-center gap-2">
         <form action={actions.cancel}>
           <Button type="submit" buttonColor="var(--color-site-lightblack)">
@@ -147,14 +158,23 @@ function MatchedAuthorView({
   );
 }
 
-function MatchedApplicantView({ actions }: MatchedApplicantViewProps) {
+function MatchedApplicantView({ post, actions }: MatchedApplicantViewProps) {
   return (
     <div className="flex flex-col gap-2">
-      <form action={actions.complete} className="w-full">
-        <Button type="submit" buttonColor="var(--color-site-blue)" fullWidth>
-          러닝 완료
-        </Button>
-      </form>
+      <fieldset disabled={!post.is_expired} className="w-full">
+        <form action={actions.complete} className="w-full">
+          <Button
+            type="submit"
+            buttonColor="var(--color-site-blue)"
+            fullWidth
+            disabled={!post.is_expired}
+          >
+            {post.is_expired
+              ? "러닝 완료"
+              : "러닝완료버튼은 기간이 지난 후 가능합니다"}
+          </Button>
+        </form>
+      </fieldset>
       <div className="flex">
         <form action={actions.cancel}>
           <Button type="submit" buttonColor="var(--color-site-lightblack)">
@@ -169,7 +189,7 @@ function MatchedApplicantView({ actions }: MatchedApplicantViewProps) {
 function AlreadyMatchedView() {
   return (
     <Button disabled fullWidth>
-      매칭 완료
+      매칭 중인 게시물입니다.
     </Button>
   );
 }

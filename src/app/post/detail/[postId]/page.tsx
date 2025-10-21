@@ -1,7 +1,9 @@
+// post/detail/[postId]/page.tsx
+
 import { notFound } from "next/navigation";
-import ActionButtons from "@/app/post/detail/components/action-buttons";
-import AuthorProfile from "@/app/post/detail/components/author-profile";
-import PostInfo from "@/app/post/detail/components/post-info";
+import ActionButtons from "@/app/post/detail/_components/action-buttons";
+import AuthorProfile from "@/app/post/detail/_components/author-profile";
+import PostInfo from "@/app/post/detail/_components/post-info";
 import type { Match, PostWithAuthor, RunnerType } from "@/app/post/type";
 import { createClient } from "@/utils/supabase/server";
 
@@ -11,6 +13,8 @@ import {
   createMatchAndChat,
   deletePost,
 } from "./action";
+
+export const dynamic = "force-dynamic";
 
 async function getPostById(id: string) {
   const supabase = await createClient();
@@ -28,14 +32,33 @@ async function getPostById(id: string) {
 }
 
 async function getMatchForPost(postId: string) {
+  console.log(`\n--- [디버깅 시작] postId: ${postId} ---`);
+
   const supabase = await createClient();
-  const { data: match } = await supabase
+
+  const { data: latestMatch, error } = await supabase
     .from("matches")
     .select("*, applicant:profiles(*)")
     .eq("post_id", postId)
-    .neq("status", "cancelled")
+    .order("created_at", { ascending: false })
+    .limit(1)
     .maybeSingle();
-  return match;
+
+  if (error) {
+    console.error("[디버깅] Supabase 쿼리 에러:", error.message);
+  }
+
+  console.log("[디버깅] DB에서 가져온 최신 매치 기록:", latestMatch);
+
+  if (latestMatch && latestMatch.status === "cancelled") {
+    console.log(
+      "[디버깅] 결정: 최신 기록이 'cancelled'이므로 null을 리턴합니다.",
+    );
+    return null;
+  }
+
+  console.log("[디버깅] 결정: 유효한 매치 정보를 리턴합니다.");
+  return latestMatch;
 }
 
 async function getCurrentUserProfile(userId: string) {
@@ -59,6 +82,8 @@ export default async function PostDetailPage({
   const {
     data: { user: authUser },
   } = await supabase.auth.getUser();
+
+  // 수정된 getMatchForPost 함수를 통해 '현재 유효한' 매치 정보만 가져온다.
   const [post, match] = await Promise.all([
     getPostById(postId) as Promise<PostWithAuthor | null>,
     getMatchForPost(postId) as Promise<Match | null>,
@@ -77,10 +102,8 @@ export default async function PostDetailPage({
 
   return (
     <div className="flex flex-col gap-6 p-4">
-      <AuthorProfile author={post.author} />
-
+      <AuthorProfile author={post.author} created_at={post.created_at} />
       <PostInfo post={post} />
-
       <ActionButtons
         post={post}
         match={match}

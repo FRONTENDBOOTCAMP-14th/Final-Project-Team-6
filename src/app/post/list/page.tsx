@@ -1,6 +1,6 @@
 import type { PostWithAuthor } from "@/app/post/type";
 import { createClient } from "@/utils/supabase/server";
-import PostCard from "./components/list-card";
+import PostCard from "./_components/list-card";
 
 // 내가 쓴 글 목록 가져오기
 async function getMyPosts(userId: string) {
@@ -9,7 +9,7 @@ async function getMyPosts(userId: string) {
     .from("posts")
     .select("*, author:profiles(*)")
     .eq("author_id", userId)
-    .neq("status", "deleted") // 👇 'deleted' 상태가 아닌 게시글만 필터링
+    .neq("status", "deleted")
     .order("created_at", { ascending: false });
   return data;
 }
