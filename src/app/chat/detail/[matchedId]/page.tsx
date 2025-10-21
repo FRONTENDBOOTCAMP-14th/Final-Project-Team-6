@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
-import { MsgList, PostLink, SendMessageForm } from "./components";
-import MsgRealTime from "./components/msg-real-time";
+import { PostLink, SendMessageForm } from "./_components";
+import MsgScrollContainer from "./_components/msg-scroll-container";
 
 interface Props {
   params: Promise<{ matchedId: string }>;
@@ -30,7 +30,8 @@ export default async function ChatDetailPage({ params }: Props) {
             runner_type
           )
         ),
-        posts(id, title, goal_km, meeting_place, meeting_time)
+        posts(id, title, goal_km, meeting_place, meeting_time),
+        matches(status)
       `)
     .eq("matches_id", matchedId)
     .single();
@@ -41,15 +42,21 @@ export default async function ChatDetailPage({ params }: Props) {
   const postData = chatRoomData.posts;
   const currentUserId = currentUser.id;
   const roomId = chatRoomData.id;
+  const matchedStatus = chatRoomData.matches.status;
 
   return (
-    <div className="pt-20 pb-18">
+    <>
       <PostLink postData={postData} />
-      <ul className="flex flex-col gap-8 py-6">
-        <MsgList messagesData={messagesData} currentUserId={currentUserId} />
-        <MsgRealTime roomId={roomId} currentUserId={currentUserId} />
-      </ul>
-      <SendMessageForm roomId={roomId} currentUserId={currentUserId} />
-    </div>
+      <MsgScrollContainer
+        currentUserId={currentUserId}
+        roomId={roomId}
+        messagesData={messagesData}
+      ></MsgScrollContainer>
+      <SendMessageForm
+        roomId={roomId}
+        currentUserId={currentUserId}
+        matchedStatus={matchedStatus}
+      />
+    </>
   );
 }

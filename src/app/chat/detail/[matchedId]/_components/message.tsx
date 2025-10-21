@@ -18,7 +18,7 @@ export default function Message({ body, sendedDate, sender }: Props) {
       >
         {body}
       </span>
-      <time className="text-xs text-site-gray content-end pb-1">
+      <time className="text-xs text-site-gray content-end pb-1 text-right">
         {sendedDate}
       </time>
     </>

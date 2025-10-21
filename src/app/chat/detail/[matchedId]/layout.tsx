@@ -1,5 +1,5 @@
 import DetailLayout from "@/components/layout/detail-layout";
-import { ChatDetailTitle } from "./components";
+import { ChatDetailTitle } from "./_components";
 
 interface Props {
   children: React.ReactNode;

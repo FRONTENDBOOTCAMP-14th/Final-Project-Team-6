@@ -20,7 +20,7 @@ export async function sendMessage(formData: FormData) {
 
   const { data: profileData, error: profileError } = await supabase
     .from("profiles")
-    .select("nickname, profile_image_url")
+    .select("nickname, profile_image_url, runner_type")
     .eq("id", currentUserId)
     .single();
 
@@ -34,8 +34,9 @@ export async function sendMessage(formData: FormData) {
     event: "new_message",
     payload: {
       ...newMessage,
-      nickname: profileData?.nickname,
+      nickname: profileData.nickname,
       profile_image_url: profileData?.profile_image_url,
+      runner_type: profileData.runner_type,
     },
   });
 }

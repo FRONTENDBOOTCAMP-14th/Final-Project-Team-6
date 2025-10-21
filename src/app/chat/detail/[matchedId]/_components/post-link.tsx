@@ -16,7 +16,7 @@ export default function PostLink({ postData }: Props) {
     <Link
       href={`/post/detail/${postData.id}`}
       aria-label="채팅방과 연결된 게시물 이동"
-      className="h-20 flex flex-wrap flex-row items-center fixed top-[71px] bg-site-lightblack left-1/2 -translate-x-1/2 w-full max-w-(--viewport-size) px-5"
+      className="h-20 flex flex-wrap flex-row items-center fixed top-[70px] bg-site-lightblack left-1/2 -translate-x-1/2 w-full max-w-(--viewport-size) px-5"
     >
       <span className="w-full">
         <strong className="mb-2 block overflow-hidden text-ellipsis whitespace-nowrap w-full">
