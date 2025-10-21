@@ -26,6 +26,7 @@ export default function PasswordInput({
     <Input
       label={label}
       type={showPassword ? "text" : "password"}
+      name="password"
       placeholder="비밀번호를 입력해주세요."
       isError={isError}
       errorMessage={errorMessage}

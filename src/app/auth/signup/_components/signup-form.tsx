@@ -1,32 +1,13 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Button } from "@/components/common";
+import { checkEmail } from "@/app/actions/check-email";
+import { checkNickname } from "@/app/actions/check-nickname";
+import { Button, Input } from "@/components/common";
 import { IconCheck } from "@/components/common/icons";
 import { tw } from "@/utils";
+import PasswordInput from "../../_components/password-input";
 import { signUp } from "../../action";
-
-// input name props로 받는 부분으로 에러 확인되어 Input 컴포넌트를 동적으로 불러옴
-const Input = dynamic(
-  () => import("@/components/common").then((mod) => ({ default: mod.Input })),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-[52px] border border-gray-300 rounded-md animate-pulse" />
-    ),
-  },
-);
-
-const PasswordInput = dynamic(
-  () => import("@/app/auth/_components/password-input"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-[52px] border border-gray-300 rounded-md animate-pulse" />
-    ),
-  },
-);
 
 export default function SignupForm() {
   const [email, setEmail] = useState("");
@@ -60,20 +41,17 @@ export default function SignupForm() {
     setIsCheckingEmail(true);
 
     try {
-      const response = await fetch("/api/auth/check-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const formData = new FormData();
+      formData.append("email", email);
 
-      const data = await response.json();
+      const result = await checkEmail(formData);
 
-      if (data.available) {
+      if (result.available) {
         setIsEmailChecked(true);
         setEmailCheckMessage("사용 가능한 이메일입니다.");
       } else {
         setIsEmailChecked(false);
-        setEmailCheckMessage("이미 사용 중인 이메일입니다.");
+        setEmailCheckMessage(result.error || "이미 사용 중인 이메일입니다.");
       }
     } catch {
       setIsEmailChecked(false);
@@ -107,20 +85,17 @@ export default function SignupForm() {
     setIsCheckingNickname(true);
 
     try {
-      const response = await fetch("/api/auth/check-nickname", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nickname }),
-      });
+      const formData = new FormData();
+      formData.append("nickname", nickname);
 
-      const data = await response.json();
+      const result = await checkNickname(formData);
 
-      if (data.available) {
+      if (result.available) {
         setIsNicknameChecked(true);
         setNicknameCheckMessage("사용 가능한 닉네임입니다.");
       } else {
         setIsNicknameChecked(false);
-        setNicknameCheckMessage("이미 사용 중인 닉네임입니다.");
+        setNicknameCheckMessage(result.error || "이미 사용 중인 닉네임입니다.");
       }
     } catch {
       setIsNicknameChecked(false);
