@@ -1,3 +1,5 @@
+// @/app/post/type.ts
+
 export type RunnerType = "guide_runner" | "blind_runner";
 
 export interface Post {
@@ -14,6 +16,9 @@ export interface Post {
   description: string;
   is_completed: boolean;
   is_expired: boolean;
+  // v--- [추가] 이 줄을 넣어줘 ---v
+  status: "open" | "matched" | "completed" | "deleted";
+  // ^--- ---^
 }
 
 export interface PostWithAuthor extends Post {

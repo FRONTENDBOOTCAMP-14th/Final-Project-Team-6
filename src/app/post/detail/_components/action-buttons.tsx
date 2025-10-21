@@ -11,7 +11,7 @@ interface MatchedAuthorViewProps {
 }
 
 interface MatchedApplicantViewProps {
-  post: PostWithAuthor; // post 타입 추가
+  post: PostWithAuthor;
   actions: {
     complete: () => void;
     cancel: () => void;
@@ -54,7 +54,8 @@ export default function ActionButtons({
   currentUserRunnerType,
   actions,
 }: ActionButtonsProps) {
-  const isMatched = !!match;
+  const isMatched = post.status === "matched";
+
   const isCompleted = post.is_completed;
   const authorRunnerType = post.author?.runner_type;
 
@@ -68,28 +69,39 @@ export default function ActionButtons({
   }
 
   if (isMatched) {
-    // 이 블록 안에서는 'match'가 null이 아님 (린트 에러 방지)
-    const completeAction = actions.completePost.bind(null, post.id, match.id);
-    const cancelAction = actions.cancelMatch.bind(null, match.id, post.id);
+    // 참가자 (작성자 또는 신청자)인 경우
+    if (isAuthor || isApplicant) {
+      if (!match) {
+        console.error(
+          "Inconsistent state: post.status is 'matched' but no match object was provided.",
+        );
+        return <AlreadyMatchedView />;
+      }
 
-    if (isAuthor)
-      return (
-        <MatchedAuthorView
-          post={post}
-          actions={{
-            complete: completeAction,
-            cancel: cancelAction,
-            delete: actions.deletePost,
-          }}
-        />
-      );
-    if (isApplicant)
-      return (
-        <MatchedApplicantView
-          post={post}
-          actions={{ complete: completeAction, cancel: cancelAction }}
-        />
-      );
+      // 'match'가 null이 아님이 보장됨
+      const completeAction = actions.completePost.bind(null, post.id, match.id);
+      const cancelAction = actions.cancelMatch.bind(null, match.id, post.id);
+
+      if (isAuthor)
+        return (
+          <MatchedAuthorView
+            post={post}
+            actions={{
+              complete: completeAction,
+              cancel: cancelAction,
+              delete: actions.deletePost,
+            }}
+          />
+        );
+      if (isApplicant)
+        return (
+          <MatchedApplicantView
+            post={post}
+            actions={{ complete: completeAction, cancel: cancelAction }}
+          />
+        );
+    }
+
     return <AlreadyMatchedView />;
   }
 
