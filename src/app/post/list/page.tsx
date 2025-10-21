@@ -1,18 +1,28 @@
+import PostCard from "@/app/post/list/_components/list-card";
+import PostListHeader from "@/app/post/list/_components/post-list-header";
 import type { PostWithAuthor } from "@/app/post/type";
-import IconFilter from "@/components/common/icons/icon-filter";
 import Pagination from "@/components/pagination/pagination";
 import { createClient } from "@/utils/supabase/server";
-import PostCard from "./_components/list-card";
 
-async function getAllPosts(page: number, postsPerPage: number) {
+async function getAllPosts(
+  page: number,
+  postsPerPage: number,
+  runnerType?: string,
+) {
   const supabase = await createClient();
   const from = (page - 1) * postsPerPage;
   const to = from + postsPerPage - 1;
 
-  const { data, count } = await supabase
+  let query = supabase
     .from("posts")
-    .select("*, author:profiles(*)", { count: "exact" })
-    .neq("status", "deleted")
+    .select("*, author:profiles!inner(*)", { count: "exact" }) // inner join으로 프로필이 없는 게시글은 제외
+    .neq("status", "deleted");
+
+  if (runnerType === "guide_runner" || runnerType === "blind_runner") {
+    query = query.eq("author.runner_type", runnerType);
+  }
+
+  const { data, count } = await query
     .order("is_completed", { ascending: true })
     .order("is_expired", { ascending: true })
     .order("status", { ascending: false })
@@ -26,7 +36,7 @@ async function getAllPosts(page: number, postsPerPage: number) {
 export default async function PostListPage({
   searchParams,
 }: {
-  searchParams?: { page?: string };
+  searchParams?: { page?: string; runner_type?: string };
 }) {
   const supabase = await createClient();
   const {
@@ -38,25 +48,29 @@ export default async function PostListPage({
   }
 
   const currentPage = Number(searchParams?.page) || 1;
-  const POSTS_PER_PAGE = 4;
+  const postsPerPage = 4;
+  const runnerTypeFilter = searchParams?.runner_type;
 
   const { data, count: totalCount } = await getAllPosts(
     currentPage,
-    POSTS_PER_PAGE,
+    postsPerPage,
+    runnerTypeFilter,
   );
   const allPosts = data as PostWithAuthor[] | null;
 
-  const totalPages = totalCount ? Math.ceil(totalCount / POSTS_PER_PAGE) : 0;
+  const totalPages = totalCount ? Math.ceil(totalCount / postsPerPage) : 0;
 
   return (
-    <main className="flex flex-col gap-8">
+    <main>
       <section>
-        <h1 className="text-2xl font-bold mb-4">전체 동반주자 목록</h1>
-        <div className="flex flex-col gap-4">
+        <PostListHeader />
+        <div className="flex flex-col gap-3">
           {allPosts && allPosts.length > 0 ? (
             allPosts.map((post) => <PostCard key={post.id} post={post} />)
           ) : (
-            <p className="text-[var(--color-site-gray)]">게시글이 없습니다.</p>
+            <p className="text-[var(--color-site-gray)]">
+              조건에 맞는 게시글이 없습니다.
+            </p>
           )}
         </div>
         <div className="mt-8">
