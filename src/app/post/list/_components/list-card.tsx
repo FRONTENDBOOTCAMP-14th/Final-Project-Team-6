@@ -5,6 +5,7 @@ import RunnerTypeBadge from "@/components/common/runner-type-badge";
 
 interface Props {
   post: PostWithAuthor;
+  isLoggedIn: boolean;
 }
 
 const formatMeetingTime = (timeString: string) => {
@@ -14,11 +15,10 @@ const formatMeetingTime = (timeString: string) => {
   const day = date.getDate().toString().padStart(2, "0");
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
-
   return `${year}년 ${month}월 ${day}일 ${hours}:${minutes}`;
 };
 
-export default function ListCard({ post }: Props) {
+export default function ListCard({ post, isLoggedIn }: Props) {
   const runnerType = post.author?.runner_type;
   const formattedMeetingTime = post.meeting_time
     ? formatMeetingTime(post.meeting_time)
@@ -40,13 +40,9 @@ export default function ListCard({ post }: Props) {
     displayTitle = `${post.title.slice(0, titleMaxLength)}...`;
   }
 
-  return (
-    <Link
-      href={`/post/detail/${post.id}`}
-      className="relative block rounded-lg bg-[var(--color-site-lightblack)]"
-    >
+  const CardContent = (
+    <>
       <div className="flex items-start gap-4 p-5">
-        {/* 프로필 이미지 */}
         <Image
           src="/assets/default-profile.png"
           alt="기본 프로필 이미지"
@@ -54,15 +50,9 @@ export default function ListCard({ post }: Props) {
           height={50}
           className="rounded-full flex-shrink-0"
         />
-
         <div className="flex flex-col">
-          {/* 제목 */}
-          <h3 className="font-bold text-xl text-[var(--color-site-white)]">
-            {displayTitle}
-          </h3>
-
-          {/* 닉네임 & 러너 타입 배지 */}
-          <div className="mt-1 flex items-center gap-2 text-sm font-bold text-[var(--color-site-white)]">
+          <h3 className="font-bold text-xl text-site-white">{displayTitle}</h3>
+          <div className="mt-1 flex items-center gap-2 text-sm font-bold text-site-white">
             <span className="truncate">
               {post.author?.nickname || "알 수 없음"}
             </span>
@@ -76,28 +66,39 @@ export default function ListCard({ post }: Props) {
               />
             )}
           </div>
-
-          {/* 약속일자 */}
           {formattedMeetingTime && (
-            <p className="text-sm text-[var(--color-site-gray)] mt-4">
+            <p className="text-sm text-site-gray mt-4">
               {formattedMeetingTime}
             </p>
           )}
-
-          {/* 해시태그 */}
-          <div className=" text-sm text-[var(--color-site-gray)]">
+          <div className=" text-sm text-site-gray">
             <span># {post.meeting_place}</span>
             <span className="ml-2"># {post.goal_km}km</span>
           </div>
         </div>
       </div>
-
-      {/* '기간 종료' 또는 '매칭 중' 상태일 때 표시될 오버레이 */}
       {overlayText && (
-        <div className="absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.8)] rounded-lg">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/80 rounded-lg">
           <span className="text-white text-xl font-bold">{overlayText}</span>
         </div>
       )}
-    </Link>
+    </>
+  );
+
+  if (isLoggedIn) {
+    return (
+      <Link
+        href={`/post/detail/${post.id}`}
+        className="relative block rounded-lg bg-site-lightblack"
+      >
+        {CardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <div className="relative block rounded-lg bg-site-lightblack cursor-not-allowed">
+      {CardContent}
+    </div>
   );
 }

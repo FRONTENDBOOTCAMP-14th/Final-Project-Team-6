@@ -1,3 +1,4 @@
+import ActivityLog from "@/app/post/list/_components/activity-log";
 import PostCard from "@/app/post/list/_components/list-card";
 import PostListHeader from "@/app/post/list/_components/post-list-header";
 import type { PostWithAuthor } from "@/app/post/type";
@@ -15,7 +16,7 @@ async function getAllPosts(
 
   let query = supabase
     .from("posts")
-    .select("*, author:profiles!inner(*)", { count: "exact" }) // inner join으로 프로필이 없는 게시글은 제외
+    .select("*, author:profiles!inner(*)", { count: "exact" })
     .neq("status", "deleted");
 
   if (runnerType === "guide_runner" || runnerType === "blind_runner") {
@@ -36,20 +37,18 @@ async function getAllPosts(
 export default async function PostListPage({
   searchParams,
 }: {
-  searchParams?: { page?: string; runner_type?: string };
+  searchParams?: Promise<{ page?: string; runner_type?: string }>;
 }) {
+  const resolvedParams = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return <p>로그인이 필요합니다.</p>;
-  }
-
-  const currentPage = Number(searchParams?.page) || 1;
+  const isLoggedIn = !!user;
+  const currentPage = Number(resolvedParams?.page) || 1;
   const postsPerPage = 4;
-  const runnerTypeFilter = searchParams?.runner_type;
+  const runnerTypeFilter = resolvedParams?.runner_type;
 
   const { data, count: totalCount } = await getAllPosts(
     currentPage,
@@ -62,11 +61,16 @@ export default async function PostListPage({
 
   return (
     <main>
+      <div className="mb-5">
+        <ActivityLog />
+      </div>
       <section>
         <PostListHeader />
         <div className="flex flex-col gap-3">
           {allPosts && allPosts.length > 0 ? (
-            allPosts.map((post) => <PostCard key={post.id} post={post} />)
+            allPosts.map((post) => (
+              <PostCard key={post.id} post={post} isLoggedIn={isLoggedIn} />
+            ))
           ) : (
             <p className="text-[var(--color-site-gray)]">
               조건에 맞는 게시글이 없습니다.
