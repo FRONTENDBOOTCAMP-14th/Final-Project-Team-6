@@ -8,11 +8,14 @@ interface PasswordProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   isError?: boolean;
   errorMessage?: string;
-  suffixButton?: React.ReactNode;
-  suffixIcon?: React.ReactNode;
 }
 
-export default function PasswordInput({ label }: PasswordProps) {
+export default function PasswordInput({
+  label,
+  isError,
+  errorMessage,
+  ...props
+}: PasswordProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePassword = () => {
@@ -22,9 +25,10 @@ export default function PasswordInput({ label }: PasswordProps) {
   return (
     <Input
       label={label}
-      name="password"
       type={showPassword ? "text" : "password"}
       placeholder="비밀번호를 입력해주세요."
+      isError={isError}
+      errorMessage={errorMessage}
       suffixIcon={
         <button
           type="button"
@@ -34,7 +38,7 @@ export default function PasswordInput({ label }: PasswordProps) {
           {showPassword ? <IconEye /> : <IconEyeOff />}
         </button>
       }
-      required
+      {...props}
     />
   );
 }
