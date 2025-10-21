@@ -1,25 +1,20 @@
 import type { PostWithAuthor } from "@/app/post/type";
-
 import formatUTCtoKST from "@/utils/fomat-utc-to-kst";
-
 import InfoItem from "./info-item";
 
 interface PostInfoProps {
   post: PostWithAuthor;
+  className?: string;
 }
 
-export default function PostInfo({ post }: PostInfoProps) {
+export default function PostInfo({ post, className }: PostInfoProps) {
   const address = post.meeting_place;
-
   const encodedAddress = encodeURIComponent(address);
-
   const mapSrc = `https://maps.google.com/maps?q=${encodedAddress}&output=embed`;
 
   return (
-    <>
-      <h2 className="text-2xl font-bold">{post.title}</h2>
-
-      <div className="w-full aspect-video bg-[var(--color-site-lightblack)] rounded-lg overflow-hidden">
+    <div className={className}>
+      <div className="w-full h-[200px] bg-[var(--color-site-lightblack)] rounded-lg overflow-hidden mb-6">
         <iframe
           title="러닝 희망 장소 지도"
           src={mapSrc}
@@ -57,6 +52,6 @@ export default function PostInfo({ post }: PostInfoProps) {
           {post.description}
         </p>
       </div>
-    </>
+    </div>
   );
 }
