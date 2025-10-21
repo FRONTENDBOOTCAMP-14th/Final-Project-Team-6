@@ -17,20 +17,20 @@ export default function wait(
   delay = 1,
   {
     forceResolved,
-    resolveMessage = '요청 결과 성공입니다.',
-    rejectMessage = '요청 결과 실패했습니다.',
-  }: WaitOptions = {}
+    resolveMessage = "요청 결과 성공입니다.",
+    rejectMessage = "요청 결과 실패했습니다.",
+  }: WaitOptions = {},
 ) {
   return new Promise((resolve, reject) =>
     setTimeout(() => {
-      if (forceResolved) reject(rejectMessage)
-      resolve(resolveMessage)
-    }, delay * 1000)
-  )
+      if (forceResolved) reject(rejectMessage);
+      resolve(resolveMessage);
+    }, delay * 1000),
+  );
 }
 
 interface WaitOptions {
-  forceResolved?: boolean
-  resolveMessage?: string
-  rejectMessage?: string
+  forceResolved?: boolean;
+  resolveMessage?: string;
+  rejectMessage?: string;
 }
