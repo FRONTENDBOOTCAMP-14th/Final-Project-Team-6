@@ -29,6 +29,28 @@ export async function createMatchAndChat({
     );
   }
 
+  // 이 postId로 이미 'matched' 상태인 데이터가 있는지 확인한다.
+  const { data: existingMatch, error: existingMatchError } = await supabase
+    .from("matches")
+    .select("id")
+    .eq("post_id", postId)
+    .eq("status", "matched")
+    .maybeSingle(); // 결과가 없거나 하나일 수 있으므로 maybeSingle() 사용
+
+  if (existingMatchError) {
+    // 쿼리 자체에서 에러가 발생한 경우
+    return redirect(
+      `/error?message=${encodeURIComponent(existingMatchError.message)}`,
+    );
+  }
+
+  if (existingMatch) {
+    // 이미 매칭된 데이터가 존재하는 경우
+    return redirect(
+      `/error?message=${encodeURIComponent("이미 매칭이 완료된 게시물입니다.")}`,
+    );
+  }
+
   const matchData = {
     post_id: postId,
     matched_runner_id: user.id,
@@ -64,6 +86,7 @@ export async function cancelMatch(matchId: string, postId: string) {
   }
 
   revalidatePath(`/post/detail/${postId}`);
+  redirect(`/post/detail/${postId}`);
 }
 
 export async function deletePost(formData: FormData) {
@@ -96,17 +119,31 @@ export async function deletePost(formData: FormData) {
   redirect("/post/list");
 }
 
-export async function completePost(postId: string) {
+export async function completePost(postId: string, matchId: string) {
+  if (!postId || !matchId) {
+    return redirect("/error?message=Invalid_ID");
+  }
+
   const supabase = await createClient();
 
-  const { error } = await supabase
+  const { error: matchError } = await supabase
+    .from("matches")
+    .update({ status: "completed" })
+    .eq("id", matchId);
+
+  if (matchError) {
+    return redirect(`/error?message=${encodeURIComponent(matchError.message)}`);
+  }
+
+  const { error: postError } = await supabase
     .from("posts")
     .update({ is_completed: true })
     .eq("id", postId);
 
-  if (error) {
-    return redirect(`/error?message=${encodeURIComponent(error.message)}`);
+  if (postError) {
+    return redirect(`/error?message=${encodeURIComponent(postError.message)}`);
   }
 
   revalidatePath(`/post/detail/${postId}`);
+  redirect(`/post/detail/${postId}`);
 }
