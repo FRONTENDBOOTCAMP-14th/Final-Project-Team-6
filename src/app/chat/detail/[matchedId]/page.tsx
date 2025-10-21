@@ -55,6 +55,7 @@ export default async function ChatDetailPage({ params }: Props) {
       <SendMessageForm
         roomId={roomId}
         currentUserId={currentUserId}
+        matchedId={matchedId}
         matchedStatus={matchedStatus}
       />
     </>
