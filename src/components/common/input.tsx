@@ -57,10 +57,10 @@ export default function Input({
       <div className="relative flex items-center">
         <input
           id={id}
-          className={`focus:outline-none w-full bg-transparent border rounded-md p-[12px] text-[var(--color-site-white)] ${borderColor} ${paddingClass} ${className}`}
+          className={`h-[52px] focus:outline-none w-full bg-transparent border rounded-md p-[12px] text-[var(--color-site-white)] ${borderColor} ${paddingClass} ${className}`}
           {...props}
         />
-        <div className={`absolute flex items-center ${suffixPositionClass}`}>
+        <div className={`absolute  flex items-center ${suffixPositionClass}`}>
           {suffixButton}
           {suffixIcon}
           {suffixText && (

@@ -14,8 +14,6 @@ import {
   deletePost,
 } from "./action";
 
-export const dynamic = "force-dynamic";
-
 async function getPostById(id: string) {
   const supabase = await createClient();
   const { data: post, error } = await supabase
@@ -28,37 +26,35 @@ async function getPostById(id: string) {
     console.error("[Server] getPostById DB Error:", error.message);
   }
 
+  if (post && post.status === "deleted") {
+    console.log(`[Server] Post ${id} is marked as deleted.`);
+    return null;
+  }
+
   return post;
 }
 
 async function getMatchForPost(postId: string) {
-  console.log(`\n--- [디버깅 시작] postId: ${postId} ---`);
+  console.log(`\n--- [getMatchForPost] postId: ${postId}의 활성 매치 조회 ---`);
 
   const supabase = await createClient();
 
-  const { data: latestMatch, error } = await supabase
+  const { data: activeMatch, error } = await supabase
     .from("matches")
     .select("*, applicant:profiles(*)")
     .eq("post_id", postId)
+    .eq("status", "matched")
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
   if (error) {
-    console.error("[디버깅] Supabase 쿼리 에러:", error.message);
+    console.error("[Server] getMatchForPost 쿼리 에러:", error.message);
   }
 
-  console.log("[디버깅] DB에서 가져온 최신 매치 기록:", latestMatch);
+  console.log("[Server] DB에서 가져온 활성 매치 기록:", activeMatch);
 
-  if (latestMatch && latestMatch.status === "cancelled") {
-    console.log(
-      "[디버깅] 결정: 최신 기록이 'cancelled'이므로 null을 리턴합니다.",
-    );
-    return null;
-  }
-
-  console.log("[디버깅] 결정: 유효한 매치 정보를 리턴합니다.");
-  return latestMatch;
+  return activeMatch;
 }
 
 async function getCurrentUserProfile(userId: string) {
@@ -83,15 +79,17 @@ export default async function PostDetailPage({
     data: { user: authUser },
   } = await supabase.auth.getUser();
 
-  // 수정된 getMatchForPost 함수를 통해 '현재 유효한' 매치 정보만 가져온다.
-  const [post, match] = await Promise.all([
-    getPostById(postId) as Promise<PostWithAuthor | null>,
-    getMatchForPost(postId) as Promise<Match | null>,
-  ]);
+  const post = (await getPostById(postId)) as PostWithAuthor | null;
 
   if (!post) {
     notFound();
   }
+
+  // post.status가 'matched'일 때만 'matches' 테이블 조회
+  const match =
+    post.status === "matched"
+      ? ((await getMatchForPost(postId)) as Match | null)
+      : null;
 
   const currentUserProfile = authUser
     ? await getCurrentUserProfile(authUser.id)
@@ -104,6 +102,7 @@ export default async function PostDetailPage({
     <div className="flex flex-col gap-6 p-4">
       <AuthorProfile author={post.author} created_at={post.created_at} />
       <PostInfo post={post} />
+
       <ActionButtons
         post={post}
         match={match}
