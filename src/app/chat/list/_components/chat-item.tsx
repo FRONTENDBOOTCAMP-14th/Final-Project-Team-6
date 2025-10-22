@@ -1,17 +1,10 @@
 import Image from "next/image";
+import formatChatTime from "@/app/chat/list/_libs/format-chat-time";
+import type { ChatItemData } from "@/app/chat/list/_types";
 import Link from "@/components/common/link";
 import tw from "@/utils/tw";
-import { formatChatTime } from "../_libs";
 
-interface ChatItemProps {
-  matchedId: string;
-  opponent_nickname: string;
-  runnerType: "blind_runner" | "guide_runner";
-  postTitle: string;
-  lastMessage: string;
-  lastMessageTime: string;
-  imgSrc: string;
-}
+type ChatItemProps = Omit<ChatItemData, "roomId">;
 
 export default function ChatItem({
   matchedId,
