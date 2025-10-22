@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentProps, ReactNode } from "react";
 import tw from "@/utils/tw";
+import Link from "./link";
 
 type Props = ComponentProps<typeof Link> & {
   href: string;
