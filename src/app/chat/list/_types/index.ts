@@ -8,3 +8,5 @@ export interface ChatItemData {
   lastMessageTime: string;
   imgSrc: string;
 }
+
+export type ChatItemsState = ChatItemData[];
