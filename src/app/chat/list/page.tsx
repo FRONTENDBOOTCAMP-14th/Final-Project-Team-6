@@ -1,9 +1,8 @@
-import Pagination from "@/components/pagination/pagination";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
 import {
-  ChatListContent,
   ChatListRealTime,
+  ChatListWrapper,
   EmptyChatList,
 } from "./_components";
 import { fetchChatRoomsData, fetchOpponentData } from "./_libs";
@@ -109,9 +108,8 @@ export default async function ChatListPage({
     <>
       <h1 className="sr-only">채팅 리스트 페이지</h1>
       <div className="flex flex-col gap-y-6">
-        <ChatListContent />
         <ChatListRealTime userId={user.id} initialItems={initialChatItems} />
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
+        <ChatListWrapper currentPage={currentPage} totalPages={totalPages} />
       </div>
     </>
   );
