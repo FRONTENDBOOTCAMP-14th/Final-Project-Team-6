@@ -23,7 +23,6 @@ export default function ChatListRealtime({
   // ----------------------------------------------------------------
   // 1. 현재 페이지 상태 파악
   const pathname = usePathname();
-  const isInChatRoom = /^\/chat\/detail\/[^/]+$/.test(pathname);
   const isOnFirstPage =
     !pathname.includes("?page=") || pathname.includes("?page=1");
 
@@ -31,7 +30,6 @@ export default function ChatListRealtime({
   // 2. Ref 선언
   // Ref를 사용하는 이유: 실시간 구독 콜백 내에서 최신 상태를 참조하기 위함
   // (useEffect 의존성 배열로 구독을 계속 재생성하는 것을 방지)
-  const isInChatRoomRef = useRef(isInChatRoom);
   const chatItemsRef = useRef(chatItems);
   const isOnFirstPageRef = useRef(isOnFirstPage);
   const isInitializedRef = useRef(false);
@@ -40,10 +38,6 @@ export default function ChatListRealtime({
   // ----------------------------------------------------------------
   // 3. Ref 업데이트
   // 컴포넌트가 리렌더링될 때마다 ref에 최신 값 저장
-  useEffect(() => {
-    isInChatRoomRef.current = isInChatRoom;
-  }, [isInChatRoom]);
-
   useEffect(() => {
     isOnFirstPageRef.current = isOnFirstPage;
   }, [isOnFirstPage]);
@@ -78,12 +72,16 @@ export default function ChatListRealtime({
       // 잠시 대기 (연결 안정화)
       await new Promise((resolve) => setTimeout(resolve, 150));
 
+      // 유니크한 채널명 사용
+      // 구독 중복 방지 및 식별 용이성을 위함
+      const channelName = `chat_${userId}_${Date.now()}`;
+
       // ----------------------------------------------------------------
       // 5-1. 메시지 수신 구독
       // 감지: 새 메시지가 chat_messages 테이블에 INSERT될 때
       // 새 채팅방이 생겼을 때도 메시지가 들어오기 때문에 이 구독 하나로 처리 가능
       const messageSubscription = supabase
-        .channel(`chat_${userId}`)
+        .channel(channelName)
         .on(
           "postgres_changes",
           {
@@ -100,13 +98,20 @@ export default function ChatListRealtime({
               created_at: string;
             };
 
+            // 사용자의 실시간 경로 체크를 통해 현재 채팅방 접속 여부 판단
+            const currentPath = window.location.pathname;
+            const isCurrentlyInChatRoom = /^\/chat\/detail\/[^/]+$/.test(
+              currentPath,
+            );
+
             // 기본 필터링
             // 1) 내가 보낸 메시지면 무시
-            // 2) 내가 현재 채팅방에 있으면 무시
             if (newMessage.sender_id === userId) {
               return;
             }
-            if (isInChatRoomRef.current) {
+
+            // 2) 내가 현재 채팅방에 있으면 무시
+            if (isCurrentlyInChatRoom) {
               return;
             }
 
