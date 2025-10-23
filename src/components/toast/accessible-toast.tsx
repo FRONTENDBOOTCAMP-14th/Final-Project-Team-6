@@ -41,8 +41,9 @@ export default function AccessibleToast() {
     <output
       aria-live="polite"
       className={tw(
-        "fixed bottom-5 left-1/2 -translate-x-1/2 bg-site-lightblack text-site-white",
+        "fixed bottom-25 left-1/2 -translate-x-1/2 bg-site-lightblack text-site-white",
         "px-4 py-2 rounded-md shadow-md text-sm transition-opacity duration-500",
+        "max-w-[min(480px,calc(100vw-2rem))] truncate",
         isVisible ? "opacity-100" : "opacity-0",
       )}
     >
