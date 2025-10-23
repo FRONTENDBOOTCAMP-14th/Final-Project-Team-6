@@ -1,13 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { checkEmail } from "@/app/actions/check-email";
-import { checkNickname } from "@/app/actions/check-nickname";
+import { checkEmail } from "@/app/auth/_actions/check-email";
+import { checkNickname } from "@/app/auth/_actions/check-nickname";
 import { Button, Input } from "@/components/common";
 import { IconCheck } from "@/components/common/icons";
 import { tw } from "@/utils";
-import PasswordInput from "../../_components/password-input";
-import { signUp } from "../../action";
+import {
+  validateEmail,
+  validateNickname,
+  validatePassword,
+  validatePasswordConfirm,
+} from "@/utils/validators";
+import { signUp } from "../_actions/auth-action";
+import PasswordInput from "./password-input";
 
 export default function SignupForm() {
   const [email, setEmail] = useState("");
@@ -25,15 +31,9 @@ export default function SignupForm() {
 
   // 이메일 중복 확인
   const handleEmailCheck = async () => {
-    if (!email) {
-      setEmailCheckMessage("이메일을 입력해주세요.");
-      setIsEmailChecked(false);
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailCheckMessage("올바른 이메일 형식이 아닙니다.");
+    const validation = validateEmail(email);
+    if (!validation.isValid) {
+      setEmailCheckMessage(validation.message);
       setIsEmailChecked(false);
       return;
     }
@@ -70,14 +70,9 @@ export default function SignupForm() {
 
   // 닉네임 중복 확인
   const handleNicknameCheck = async () => {
-    if (!nickname) {
-      setNicknameCheckMessage("닉네임을 입력해주세요.");
-      setIsNicknameChecked(false);
-      return;
-    }
-
-    if (nickname.length < 2) {
-      setNicknameCheckMessage("닉네임은 2자 이상이어야 합니다.");
+    const validation = validateNickname(nickname);
+    if (!validation.isValid) {
+      setNicknameCheckMessage(validation.message);
       setIsNicknameChecked(false);
       return;
     }
@@ -117,11 +112,8 @@ export default function SignupForm() {
     const value = e.target.value;
     setPassword(value);
 
-    if (value.length < 8) {
-      setPasswordError("비밀번호는 8자 이상이어야 합니다.");
-    } else {
-      setPasswordError("");
-    }
+    const validation = validatePassword(value);
+    setPasswordError(validation.isValid ? "" : validation.message);
   };
 
   // 패스워드 확인
@@ -131,11 +123,8 @@ export default function SignupForm() {
     const value = e.target.value;
     setPasswordConfirm(value);
 
-    if (value !== password) {
-      setPasswordConfirmError("비밀번호가 일치하지 않습니다.");
-    } else {
-      setPasswordConfirmError("");
-    }
+    const validation = validatePasswordConfirm(password, value);
+    setPasswordConfirmError(validation.isValid ? "" : validation.message);
   };
 
   return (
@@ -194,7 +183,9 @@ export default function SignupForm() {
       <fieldset>
         <label
           htmlFor="guide_runner"
-          className={`block text-sm font-medium mb-[4px] text-[var(--color-site-gray)] cursor-pointer`}
+          className={tw(
+            "block text-sm font-medium mb-[4px] text-[var(--color-site-gray)] cursor-pointer",
+          )}
         >
           러너타입
         </label>
@@ -207,6 +198,7 @@ export default function SignupForm() {
               name="runner_type"
               value="guide_runner"
               aria-label="가이드러너"
+              defaultChecked
               required
             />
             <div className="flex justify-center items-center w-full h-[52px] px-4 font-bold rounded-lg border-1 border-[var(--color-site-gray)] text-[var(--color-site-gray)] peer-checked:bg-[var(--color-site-yellow)] peer-checked:border-[var(--color-site-yellow)] peer-checked:text-[var(--color-site-black)] transition">
@@ -264,6 +256,7 @@ export default function SignupForm() {
       <Button
         type="submit"
         formAction={signUp}
+        className="mt-4"
         height="medium"
         fullWidth={true}
       >
