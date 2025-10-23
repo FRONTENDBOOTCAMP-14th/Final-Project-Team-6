@@ -80,6 +80,12 @@ export default function ChatListRealtime({
       // 5-1. 메시지 수신 구독
       // 감지: 새 메시지가 chat_messages 테이블에 INSERT될 때
       // 새 채팅방이 생겼을 때도 메시지가 들어오기 때문에 이 구독 하나로 처리 가능
+      //
+      // 뒤로가기 동작 로직:
+      // - 채팅방에서 메시지 발생 → messageSent 플래그 설정 → 뒤로가기 시 router.push() (새로고침)
+      // - 채팅방 밖에서 상대방 메시지 → 토스트 + 리스트 업데이트
+      // - 메시지 없이 뒤로가기 → 플래그 없음 → router.back() (기존 UX 유지)
+      // ----------------------------------------------------------------
       const messageSubscription = supabase
         .channel(channelName)
         .on(
@@ -105,13 +111,10 @@ export default function ChatListRealtime({
             );
 
             // 기본 필터링
-            // 1) 내가 보낸 메시지면 무시
-            if (newMessage.sender_id === userId) {
-              return;
-            }
-
-            // 2) 내가 현재 채팅방에 있으면 무시
+            // 내가 현재 채팅방에 있으면 구독 처리 안 함
+            // + 현재 채팅방에 있다면 플래그 설정(뒤로가기 처리하기 위함)
             if (isCurrentlyInChatRoom) {
+              sessionStorage.setItem("messageSent", "true");
               return;
             }
 
@@ -175,7 +178,7 @@ export default function ChatListRealtime({
                 });
               }
 
-              // 항상 토스트 표시 (모든 상황에서 사용자에게 알림)
+              // 토스트 표시
               showToast(`${opponent.nickname}님: ${newMessage.body}`);
             } catch (error) {
               console.error("메시지 처리 오류:", error);
