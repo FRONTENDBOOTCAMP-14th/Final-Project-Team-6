@@ -2,7 +2,7 @@ import Image from "next/image";
 import formatChatTime from "@/app/chat/list/_libs/format-chat-time";
 import type { ChatItemData } from "@/app/chat/list/_types";
 import Link from "@/components/common/link";
-import tw from "@/utils/tw";
+import RunnerTypeBadge from "@/components/common/runner-type-badge";
 
 type ChatItemProps = Omit<ChatItemData, "roomId">;
 
@@ -25,12 +25,6 @@ export default function ChatItem({
   // 러너 타입 텍스트 변환
   const runnerTypeText =
     runnerType === "blind_runner" ? "시각장애인" : "가이드러너";
-
-  // 러너 타입에 따른 스타일링
-  const runnerTypeStyle =
-    runnerType === "blind_runner"
-      ? "bg-site-yellow text-site-black"
-      : "bg-site-blue text-site-white";
 
   // UTC 시간을 KST로 변환
   const utcDate = new Date(lastMessageTime);
@@ -61,14 +55,7 @@ export default function ChatItem({
               <h2 className="text-site-white text-sm font-semibold">
                 {opponent_nickname}
               </h2>
-              <span
-                className={tw(
-                  "self-center rounded-sm px-1.5 py-[0.1875rem] text-[0.625rem] font-semibold",
-                  runnerTypeStyle,
-                )}
-              >
-                {runnerTypeText}
-              </span>
+              <RunnerTypeBadge runnerType={runnerType} />
             </div>
             <p className="text-[1rem] text-site-gray truncate">{lastMessage}</p>
             <time
