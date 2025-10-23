@@ -1,4 +1,4 @@
-import { signIn } from "@/app/auth/action";
+import { signIn } from "@/app/auth/_actions/auth-action";
 import { Button, Input, Link } from "@/components/common";
 import { IconLockOpen } from "@/components/common/icons";
 import { tw } from "@/utils";
@@ -7,8 +7,8 @@ import PasswordInput from "../_components/password-input";
 export default function LoginPage() {
   return (
     <div className="mt-[3.75rem]">
-      <h1 className="sr-only">로그인 페이지</h1>
-      <h2
+      <h2 className="sr-only">로그인 페이지</h2>
+      <h3
         className={tw(
           "text-[2rem] leading-[1.5] font-bold mb-[3.75rem] break-keep",
         )}
@@ -16,7 +16,7 @@ export default function LoginPage() {
         어서오세요 :&#41;
         <br />
         함께 달리는 동행 ‘눈길’ 입니다.
-      </h2>
+      </h3>
       <form className="flex flex-col gap-6">
         <Input
           label="이메일"
@@ -29,15 +29,14 @@ export default function LoginPage() {
         <Button
           type="submit"
           formAction={signIn}
-          // onClick={toggle}
+          className="mt-4"
           height="medium"
           fullWidth={true}
         >
           로그인
-          {/* {isLoggedIn ? "로그아웃" : "로그인"} */}
           <IconLockOpen />
         </Button>
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex justify-center gap-2">
           <p className="text-[var(--color-site-gray)]">회원이 아니신가요?</p>
           <Link href="/auth/signup" className="underline font-bold">
             회원가입
