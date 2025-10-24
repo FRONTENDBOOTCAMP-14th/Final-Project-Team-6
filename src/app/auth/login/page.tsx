@@ -1,8 +1,5 @@
-import { signIn } from "@/app/auth/_actions/auth-action";
-import { Button, Input, Link } from "@/components/common";
-import { IconLockOpen } from "@/components/common/icons";
 import { tw } from "@/utils";
-import PasswordInput from "../_components/password-input";
+import LoginForm from "../_components/login-form";
 
 export default function LoginPage() {
   return (
@@ -17,32 +14,7 @@ export default function LoginPage() {
         <br />
         함께 달리는 동행 ‘눈길’ 입니다.
       </h3>
-      <form className="flex flex-col gap-6">
-        <Input
-          label="이메일"
-          name="email"
-          type="email"
-          placeholder="이메일 주소를 입력해주세요."
-          required
-        />
-        <PasswordInput label="비밀번호" />
-        <Button
-          type="submit"
-          formAction={signIn}
-          className="mt-4"
-          height="medium"
-          fullWidth={true}
-        >
-          로그인
-          <IconLockOpen />
-        </Button>
-        <div className="flex justify-center gap-2">
-          <p className="text-[var(--color-site-gray)]">회원이 아니신가요?</p>
-          <Link href="/auth/signup" className="underline font-bold">
-            회원가입
-          </Link>
-        </div>
-      </form>
+      <LoginForm />
     </div>
   );
 }

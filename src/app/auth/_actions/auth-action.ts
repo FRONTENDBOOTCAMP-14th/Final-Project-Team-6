@@ -19,7 +19,7 @@ export async function signIn(formData: FormData) {
 
   if (error) {
     console.error("로그인 오류:", error);
-    redirect("/auth/login?error=invalid_credentials");
+    return { error: true };
   }
 
   // 레이아웃 경로 재검증
@@ -89,4 +89,14 @@ export async function updateProfile(formData: FormData) {
 
   revalidatePath("/profile", "layout");
   redirect("/profile/my-profile");
+}
+
+// pr올릴때 나중에 삭제 하기(로그아웃)
+export async function signOut() {
+  const supabase = await createClient();
+
+  await supabase.auth.signOut();
+
+  revalidatePath("/", "layout");
+  redirect("/auth/login");
 }
