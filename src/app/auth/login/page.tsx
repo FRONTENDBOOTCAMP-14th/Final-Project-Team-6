@@ -1,7 +1,17 @@
 import { tw } from "@/utils";
+import { createClient } from "@/utils/supabase/server";
 import LoginForm from "../_components/login-form";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    throw new Error("비정상적인 접근 경로입니다. \n로그인이 필요합니다.");
+  }
+
   return (
     <div className="mt-[3.75rem]">
       <h2 className="sr-only">로그인 페이지</h2>
