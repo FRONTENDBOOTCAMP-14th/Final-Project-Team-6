@@ -17,10 +17,17 @@ import { validateNickname } from "@/utils/validators";
 export default function ProfileEditContent() {
   const [nickname, setNickname] = useState("");
   const [selectedImage, setSelectedImage] = useState(
-    "/default-profile-image.png",
+    "/images/default-profile-image.png",
   );
   const [isLoading, setIsLoading] = useState(true);
   const { closeDialog, openDialog } = useDialog();
+
+  const profileImages = [
+    "/images/template-user-image-01.png",
+    "/images/template-user-image-02.png",
+    "/images/template-user-image-03.png",
+    "/images/template-user-image-04.png",
+  ];
 
   // 현재 프로필 데이터 불러오기
   useEffect(() => {
@@ -59,13 +66,6 @@ export default function ProfileEditContent() {
     formData.append("nickname", nickname);
     return await checkNickname(formData);
   };
-
-  const profileImages = [
-    "/images/template-user-image-01.png",
-    "/images/template-user-image-02.png",
-    "/images/template-user-image-03.png",
-    "/images/template-user-image-04.png",
-  ];
 
   // 프로필 이미지 목록 팝업창
   const handleImageSelect = () => {
@@ -130,7 +130,8 @@ export default function ProfileEditContent() {
   };
 
   const handleSubmit = async (formData: FormData) => {
-    formData.append("profile_image_url", selectedImage);
+    const imageFileName = selectedImage.replace(/^\/images\//, "");
+    formData.append("profile_image_url", imageFileName);
     await updateProfile(formData);
   };
 
