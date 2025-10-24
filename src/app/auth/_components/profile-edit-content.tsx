@@ -74,8 +74,8 @@ export default function ProfileEditContent() {
     openDialog("custom", {
       content: (
         <div>
-          <DialogTitle asChild>
-            <h2 className="text-[1.5rem] font-bold mb-6">프로필 이미지 선택</h2>
+          <DialogTitle className="text-2xl font-bold mb-6">
+            프로필 이미지 선택
           </DialogTitle>
 
           <DialogDescription className="sr-only">
@@ -111,7 +111,7 @@ export default function ProfileEditContent() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-[1.125rem]">
+          <div className="flex items-center justify-center gap-4">
             <Button
               onClick={() => {
                 setSelectedImage(tempSelection);
