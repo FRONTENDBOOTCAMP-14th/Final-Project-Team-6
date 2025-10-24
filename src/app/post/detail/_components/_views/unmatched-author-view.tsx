@@ -18,16 +18,10 @@ export default function UnmatchedAuthorView({
         매칭을 기다리는 중...
       </Button>
       <div className="flex justify-end gap-2">
-        <Button buttonColor="var(--color-site-lightblack)" height="medium">
-          편집
-        </Button>
+        <Button buttonColor="var(--color-site-lightblack)">편집</Button>
         <form action={actions.delete}>
           <input type="hidden" name="postId" value={post.id} />
-          <Button
-            type="submit"
-            buttonColor="var(--color-site-red)"
-            height="medium"
-          >
+          <Button type="submit" buttonColor="var(--color-site-red)">
             삭제
           </Button>
         </form>

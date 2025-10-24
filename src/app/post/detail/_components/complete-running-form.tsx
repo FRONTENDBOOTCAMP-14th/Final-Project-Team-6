@@ -22,7 +22,7 @@ export default function CompleteRunningForm({
         >
           {post.is_expired
             ? "러닝 완료"
-            : "러닝완료버튼은 기간이 지난 후 가능합니다"}
+            : "러닝 완료는 기간이 지난 후 가능합니다"}
         </Button>
       </form>
     </fieldset>

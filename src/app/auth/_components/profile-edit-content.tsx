@@ -83,7 +83,7 @@ export default function ProfileEditContent() {
           </DialogDescription>
 
           <div className="mb-10">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-5">
               {profileImages.map((image) => (
                 <label key={image} className="cursor-pointer m-auto">
                   <picture className="relative block w-[6.25rem] h-[6.25rem]">
@@ -103,7 +103,7 @@ export default function ProfileEditContent() {
                       onChange={(e) => {
                         tempSelection = e.target.value;
                       }}
-                      className="absolute top-2 right-2 w-5 h-5 cursor-pointer"
+                      className="absolute top-0 left-0 cursor-pointer w-full h-full appearance-none rounded-full checked:outline-4 checked:outline-site-blue"
                     />
                   </picture>
                 </label>

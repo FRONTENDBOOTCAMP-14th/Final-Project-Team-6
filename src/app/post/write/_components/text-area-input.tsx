@@ -29,7 +29,7 @@ export default function TextAreaInput({
     <div>
       <label
         htmlFor={inputId}
-        className="block text-sm font-medium mb-[4px] text-[var(--color-site-gray)]"
+        className="block text-sm font-medium mb-2 text-[var(--color-site-gray)]"
       >
         {label}
       </label>
@@ -45,7 +45,7 @@ export default function TextAreaInput({
         onChange={onChange}
       />
       {maxLength && (
-        <div className="text-right text-sm text-gray-500 mt-1">
+        <div className="text-right text-sm text-gray-500">
           {value.length} / {maxLength}
         </div>
       )}

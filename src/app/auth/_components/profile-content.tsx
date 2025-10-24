@@ -3,8 +3,8 @@
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Loading from "@/app/loading";
 import type { RunnerType } from "@/app/post/type";
+import { Loading } from "@/components/common";
 import { IconArrowRight } from "@/components/common/icons";
 import RunnerTypeBadge from "@/components/common/runner-type-badge";
 import { tw } from "@/utils";
@@ -135,60 +135,30 @@ export default function ProfileContent({ user }: ProfileContentProps) {
           )}
         </figcaption>
       </figure>
-      <div
-        className={tw(
-          "mt-6 py-[1.875rem] flex justify-center bg-[var(--color-site-lightblack)]",
-        )}
-      >
-        <ul
-          className={tw("flex flex-row justify-between w-full max-w-[25rem]")}
-        >
-          <li className={tw("text-center flex-1")}>
-            <p
-              className={tw(
-                "mb-[0.375rem] text-[0.625rem] text-[var(--color-site-gray)]",
-              )}
-            >
-              총 참여 횟수
+      <div className="mt-6">
+        <div className="grid grid-cols-3 gap-4 p-6 rounded-lg bg-site-lightblack text-center">
+          <div>
+            <p className="text-sm text-site-gray mb-1">총 참여 횟수</p>
+            <p className="text-3xl font-bold">
+              {userProfile.total_join}
+              <span className="text-lg font-normal">회</span>
             </p>
-            <p className={tw("font-bold text-[0.625rem]")}>
-              <span className={tw("text-[1.5rem]")}>
-                {userProfile.total_join}
-              </span>
-              회
+          </div>
+          <div>
+            <p className="text-sm text-site-gray mb-1">총 달린 거리</p>
+            <p className="text-3xl font-bold">
+              {userProfile.total_mileage}
+              <span className="text-lg font-normal">km</span>
             </p>
-          </li>
-          <li className={tw("text-center flex-1")}>
-            <p
-              className={tw(
-                "mb-[0.375rem] text-[0.625rem] text-[var(--color-site-gray)]",
-              )}
-            >
-              총 달린 거리
+          </div>
+          <div>
+            <p className="text-sm text-site-gray mb-1">활동일</p>
+            <p className="text-3xl font-bold">
+              {getActivityDays(user.created_at ?? "")}
+              <span className="text-lg font-normal">일</span>
             </p>
-            <p className={tw("font-bold text-[0.625rem]")}>
-              <span className={tw("text-[1.5rem]")}>
-                {userProfile.total_mileage}
-              </span>
-              km
-            </p>
-          </li>
-          <li className={tw("text-center flex-1")}>
-            <p
-              className={tw(
-                "mb-[0.375rem] text-[0.625rem] text-[var(--color-site-gray)]",
-              )}
-            >
-              활동일
-            </p>
-            <p className={tw("font-bold text-[0.625rem]")}>
-              <span className={tw("text-[1.5rem]")}>
-                {getActivityDays(user.created_at ?? "")}
-              </span>
-              일
-            </p>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
       <div
         className={tw(
@@ -211,7 +181,11 @@ export default function ProfileContent({ user }: ProfileContentProps) {
           </li>
           <li>
             <Link
-              href="mailto:test@naver.com"
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                alert("준비중입니다.");
+              }}
               className={tw(
                 "flex flex-row justify-between items-center h-[3.75rem] px-[1.25rem]",
               )}
@@ -231,7 +205,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
               )}
             >
               <span>로그아웃</span>
-              <span className="text-[0.625rem] text-[var(--color-site-gray)]">
+              <span className="text-sm text-[var(--color-site-gray)] ">
                 {user.email || ""}
               </span>
             </Link>
@@ -239,6 +213,10 @@ export default function ProfileContent({ user }: ProfileContentProps) {
           <li>
             <Link
               href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                alert("준비중입니다.");
+              }}
               className={tw(
                 "flex flex-row justify-between items-center h-[3.75rem] px-[1.25rem] text-[var(--color-site-red)]",
               )}

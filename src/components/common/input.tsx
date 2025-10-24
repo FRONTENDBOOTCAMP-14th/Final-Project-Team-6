@@ -49,7 +49,7 @@ export default function Input({
       {label && (
         <label
           htmlFor={id}
-          className={`block text-sm font-medium mb-[4px] ${labelColor}`}
+          className={`block text-sm font-medium mb-2 ${labelColor}`}
         >
           {label}
         </label>

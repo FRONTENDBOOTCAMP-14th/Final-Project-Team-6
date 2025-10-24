@@ -51,7 +51,9 @@ export default function ListCard({ post, isLoggedIn }: Props) {
           className="rounded-full flex-shrink-0"
         />
         <div className="flex flex-col">
-          <h3 className="font-bold text-xl text-site-white">{displayTitle}</h3>
+          <h3 className="font-semibold text-xl text-site-white">
+            {displayTitle}
+          </h3>
           <div className="mt-1 flex items-center gap-2 text-sm font-bold text-site-white">
             <span className="truncate">
               {post.author?.nickname || "알 수 없음"}
@@ -78,7 +80,7 @@ export default function ListCard({ post, isLoggedIn }: Props) {
         </div>
       </div>
       {overlayText && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/80 rounded-lg">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/70 rounded-lg">
           <span className="text-white text-xl font-bold">{overlayText}</span>
         </div>
       )}

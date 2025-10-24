@@ -50,9 +50,8 @@ export default async function ActivityLog() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  // 비로그인 상태일 때
   if (!user) {
+    // 비로그인 상태일 때 (이미지)
     return (
       <section className="p-6 rounded-lg bg-site-lightblack text-center">
         <p className="mb-4 text-site-gray">

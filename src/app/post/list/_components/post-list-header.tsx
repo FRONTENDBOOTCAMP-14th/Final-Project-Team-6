@@ -10,13 +10,13 @@ export default function PostListHeader() {
 
   return (
     <Dialog.Root open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-      <div className="flex justify-between items-center mb-4 px-4">
-        <h1 className="text-2xl font-bold">전체 동반주자 목록</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">동반주자 목록</h1>
         <Dialog.Trigger asChild>
           <button
             type="button"
-            aria-label="필터 열기"
-            className="cursor-pointer"
+            aria-label="목록 필터 열기"
+            className="cursor-pointer w-10 aspect-square flex items-center justify-center"
           >
             <IconFilter />
           </button>

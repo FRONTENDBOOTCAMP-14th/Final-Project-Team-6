@@ -44,7 +44,7 @@ export default function FilterDialog() {
             className={`p-3 rounded-lg font-bold transition-colors ${
               selectedType === "all"
                 ? "bg-site-yellow text-site-black"
-                : "bg-site-black text-site-white border border-site-gray hover:bg-gray-700"
+                : "text-site-white border border-site-gray hover:bg-gray-700"
             }`}
           >
             전체보기
@@ -55,7 +55,7 @@ export default function FilterDialog() {
             className={`p-3 rounded-lg font-bold transition-colors cursor-pointer ${
               selectedType === "guide_runner"
                 ? "bg-site-yellow text-site-black"
-                : "bg-site-black text-site-white border border-site-gray hover:bg-gray-700"
+                : "text-site-white border border-site-gray hover:bg-gray-700"
             }`}
           >
             가이드러너
@@ -66,7 +66,7 @@ export default function FilterDialog() {
             className={`p-3 rounded-lg font-bold transition-colors cursor-pointer ${
               selectedType === "blind_runner"
                 ? "bg-site-yellow text-site-black"
-                : "bg-site-black text-site-white border border-site-gray hover:bg-gray-700"
+                : "text-site-white border border-site-gray hover:bg-gray-700"
             }`}
           >
             시각장애인
@@ -77,13 +77,13 @@ export default function FilterDialog() {
       <div className="mb-8">
         <h3 className="font-bold text-site-gray mb-2">지역</h3>
         <div className="grid grid-cols-2 gap-2">
-          <select className="p-3 rounded-lg bg-site-black text-white border border-site-gray w-full appearance-none text-center">
+          <select className="p-3 rounded-lg text-white border border-site-gray w-full appearance-none text-center bg-site-lightblack">
             <option>시 / 선택</option>
-            {/* 나중에 실제 시/도 데이터를 넣어야 합니다. */}
+            <option>준비중 입니다.</option>
           </select>
-          <select className="p-3 rounded-lg bg-site-black text-white border border-site-gray w-full appearance-none text-center">
+          <select className="p-3 rounded-lg text-white border border-site-gray w-full appearance-none text-center bg-site-lightblack">
             <option>구 / 선택</option>
-            {/* 나중에 실제 구/군 데이터를 넣어야 합니다. */}
+            <option>준비중 입니다.</option>
           </select>
         </div>
       </div>

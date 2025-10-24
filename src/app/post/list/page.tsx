@@ -60,8 +60,13 @@ export default async function PostListPage({
   const totalPages = totalCount ? Math.ceil(totalCount / postsPerPage) : 0;
 
   return (
-    <main>
-      <div className="mb-5">
+    <div className="pt-15">
+      <p className="text-3xl font-bold mb-7">
+        빛나는 동반주자 연결고리
+        <br />
+        ‘눈길’ 입니다.
+      </p>
+      <div className="mb-15">
         <ActivityLog />
       </div>
       <section>
@@ -77,10 +82,10 @@ export default async function PostListPage({
             </p>
           )}
         </div>
-        <div className="mt-8">
+        <div className="mt-6">
           <Pagination currentPage={currentPage} totalPages={totalPages} />
         </div>
       </section>
-    </main>
+    </div>
   );
 }

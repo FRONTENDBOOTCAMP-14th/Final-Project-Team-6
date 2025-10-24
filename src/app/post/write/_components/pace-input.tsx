@@ -17,7 +17,7 @@ export default function PaceInput() {
     <div>
       <label
         htmlFor="paceMinutes"
-        className="block text-sm font-medium mb-[4px] text-[var(--color-site-gray)]"
+        className="block text-sm font-medium mb-2 text-[var(--color-site-gray)]"
       >
         페이스 (km당)
       </label>

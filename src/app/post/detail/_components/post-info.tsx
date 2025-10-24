@@ -14,7 +14,7 @@ export default function PostInfo({ post, className }: PostInfoProps) {
 
   return (
     <div className={className}>
-      <div className="w-full h-[200px] bg-[var(--color-site-lightblack)] rounded-lg overflow-hidden mb-6">
+      <div className="w-full h-[240px] bg-[var(--color-site-lightblack)] rounded-lg overflow-hidden mb-6">
         <iframe
           title="러닝 희망 장소 지도"
           src={mapSrc}
@@ -41,16 +41,15 @@ export default function PostInfo({ post, className }: PostInfoProps) {
           label="목표 페이스"
           value={`${Math.floor(post.pace / 60)}분 ${post.pace % 60}초/km`}
         />
-      </div>
+        <div className="flex flex-col gap-2">
+          <h4 className=" text-[var(--color-site-gray)] text-sm">
+            상세 러닝 내용
+          </h4>
 
-      <div className="flex flex-col gap-2">
-        <h4 className=" text-[var(--color-site-gray)] text-sm">
-          상세 러닝 내용
-        </h4>
-
-        <p className="text-base leading-relaxed text-[var(--color-site-white)]">
-          {post.description}
-        </p>
+          <p className="text-base leading-relaxed text-[var(--color-site-white)]">
+            {post.description}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -21,8 +21,8 @@ export default function PostWritePage() {
   };
 
   return (
-    <main className="w-full max-w-md mx-auto p-4">
-      <h1 className="text-2xl font-bold text-center mb-6">동행 신청 페이지</h1>
+    <main className="w-full max-w-md mx-auto pt-10">
+      <h1 className="sr-only">동행 신청 페이지</h1>
 
       <form action={createPost} className="flex flex-col gap-5">
         <Input
@@ -82,7 +82,7 @@ export default function PostWritePage() {
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        <Button type="submit" fullWidth>
+        <Button type="submit" fullWidth height="medium">
           작성완료
         </Button>
       </form>
