@@ -35,10 +35,10 @@ export const validateNickname = (nickname: string): ValidationResult => {
     };
   }
 
-  if (nickname.length < 2) {
+  if (nickname.length < 2 || nickname.length > 8) {
     return {
       isValid: false,
-      message: "닉네임은 2자 이상이어야 합니다.",
+      message: "닉네임은 2자 이상 8자 이하 이어야 합니다.",
     };
   }
 
