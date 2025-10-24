@@ -120,7 +120,7 @@ export default function ChatListRealtime({
 
             try {
               // 채팅방 정보 조회
-              const { data: room } = await supabase
+              const { data: room, error: roomError } = await supabase
                 .from("chat_rooms")
                 .select(`
                     id,
@@ -136,6 +136,13 @@ export default function ChatListRealtime({
                   `)
                 .eq("id", newMessage.room_id)
                 .single();
+
+              if (roomError) {
+                console.error(
+                  "채팅방 정보를 불러오는 중에 오류가 발생했습니다.",
+                );
+                return;
+              }
 
               // 채팅방이 없거나 매칭이 완료되지 않으면 무시
               if (!room || room.matches.status !== "matched") {
@@ -154,11 +161,18 @@ export default function ChatListRealtime({
 
               // 상대방 프로필 정보 가져오기
               const isAuthor = authorId === userId;
-              const { data: opponent } = await supabase
+              const { data: opponent, error: profileError } = await supabase
                 .from("profiles")
                 .select("id, nickname, runner_type, profile_image_url")
                 .eq("id", isAuthor ? matchedRunnerId : authorId)
                 .single();
+
+              if (profileError) {
+                console.error(
+                  "상대방 프로필 정보를 불러오는 중에 오류가 발생했습니다.",
+                );
+                return;
+              }
 
               if (!opponent) {
                 console.log("상대방 정보 없음");
@@ -181,7 +195,7 @@ export default function ChatListRealtime({
               // 토스트 표시
               showToast(`${opponent.nickname}님: ${newMessage.body}`);
             } catch (error) {
-              console.error("메시지 처리 오류:", error);
+              console.error("메시지 처리 중 예상치 못한 오류:", error);
             }
           },
         )

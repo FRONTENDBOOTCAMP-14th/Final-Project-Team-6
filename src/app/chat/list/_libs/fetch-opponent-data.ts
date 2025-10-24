@@ -44,8 +44,7 @@ export default async function fetchOpponentData({
     .in("id", opponentIds);
 
   if (profileError) {
-    console.error(profileError);
-    throw new Error("상대방 프로필 정보를 불러오지 못했습니다.");
+    throw new Error("상대방 프로필 정보를 불러오는 중에 오류가 발생했습니다.");
   }
 
   return { opponents, mappedRooms };

@@ -26,11 +26,7 @@ export default async function ChatListPage({
   const user = await getCurrentUser();
 
   if (!user) {
-    return (
-      <p className="text-xl text-center font-semibold mt-15">
-        로그인이 필요합니다.
-      </p>
-    );
+    throw new Error("비정상적인 접근 경로 입니다. 로그인이 필요합니다.");
   }
 
   // -------------------------------------------------------------------------------
@@ -42,7 +38,7 @@ export default async function ChatListPage({
     .select("*", { count: "exact", head: true });
 
   if (error) {
-    return <div>채팅방 정보를 불러오지 못했습니다.</div>;
+    throw new Error("채팅방 수를 불러오는 중에 오류가 발생했습니다.");
   }
 
   // 전체 페이지 수 계산
