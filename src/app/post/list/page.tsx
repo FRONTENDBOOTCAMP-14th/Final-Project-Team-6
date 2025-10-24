@@ -1,70 +1,84 @@
+import ActivityLog from "@/app/post/list/_components/activity-log";
+import PostCard from "@/app/post/list/_components/list-card";
+import PostListHeader from "@/app/post/list/_components/post-list-header";
 import type { PostWithAuthor } from "@/app/post/type";
+import Pagination from "@/components/pagination/pagination";
 import { createClient } from "@/utils/supabase/server";
-import PostCard from "./_components/list-card";
 
-// 내가 쓴 글 목록 가져오기
-async function getMyPosts(userId: string) {
+async function getAllPosts(
+  page: number,
+  postsPerPage: number,
+  runnerType?: string,
+) {
   const supabase = await createClient();
-  const { data } = await supabase
+  const from = (page - 1) * postsPerPage;
+  const to = from + postsPerPage - 1;
+
+  let query = supabase
     .from("posts")
-    .select("*, author:profiles(*)")
-    .eq("author_id", userId)
-    .neq("status", "deleted")
-    .order("created_at", { ascending: false });
-  return data;
+    .select("*, author:profiles!inner(*)", { count: "exact" })
+    .neq("status", "deleted");
+
+  if (runnerType === "guide_runner" || runnerType === "blind_runner") {
+    query = query.eq("author.runner_type", runnerType);
+  }
+
+  const { data, count } = await query
+    .order("is_completed", { ascending: true })
+    .order("is_expired", { ascending: true })
+    .order("status", { ascending: false })
+    .order("meeting_time", { ascending: true })
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  return { data, count };
 }
 
-// 다른 사람이 쓴 글 목록 가져오기
-async function getOtherPosts(userId: string) {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("posts")
-    .select("*, author:profiles(*)")
-    .neq("author_id", userId)
-    .neq("status", "deleted") // 👇 'deleted' 상태가 아닌 게시글만 필터링
-    .order("created_at", { ascending: false });
-  return data;
-}
-
-// --- 메인 페이지 컴포넌트 (이 아래는 수정할 필요 없어!) ---
-export default async function PostListPage() {
+export default async function PostListPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ page?: string; runner_type?: string }>;
+}) {
+  const resolvedParams = await searchParams;
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    return <p>로그인이 필요합니다.</p>;
-  }
+  const isLoggedIn = !!user;
+  const currentPage = Number(resolvedParams?.page) || 1;
+  const postsPerPage = 4;
+  const runnerTypeFilter = resolvedParams?.runner_type;
 
-  const myPosts = (await getMyPosts(user.id)) as PostWithAuthor[] | null;
-  const otherPosts = (await getOtherPosts(user.id)) as PostWithAuthor[] | null;
+  const { data, count: totalCount } = await getAllPosts(
+    currentPage,
+    postsPerPage,
+    runnerTypeFilter,
+  );
+  const allPosts = data as PostWithAuthor[] | null;
+
+  const totalPages = totalCount ? Math.ceil(totalCount / postsPerPage) : 0;
 
   return (
-    <main className="p-4 flex flex-col gap-8">
+    <main>
+      <div className="mb-5">
+        <ActivityLog />
+      </div>
       <section>
-        <h1 className="text-2xl font-bold mb-4">내가 작성한 목록</h1>
-        <div className="flex flex-col gap-4">
-          {myPosts && myPosts.length > 0 ? (
-            myPosts.map((post) => <PostCard key={post.id} post={post} />)
+        <PostListHeader />
+        <div className="flex flex-col gap-3">
+          {allPosts && allPosts.length > 0 ? (
+            allPosts.map((post) => (
+              <PostCard key={post.id} post={post} isLoggedIn={isLoggedIn} />
+            ))
           ) : (
             <p className="text-[var(--color-site-gray)]">
-              작성한 게시글이 없습니다.
+              조건에 맞는 게시글이 없습니다.
             </p>
           )}
         </div>
-      </section>
-
-      <section>
-        <h1 className="text-2xl font-bold mb-4">동반주자 목록</h1>
-        <div className="flex flex-col gap-4">
-          {otherPosts && otherPosts.length > 0 ? (
-            otherPosts.map((post) => <PostCard key={post.id} post={post} />)
-          ) : (
-            <p className="text-[var(--color-site-gray)]">
-              다른 동반주자들이 남긴 목록이 없습니다.
-            </p>
-          )}
+        <div className="mt-8">
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
         </div>
       </section>
     </main>

@@ -26,13 +26,12 @@ export default function AuthorProfile({
 
   return (
     <div className="flex items-center gap-3">
-      <div className="z-0 relative w-12 h-12 overflow-hidden rounded-full">
+      <div className="relative w-10 h-10 overflow-hidden rounded-full">
         <Image
           src="/assets/default-profile.png"
           alt={`${author.nickname}님의 프로필 사진`}
           fill
-          className="object-cover bg-[var(--color-site-lightblack)]"
-          sizes="40px"
+          className="object-cover"
         />
       </div>
 

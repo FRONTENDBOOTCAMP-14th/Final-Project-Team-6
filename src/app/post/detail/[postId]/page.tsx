@@ -99,9 +99,13 @@ export default async function PostDetailPage({
   const isApplicant = authUser?.id === match?.matched_runner_id;
 
   return (
-    <div className="flex flex-col gap-6 p-4">
-      <AuthorProfile author={post.author} created_at={post.created_at} />
-      <PostInfo post={post} />
+    <div className="flex flex-col mt-10">
+      <div className="flex flex-col gap-4">
+        <h2 className="text-xl font-bold">{post.title}</h2>
+        <AuthorProfile author={post.author} created_at={post.created_at} />
+      </div>
+      <hr className="w-full border-t border-[var(--color-site-lightblack)] mt-6 mb-6" />
+      <PostInfo post={post} className="mb-10" />
 
       <ActionButtons
         post={post}
