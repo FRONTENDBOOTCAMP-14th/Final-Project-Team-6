@@ -18,7 +18,9 @@ export default function ConfirmDialog() {
   return (
     <>
       <DialogTitle className="text-2xl font-bold mb-6">확인</DialogTitle>
-      <p className="text-site-gray mb-10">{message}</p>
+      <p className="text-site-gray mb-10 whitespace-pre-line leading-normal">
+        {message}
+      </p>
       <div className="flex gap-4 items-center justify-center">
         <Button type="button" onClick={handleDialogConfirm}>
           확인

@@ -1,5 +1,5 @@
 import { Loading } from "@/components/common";
 
-export default function ChatDetailLoading() {
+export default function PostWriteLoading() {
   return <Loading />;
 }

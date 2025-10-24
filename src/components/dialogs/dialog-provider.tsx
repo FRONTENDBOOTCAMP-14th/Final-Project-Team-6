@@ -25,8 +25,8 @@ export default function DialogProvider() {
   return (
     <Dialog.Root open={!!type} onOpenChange={(open) => !open && closeDialog()}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/80" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%_-_80px)] max-w-100 bg-site-lightblack text-center p-8 rounded-lg">
+        <Dialog.Overlay className="fixed inset-0 bg-black/80 z-[99]" />
+        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%_-_80px)] max-w-100 bg-site-lightblack text-center p-8 rounded-lg z-[100]">
           {renderModal()}
         </Dialog.Content>
       </Dialog.Portal>

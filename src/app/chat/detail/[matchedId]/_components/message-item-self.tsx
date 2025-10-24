@@ -5,7 +5,7 @@ interface Props {
   sendedDate: string;
 }
 
-export default function MsgSelfItem({ body, sendedDate }: Props) {
+export default function MessageItemSelf({ body, sendedDate }: Props) {
   return (
     <li>
       <h2 className="sr-only">내가 보낸 메세지</h2>

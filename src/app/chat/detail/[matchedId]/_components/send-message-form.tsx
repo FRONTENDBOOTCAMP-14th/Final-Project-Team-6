@@ -2,8 +2,8 @@
 
 import { type ChangeEvent, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { sendMessage } from "./action";
-import FormContents from "./send-message-form-content";
+import sendMessage from "../_actions/send-message";
+import FormContents from "./send-message-form-contents";
 
 interface Props {
   roomId: string;
@@ -18,15 +18,16 @@ export default function SendMessageForm({
   matchedStatus,
   matchedId,
 }: Props) {
-  const [msgBody, setMsgBody] = useState("");
-  const handleMsgBody = (e: ChangeEvent<HTMLInputElement>) => {
-    setMsgBody(e.target.value);
+  const [message, setMessage] = useState("");
+  const handleMessage = (e: ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
   };
+
   const handleFormAction = async (formData: FormData) => {
     formData.append("roomId", roomId);
     formData.append("currentUserId", currentUserId);
     await sendMessage(formData);
-    setMsgBody("");
+    setMessage("");
   };
 
   const [currentMatchesStatus, setCurrentMatchesStatus] =
@@ -64,9 +65,9 @@ export default function SendMessageForm({
           className="flex items-center h-full gap-3"
         >
           <FormContents
-            msgBody={msgBody}
-            handleMsgBody={handleMsgBody}
-            disabled={msgBody.trim().length === 0}
+            msgBody={message}
+            handleMessage={handleMessage}
+            disabled={message.trim().length === 0}
           />
         </form>
       )}

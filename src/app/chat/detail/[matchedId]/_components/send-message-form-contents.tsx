@@ -5,20 +5,20 @@ import { tw } from "@/utils";
 
 export default function FormContents({
   msgBody,
-  handleMsgBody,
+  handleMessage,
   disabled,
 }: {
   msgBody: string;
   disabled: boolean;
-  handleMsgBody: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleMessage: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
   const { pending } = useFormStatus();
-  const msgInputRef = useRef<HTMLInputElement>(null);
+  const messageInputRef = useRef<HTMLInputElement>(null);
   const wasPendingRef = useRef(false);
 
   useEffect(() => {
     if (wasPendingRef.current && !pending) {
-      msgInputRef.current?.focus();
+      messageInputRef.current?.focus();
     }
     wasPendingRef.current = pending;
   }, [pending]);
@@ -29,12 +29,12 @@ export default function FormContents({
         보낼 메세지
       </label>
       <input
-        ref={msgInputRef}
+        ref={messageInputRef}
         id="message-body"
         type="text"
         name="message-body"
         value={msgBody}
-        onChange={handleMsgBody}
+        onChange={handleMessage}
         placeholder="보낼 메세지를 입력해주세요."
         className={tw(
           "w-full h-11 rounded-full pl-5 pr-2 bg-site-black/50",

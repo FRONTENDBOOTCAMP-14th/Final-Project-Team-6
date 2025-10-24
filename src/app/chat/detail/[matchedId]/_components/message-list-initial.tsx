@@ -1,23 +1,17 @@
 import { formatUTCtoKST } from "@/utils";
-import MsgPartnerItem from "./msg-partner-item";
-import MsgSelfItem from "./msg-self-item";
+import type { RoomChatMessage } from "../_actions/type";
+import MessageItemPartner from "./message-item-partner";
+import MessageItemSelf from "./message-item-self";
 
 interface Props {
-  messagesData: {
-    id: string;
-    body: string;
-    created_at: string;
-    sender_id: string;
-    profiles: {
-      nickname: string;
-      profile_image_url: string | null;
-      runner_type: string;
-    };
-  }[];
+  messagesData: RoomChatMessage[];
   currentUserId: string;
 }
 
-export default function MsgList({ messagesData, currentUserId }: Props) {
+export default function MessageListInitial({
+  messagesData,
+  currentUserId,
+}: Props) {
   return (
     <>
       {messagesData.map(({ id, body, created_at, sender_id, profiles }) => {
@@ -25,10 +19,12 @@ export default function MsgList({ messagesData, currentUserId }: Props) {
         const isBlindRunner = profiles.runner_type === "blind_runner";
 
         if (sender_id === currentUserId) {
-          return <MsgSelfItem key={id} body={body} sendedDate={sendedDate} />;
+          return (
+            <MessageItemSelf key={id} body={body} sendedDate={sendedDate} />
+          );
         } else {
           return (
-            <MsgPartnerItem
+            <MessageItemPartner
               key={id}
               body={body}
               sendedDate={sendedDate}

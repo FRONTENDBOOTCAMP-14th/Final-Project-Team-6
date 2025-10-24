@@ -1,50 +1,57 @@
-"use client";
+import { getCurrentUser } from "@/utils/supabase/get-current-user";
+import GlobalNavItem from "./global-nav-item";
 
-import {
-  IconChat,
-  IconNoteSearch,
-  IconRequest,
-  IconUser,
-} from "@/components/common/icons";
-import NavLink from "@/components/common/nav-link";
-import { useAuthStore } from "@/stores/auth";
+export default async function GlobalNavBar() {
+  const user = await getCurrentUser();
 
-// type GlobalNavBarProps = {
-//   isLoggedIn: boolean;
-// };
+  const isLoggedIn = !!user;
 
-export default function GlobalNavBar() {
-  // 로그인 상태에 따라 메뉴 항목 변경
-  // 현재는 props로 받도록 설계했지만, 추후에 Zustand를 사용하여 isLoggedIn 상태 관리하도록 리팩토링 해야함
-  const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
-
-  // 임시 메뉴 항목 정의
-  // name: 메뉴 이름, icon: 아이콘 컴포넌트, href: 링크 경로
-  // 페이지명 결정되면, href 수정 필요
   const menus = [
-    { name: "동행찾기", icon: IconNoteSearch, href: "/post/list" },
-    { name: "동행신청", icon: IconRequest, href: "/post/write" },
-    { name: "채팅", icon: IconChat, href: "/chat/list" },
+    {
+      name: "동행찾기",
+      iconType: "icon-note-search",
+      href: "/post/list",
+      requiresAuth: false,
+    },
+    {
+      name: "동행신청",
+      iconType: "icon-request",
+      href: "/post/write",
+      requiresAuth: true,
+    },
+    {
+      name: "채팅",
+      iconType: "icon-chat",
+      href: "/chat/list",
+      requiresAuth: true,
+    },
     isLoggedIn
-      ? { name: "내 정보", icon: IconUser, href: "/profile/my-profile" }
-      : { name: "시작하기", icon: IconUser, href: "/auth/login" },
+      ? {
+          name: "내 정보",
+          iconType: "icon-user",
+          href: "/profile/my-profile",
+          requiresAuth: true,
+        }
+      : {
+          name: "시작하기",
+          iconType: "icon-user",
+          href: "/auth/login",
+          requiresAuth: false,
+        },
   ];
 
   return (
     <nav className="fixed bottom-0 w-full bg-site-lightblack max-w-(--viewport-size)">
-      <ul className="flex justify-around ">
-        {menus.map(({ name, icon: Icon, href }) => (
-          <li key={name} className=" w-full h-[80px]">
-            <NavLink
-              href={href}
-              className="flex flex-col items-center w-full h-full pt-2.5"
-            >
-              <div className="p-2">
-                <Icon />
-              </div>
-              <span className="text-xs">{name}</span>
-            </NavLink>
-          </li>
+      <ul className="flex justify-around">
+        {menus.map(({ name, iconType, href, requiresAuth }) => (
+          <GlobalNavItem
+            key={name}
+            name={name}
+            href={href}
+            iconType={iconType}
+            isLoggedIn={isLoggedIn}
+            requiresAuth={requiresAuth}
+          />
         ))}
       </ul>
     </nav>

@@ -1,14 +1,9 @@
 import { Link } from "@/components/common";
 import { formatUTCtoKST } from "@/utils";
+import type { RoomPost } from "../_actions/type";
 
 interface Props {
-  postData: {
-    id: string;
-    title: string;
-    goal_km: number;
-    meeting_place: string;
-    meeting_time: string;
-  };
+  postData: RoomPost;
 }
 
 export default function PostLink({ postData }: Props) {

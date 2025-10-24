@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export async function sendMessage(formData: FormData) {
+export default async function sendMessage(formData: FormData) {
   const supabase = await createClient();
 
   const currentUserId = formData.get("currentUserId") as string;
