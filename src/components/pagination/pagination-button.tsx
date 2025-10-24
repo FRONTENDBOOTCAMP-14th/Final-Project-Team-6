@@ -7,12 +7,14 @@ type PaginationButtonProps = {
   direction: "prev" | "next";
   className: string;
   onClick: () => void;
+  // isPending: boolean;
 };
 
 export default function PaginationButton({
   direction,
   className,
   onClick,
+  // isPending,
   ...restProps
 }: PaginationButtonProps) {
   const Icon = direction === "prev" ? IconArrowLeft : IconArrowRight;
@@ -25,6 +27,7 @@ export default function PaginationButton({
       className={tw("p-2", className)}
       aria-label={label}
       onClick={onClick}
+      // disabled={isPending}
       {...restProps}
     >
       <Icon />

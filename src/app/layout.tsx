@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
 import DialogProvider from "@/components/dialogs/dialog-provider";
+import ToastProvider from "@/components/toast/toast-provider";
 
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
@@ -27,6 +28,7 @@ export default function RootLayout({
           {children}
         </div>
         <DialogProvider />
+        <ToastProvider />
       </body>
     </html>
   );

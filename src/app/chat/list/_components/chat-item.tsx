@@ -1,17 +1,14 @@
 import Image from "next/image";
+import formatChatTime from "@/app/chat/list/_libs/format-chat-time";
+import type { ChatItemData } from "@/app/chat/list/_types";
 import Link from "@/components/common/link";
-import tw from "@/utils/tw";
-import { formatChatTime } from "../_libs";
+import RunnerTypeBadge from "@/components/common/runner-type-badge";
 
-interface ChatItemProps {
-  matchedId: string;
-  opponent_nickname: string;
-  runnerType: "blind_runner" | "guide_runner";
-  postTitle: string;
-  lastMessage: string;
-  lastMessageTime: string;
-  imgSrc: string;
-}
+type ChatItemProps = Omit<ChatItemData, "roomId">;
+
+// blur placeholder - base64 데이터 URL
+const BLUR_DATA_URL =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCACyALIDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAQACBP/EABUQAQEAAAAAAAAAAAAAAAAAAAAB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDtSSiSQIFAEkCBQgSSgRAJJAUkgiCKkkCSQiIQpQIJJAkkARQgBSgRAJJAkkgiEKUkCSQJJAiCCSIJJAgUARQjKKUAKAIhBJIVJIEkgRCAkEEUQSRAIoAigZRQjKIAIgUJIEkgSSESSFJBgEiNQEUQBRABoAA0AZDQBkNAACAQIBJICkhCYIYK1DBGoCjQhBFEAigZDQBkVqs0GaGqKDIIBAgEkgKREUaghgpjUEagGERqAiiARQMhoAzWa3WaDNZrVFBmg0AAQCSQEpKhjUZjURTGoI1AMaghgFIggUAFaAMUVqs0GazW6zQZrNaooMgoQJIGiCoYYI1EDGoI1BTGozGoBIIJEABWgDNZrVFBis1us0GazWqzQAIESSUaSIKNQQxBqNRmNQVqGCNQCQQSSACtCgzWa1RQYrNbrNBiitVmiMgpQJIGiCBjUZjUQMajMagrUajMagEggkUABFAVmtVmgzWa1WaDNZrVZogBCiSQEpAY1EkDGokK1GokBKQFJIAVJQVmpAzWakDNZqQAJKiSQP/Z";
 
 export default function ChatItem({
   matchedId,
@@ -28,12 +25,6 @@ export default function ChatItem({
   // 러너 타입 텍스트 변환
   const runnerTypeText =
     runnerType === "blind_runner" ? "시각장애인" : "가이드러너";
-
-  // 러너 타입에 따른 스타일링
-  const runnerTypeStyle =
-    runnerType === "blind_runner"
-      ? "bg-site-yellow text-site-black"
-      : "bg-site-blue text-site-white";
 
   // UTC 시간을 KST로 변환
   const utcDate = new Date(lastMessageTime);
@@ -55,6 +46,8 @@ export default function ChatItem({
           width={50}
           height={50}
           className="w-12.5 h-12.5 rounded-full"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
         />
         <div className="flex flex-col ms-4 gap-y-3 min-w-0 w-full">
           <div className="flex flex-col relative gap-y-2">
@@ -62,14 +55,7 @@ export default function ChatItem({
               <h2 className="text-site-white text-sm font-semibold">
                 {opponent_nickname}
               </h2>
-              <span
-                className={tw(
-                  "self-center rounded-sm px-1.5 py-[0.1875rem] text-[0.625rem] font-semibold",
-                  runnerTypeStyle,
-                )}
-              >
-                {runnerTypeText}
-              </span>
+              <RunnerTypeBadge runnerType={runnerType} />
             </div>
             <p className="text-[1rem] text-site-gray truncate">{lastMessage}</p>
             <time

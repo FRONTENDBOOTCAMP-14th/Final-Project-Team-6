@@ -18,7 +18,7 @@ export default function RunnerTypeBadge({
       : "bg-site-blue text-site-white";
 
   const baseStyle =
-    "rounded-sm px-1.5 py-[0.1875rem] text-[0.625rem] font-semibold";
+    "self-center rounded-sm px-1.5 py-[0.1875rem] text-[0.625rem] font-semibold";
 
   return (
     <span className={tw(baseStyle, runnerTypeStyle, className)}>
