@@ -115,7 +115,15 @@ export default function SignupForm() {
               defaultChecked
               required
             />
-            <div className="flex justify-center items-center w-full h-[52px] px-4 font-bold rounded-lg border-1 border-[var(--color-site-gray)] text-[var(--color-site-gray)] peer-checked:bg-[var(--color-site-yellow)] peer-checked:border-[var(--color-site-yellow)] peer-checked:text-[var(--color-site-black)] transition">
+            <div
+              className={tw(
+                "flex justify-center items-center",
+                "w-full h-[52px] px-4",
+                "rounded-lg border-1 border-[var(--color-site-gray)]",
+                "font-bold  text-[var(--color-site-gray)]",
+                "peer-checked:bg-[var(--color-site-yellow)] peer-checked:border-[var(--color-site-yellow)] peer-checked:text-[var(--color-site-black)] transition",
+              )}
+            >
               가이드러너
             </div>
           </label>
@@ -129,7 +137,14 @@ export default function SignupForm() {
               aria-label="시각장애인"
               required
             />
-            <div className="flex justify-center items-center w-full h-[52px] px-4 font-bold rounded-lg border-1 border-[var(--color-site-gray)] text-[var(--color-site-gray)] peer-checked:bg-[var(--color-site-yellow)] peer-checked:border-[var(--color-site-yellow)] peer-checked:text-[var(--color-site-black)] transition">
+            <div
+              className={tw(
+                "flex justify-center items-center",
+                "w-full h-[52px] px-4 rounded-lg border-1 border-[var(--color-site-gray)]",
+                "font-bold text-[var(--color-site-gray)]",
+                "peer-checked:bg-[var(--color-site-yellow)] peer-checked:border-[var(--color-site-yellow)] peer-checked:text-[var(--color-site-black)] transition",
+              )}
+            >
               시각장애인
             </div>
           </label>
