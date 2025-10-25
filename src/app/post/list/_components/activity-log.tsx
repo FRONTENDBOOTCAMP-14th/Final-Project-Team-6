@@ -7,17 +7,13 @@ async function getActivityData(userId: string) {
 
   const { data: profileData, error: profileError } = await supabase
     .from("profiles")
-    .select("created_at, nickname")
+    .select("created_at, nickname, total_join")
     .eq("id", userId)
     .single();
 
-  const {
-    data: postsData,
-    error: postsError,
-    count: totalPostsCount,
-  } = await supabase
+  const { data: postsData, error: postsError } = await supabase
     .from("posts")
-    .select("goal_km, is_completed", { count: "exact" })
+    .select("goal_km, is_completed")
     .eq("author_id", userId);
 
   if (profileError || postsError) {
@@ -39,7 +35,7 @@ async function getActivityData(userId: string) {
 
   return {
     nickname: profileData.nickname,
-    totalPosts: totalPostsCount ?? 0,
+    totalPosts: profileData.total_join ?? 0,
     totalDistance,
     activityDays,
   };
