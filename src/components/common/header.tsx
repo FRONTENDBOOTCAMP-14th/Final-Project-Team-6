@@ -23,7 +23,7 @@ export default async function Header({ user, profile }: HeaderProps) {
 
           <div className="flex items-center gap-2.5">
             <span className="text-xs">로그인이 필요합니다.</span>
-            <Link href={"/auth/login"}>
+            <Link href={"/auth/login"} aria-label="로그인 페이지로 이동">
               <Image
                 src="/images/logo.png"
                 alt=""
@@ -52,7 +52,7 @@ export default async function Header({ user, profile }: HeaderProps) {
             환영합니다,{" "}
             <span className="text-site-blue font-bold">{nickname}</span>님!
           </span>
-          <Link href={"/profile/my-profile"}>
+          <Link href={"/profile/my-profile"} aria-label="내 정보 페이지로 이동">
             <Image
               src={`/images/${profileImage}`}
               alt=""
