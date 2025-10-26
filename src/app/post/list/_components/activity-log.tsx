@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Button } from "@/components/common";
+import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 
 async function getActivityData(userId: string) {
@@ -46,17 +45,20 @@ export default async function ActivityLog() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   if (!user) {
-    // 비로그인 상태일 때 (이미지)
     return (
-      <section className="p-6 rounded-lg bg-site-lightblack text-center">
-        <p className="mb-4 text-site-gray">
-          원활한 서비스 이용을 위해 사용자 인증이 필요합니다.
-        </p>
-        <Link href="/login">
-          <Button>인증하러가기 &gt;</Button>
-        </Link>
-      </section>
+      <div className="rounded-lg overflow-hidden">
+        <Image
+          src="/images/list-main-image.png"
+          alt="눈길 메인 이미지"
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: "100%", height: "auto" }}
+          priority
+        />
+      </div>
     );
   }
 
@@ -80,24 +82,24 @@ export default async function ActivityLog() {
       </h2>
       <div className="grid grid-cols-3 gap-4 p-6 rounded-lg bg-site-lightblack text-center">
         <div>
-          <p className="text-sm text-site-gray mb-1">총 참여 횟수</p>
-          <p className="text-3xl font-bold">
+          <p className="text-[0.625rem] text-site-gray mb-1">총 참여 횟수</p>
+          <p className="text-2xl font-bold">
             {totalPosts}
-            <span className="text-lg font-normal">회</span>
+            <span className="text-[0.625rem] font-normal ml-1">회</span>
           </p>
         </div>
         <div>
-          <p className="text-sm text-site-gray mb-1">총 달린 거리</p>
-          <p className="text-3xl font-bold">
+          <p className="text-[0.625rem] text-site-gray mb-1">총 달린 거리</p>
+          <p className="text-2xl font-bold">
             {totalDistance}
-            <span className="text-lg font-normal">km</span>
+            <span className="text-[0.625rem] font-normal ml-1">km</span>
           </p>
         </div>
         <div>
-          <p className="text-sm text-site-gray mb-1">활동일</p>
-          <p className="text-3xl font-bold">
+          <p className="text-[0.625rem] text-site-gray mb-1">활동일</p>
+          <p className="text-2xl font-bold">
             {activityDays}
-            <span className="text-lg font-normal">일</span>
+            <span className="text-[0.625rem] font-normal ml-1">일</span>
           </p>
         </div>
       </div>

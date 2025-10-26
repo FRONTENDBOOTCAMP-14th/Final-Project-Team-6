@@ -42,14 +42,14 @@ export default function AuthorProfile({
 
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <p className="font-bold text-[var(--color-site-white)]">
+          <p className="text-sm font-bold text-[var(--color-site-white)]">
             {author.nickname}
           </p>
           <RunnerTypeBadge runnerType={author.runner_type} />
         </div>
 
         {created_at && (
-          <p className="text-sm text-[var(--color-site-gray)]">
+          <p className="text-[0.625rem] text-[var(--color-site-gray)]">
             작성일 {formatDate(created_at)}
           </p>
         )}

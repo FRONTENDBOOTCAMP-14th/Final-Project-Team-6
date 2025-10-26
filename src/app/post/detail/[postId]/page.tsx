@@ -102,7 +102,7 @@ export default async function PostDetailPage({
   return (
     <div className="flex flex-col mt-10">
       <div className="flex flex-col gap-4">
-        <h2 className="text-2xl font-semibold">{post.title}</h2>
+        <h2 className="text-xl font-semibold">{post.title}</h2>
         <AuthorProfile author={post.author} created_at={post.created_at} />
       </div>
       <hr className="w-full border-t border-[var(--color-site-lightblack)] mt-6 mb-6" />
