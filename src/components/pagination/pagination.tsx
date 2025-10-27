@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import PaginationButton from "./pagination-button";
 
 type PaginationProps = {
@@ -15,6 +15,7 @@ export default function Pagination({
   onPageChange,
 }: PaginationProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleCurrentPage = (page: number) => {
     if (onPageChange) {
@@ -22,7 +23,9 @@ export default function Pagination({
       onPageChange(page);
     } else {
       // SSR일 때
-      router.push(`?page=${page}`);
+      const params = new URLSearchParams(searchParams);
+      params.set("page", page.toString());
+      router.push(`?${params.toString()}`);
     }
   };
 
