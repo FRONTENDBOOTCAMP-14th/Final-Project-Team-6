@@ -4,9 +4,16 @@ import type React from "react";
 import { useState } from "react";
 import { Input } from "@/components/common/index";
 
-export default function PaceInput() {
-  const [paceMinutes, setPaceMinutes] = useState("");
-  const [paceSeconds, setPaceSeconds] = useState("");
+interface Props {
+  initValue?: number;
+}
+
+export default function PaceInput({ initValue }: Props) {
+  const initPaceMinutes = initValue && Math.floor(initValue / 60);
+  const initPaceSeconds = initValue && initValue % 60;
+
+  const [paceMinutes, setPaceMinutes] = useState(initPaceMinutes || "");
+  const [paceSeconds, setPaceSeconds] = useState(initPaceSeconds || "");
 
   const totalPaceInSeconds =
     (Number(paceMinutes) || 0) * 60 + (Number(paceSeconds) || 0);
