@@ -21,7 +21,7 @@ export async function createPost(formData: FormData) {
 
   if (Number.isNaN(paceNumber)) {
     console.error("Pace 값이 유효한 숫자가 아닙니다:", paceValue);
-    return redirect(`/error?message=페이스는 숫자로만 입력해야 합니다.`);
+    throw new Error("페이스는 숫자로만 입력해야 합니다.");
   }
 
   const postData: TablesInsert<"posts"> = {
@@ -45,7 +45,7 @@ export async function createPost(formData: FormData) {
 
   if (error) {
     console.error("Supabase DB 저장 오류:", error);
-    return redirect(`/error?message=${encodeURIComponent(error.message)}`);
+    throw new Error(error.message);
   }
 
   revalidatePath("/");

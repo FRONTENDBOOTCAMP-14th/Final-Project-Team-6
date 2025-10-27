@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { PostWithAuthor } from "@/app/post/type";
 import RunnerTypeBadge from "@/components/common/runner-type-badge";
+import ListCardClient from "./list-card-client";
 
 interface Props {
   post: PostWithAuthor;
@@ -33,13 +34,6 @@ export default function ListCard({ post, isLoggedIn }: Props) {
     overlayText = "매칭 중 ...";
   }
 
-  const titleMaxLength = 20;
-  let displayTitle = post.title;
-
-  if (post.title.length > titleMaxLength) {
-    displayTitle = `${post.title.slice(0, titleMaxLength)}...`;
-  }
-
   const profileImageName =
     post.author?.profile_image_url || "default-profile-image.png";
 
@@ -59,9 +53,9 @@ export default function ListCard({ post, isLoggedIn }: Props) {
           height={50}
           className="rounded-full flex-shrink-0"
         />
-        <div className="flex flex-col">
-          <h3 className="font-semibold text-xl text-site-white">
-            {displayTitle}
+        <div className="flex flex-col min-w-0">
+          <h3 className="font-semibold text-xl text-site-white truncate">
+            {post.title}
           </h3>
           <div className="mt-1 flex items-center gap-2 text-sm font-bold text-site-white">
             <span className="truncate">
@@ -107,12 +101,5 @@ export default function ListCard({ post, isLoggedIn }: Props) {
     );
   }
 
-  return (
-    <Link
-      href="/login"
-      className="relative block rounded-lg bg-site-lightblack cursor-pointer"
-    >
-      {CardContent}
-    </Link>
-  );
+  return <ListCardClient post={post}>{CardContent}</ListCardClient>;
 }

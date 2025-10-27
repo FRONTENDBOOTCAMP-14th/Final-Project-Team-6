@@ -1,4 +1,5 @@
 import type React from "react";
+import tw from "@/utils/tw";
 
 interface TextAreaInputProps {
   label: string;
@@ -10,6 +11,7 @@ interface TextAreaInputProps {
   rows?: number;
   required?: boolean;
   id?: string;
+  className?: string;
 }
 
 export default function TextAreaInput({
@@ -22,6 +24,7 @@ export default function TextAreaInput({
   rows = 5,
   required = false,
   id,
+  className,
 }: TextAreaInputProps) {
   const inputId = id || name;
 
@@ -39,7 +42,10 @@ export default function TextAreaInput({
         rows={rows}
         placeholder={placeholder}
         required={required}
-        className="focus:outline-none w-full bg-transparent border border-[var(--color-site-gray)] focus:border-[var(--color-site-white)] rounded-md p-[12px] text-[var(--color-site-gray)] resize-none"
+        className={tw(
+          "focus:outline-none w-full bg-transparent border border-[var(--color-site-gray)] focus:border-[var(--color-site-white)] rounded-md p-[12px] text-[var(--color-site-gray)] resize-none",
+          className,
+        )}
         maxLength={maxLength}
         value={value}
         onChange={onChange}

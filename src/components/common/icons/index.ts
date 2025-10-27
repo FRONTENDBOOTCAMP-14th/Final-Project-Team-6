@@ -9,6 +9,7 @@ export { default as IconEyeOff } from "./icon-eye-off";
 export { default as IconLetter } from "./icon-letter";
 export { default as IconLoading } from "./icon-loading";
 export { default as IconLockOpen } from "./icon-lock-open";
+export { default as IconLogo } from "./icon-logo";
 export { default as IconMessage } from "./icon-message";
 export { default as IconNoteSearch } from "./icon-note-search";
 export { default as IconPaperPlane } from "./icon-paper-plane";

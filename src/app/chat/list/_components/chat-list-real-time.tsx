@@ -146,7 +146,6 @@ export default function ChatListRealtime({
 
               // 채팅방이 없거나 매칭이 완료되지 않으면 무시
               if (!room || room.matches.status !== "matched") {
-                console.log("채팅방 없거나 매칭 미완료");
                 return;
               }
 
@@ -155,7 +154,6 @@ export default function ChatListRealtime({
               const matchedRunnerId = room.matches.matched_runner_id;
 
               if (authorId !== userId && matchedRunnerId !== userId) {
-                console.log("권한 없음");
                 return;
               }
 
@@ -175,7 +173,6 @@ export default function ChatListRealtime({
               }
 
               if (!opponent) {
-                console.log("상대방 정보 없음");
                 return;
               }
 

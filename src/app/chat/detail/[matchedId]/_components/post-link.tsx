@@ -21,11 +21,7 @@ export default function PostLink({ postData }: Props) {
           <span>러닝 시작일 | {formatUTCtoKST(postData.meeting_time)}</span>
           <span>
             <span className="sr-only">러닝 시작 위치</span>
-            <em aria-hidden="true">#</em> {postData.meeting_place}
-          </span>
-          <span>
-            <span className="sr-only">러닝 거리</span>
-            <em aria-hidden="true">#</em> {postData.goal_km}km
+            {postData.meeting_place}
           </span>
         </span>
       </span>

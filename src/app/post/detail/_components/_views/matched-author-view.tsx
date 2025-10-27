@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { PostWithAuthor } from "@/app/post/type";
 import { Button } from "@/components/common";
 import CompleteRunningForm from "../complete-running-form";
@@ -15,6 +16,8 @@ export default function MatchedAuthorView({
   post,
   actions,
 }: MatchedAuthorViewProps) {
+  const isEditable = !post.is_completed && !post.is_expired;
+
   return (
     <div className="flex flex-col gap-2">
       <CompleteRunningForm post={post} completeAction={actions.complete} />
@@ -26,7 +29,13 @@ export default function MatchedAuthorView({
           </Button>
         </form>
         <div className="flex-grow" />
-        <Button buttonColor="var(--color-site-lightblack)">편집</Button>
+
+        {isEditable && (
+          <Link href={`/post/edit/${post.id}`}>
+            <Button buttonColor="var(--color-site-lightblack)">편집</Button>
+          </Link>
+        )}
+
         <form action={actions.delete}>
           <input type="hidden" name="postId" value={post.id} />
           <Button type="submit" buttonColor="var(--color-site-red)">
