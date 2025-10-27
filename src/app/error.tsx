@@ -16,7 +16,9 @@ export default function GlobalError({ error }: Props) {
       <h1 className="text-2xl font-bold mb-3 text-center">
         페이지를 표시할 수 없습니다.
       </h1>
-      <p className="text-site-gray mb-10 text-center">{error.message}</p>
+      <p className="text-site-gray mb-10 text-center">
+        정상적인 접근 경로가 아닙니다.
+      </p>
       <Link
         href="/"
         className="flex items-center gap-2 bg-site-blue h-[40px] px-4 rounded-sm"
