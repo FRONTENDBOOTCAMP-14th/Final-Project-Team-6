@@ -1,7 +1,7 @@
 "use client";
 
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { siteHexColor } from "@/constructor";
+import { siteHexColor } from "@/constant";
 import { useDialog } from "@/stores/use-dialog";
 import Button from "../common/button";
 import IconCheck from "../common/icons/icon-check";
@@ -16,9 +16,11 @@ export default function ConfirmDialog() {
   };
 
   return (
-    <div>
+    <>
       <DialogTitle className="text-2xl font-bold mb-6">확인</DialogTitle>
-      <p className="text-site-gray mb-10">{message}</p>
+      <p className="text-site-gray mb-10 whitespace-pre-line leading-normal">
+        {message}
+      </p>
       <div className="flex gap-4 items-center justify-center">
         <Button type="button" onClick={handleDialogConfirm}>
           확인
@@ -33,6 +35,6 @@ export default function ConfirmDialog() {
           <IconClose />
         </Button>
       </div>
-    </div>
+    </>
   );
 }

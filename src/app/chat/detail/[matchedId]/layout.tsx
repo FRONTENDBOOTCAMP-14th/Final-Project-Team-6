@@ -1,5 +1,5 @@
 import DetailLayout from "@/components/layout/detail-layout";
-import { ChatDetailTitle } from "./components";
+import ChatDetailLayoutTitle from "./_components/detail-layout-title";
 
 interface Props {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ export default async function ChatDetailLayout({ children, params }: Props) {
   const { matchedId } = await params;
 
   return (
-    <DetailLayout title={<ChatDetailTitle matchedId={matchedId} />}>
+    <DetailLayout title={<ChatDetailLayoutTitle matchedId={matchedId} />}>
       {children}
     </DetailLayout>
   );

@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
-import { siteHexColor } from "@/constructor/";
+import { siteHexColor } from "@/constant";
 import { tw } from "@/utils";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {

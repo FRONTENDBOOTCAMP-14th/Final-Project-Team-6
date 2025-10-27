@@ -1,5 +1,5 @@
 import { IconArrowLeft, IconArrowRight } from "@/components/common/icons";
-import siteHexColor from "@/constructor/site-hex-color";
+import siteHexColor from "@/constant/site-hex-color";
 import tw from "@/utils/tw";
 import { Button } from "../common";
 
@@ -7,12 +7,14 @@ type PaginationButtonProps = {
   direction: "prev" | "next";
   className: string;
   onClick: () => void;
+  // isPending: boolean;
 };
 
 export default function PaginationButton({
   direction,
   className,
   onClick,
+  // isPending,
   ...restProps
 }: PaginationButtonProps) {
   const Icon = direction === "prev" ? IconArrowLeft : IconArrowRight;
@@ -20,10 +22,12 @@ export default function PaginationButton({
 
   return (
     <Button
+      type="button"
       buttonColor={siteHexColor.lightblack}
       className={tw("p-2", className)}
       aria-label={label}
       onClick={onClick}
+      // disabled={isPending}
       {...restProps}
     >
       <Icon />

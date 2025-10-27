@@ -6,15 +6,24 @@ import PaginationButton from "./pagination-button";
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
+  onPageChange?: (page: number) => void; // CSR용 (선택사항)
 };
 
 export default function Pagination({
   currentPage,
   totalPages,
+  onPageChange,
 }: PaginationProps) {
   const router = useRouter();
+
   const handleCurrentPage = (page: number) => {
-    router.push(`?page=${page}`);
+    if (onPageChange) {
+      // CSR일 때
+      onPageChange(page);
+    } else {
+      // SSR일 때
+      router.push(`?page=${page}`);
+    }
   };
 
   return (
