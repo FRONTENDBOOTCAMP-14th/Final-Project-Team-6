@@ -13,12 +13,25 @@ export default function PostWritePage() {
   const [goalKm, setGoalKm] = useState("");
   const [description, setDescription] = useState("");
 
+  // 'datetime-local' 인풋의 값을 state로 관리
+  const [localTime, setLocalTime] = useState("");
+  const utcTime = localTime ? new Date(localTime).toISOString() : "";
+
   const handleGoalKmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (/^[0-9]*$/.test(value)) {
       setGoalKm(value);
     }
   };
+
+  // min 속성을 위한 현재시간 계산 로직
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, "0");
+  const day = now.getDate().toString().padStart(2, "0");
+  const hours = now.getHours().toString().padStart(2, "0");
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
 
   return (
     <main className="w-full max-w-md mx-auto pt-10">
@@ -48,13 +61,24 @@ export default function PostWritePage() {
           placeholder="예시) OOO역 3번 출구"
           required
         />
+
         <Input
           label="시간"
-          name="meeting_time"
+          name="meeting_time_local"
           type="datetime-local"
           required
           className="date-input"
+          min={minDateTime}
+          value={localTime}
+          onChange={(e) => setLocalTime(e.target.value)}
         />
+
+        <input
+          type="hidden"
+          name="meeting_time" // 서버 액션이 실제 받는 이름
+          value={utcTime} // UTC로 변환된 값
+        />
+
         <Input
           label="목표 거리 (km)"
           name="goal_km"
@@ -80,6 +104,7 @@ export default function PostWritePage() {
           maxLength={500}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="break-all"
         />
 
         <Button type="submit" fullWidth height="medium">
