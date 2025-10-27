@@ -3,11 +3,7 @@
 import { Link } from "@/components/common";
 import { IconArrowRight } from "@/components/common/icons";
 
-interface Props {
-  error: Error & { digest?: string };
-}
-
-export default function GlobalError({ error }: Props) {
+export default function GlobalError() {
   return (
     <div
       role="alert"
