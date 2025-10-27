@@ -17,16 +17,22 @@ import { validateNickname } from "@/utils/validators";
 export default function ProfileEditContent() {
   const [nickname, setNickname] = useState("");
   const [originalNickname, setOriginalNickname] = useState("");
+  const [originalImage, setOriginalImage] = useState(
+    "/images/default-profile-image.png",
+  );
   const [selectedImage, setSelectedImage] = useState(
     "/images/default-profile-image.png",
   );
+
   const [isLoading, setIsLoading] = useState(true);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   // dialog
   const { closeDialog, openDialog } = useDialog();
 
   const profileImages = [
+    "/images/default-profile-image.png",
     "/images/template-user-image-01.png",
     "/images/template-user-image-02.png",
     "/images/template-user-image-03.png",
@@ -50,6 +56,7 @@ export default function ProfileEditContent() {
 
         if (profile) {
           const currentNickname = profile.nickname || "";
+
           setNickname(currentNickname);
           setOriginalNickname(currentNickname);
           setIsNicknameChecked(true);
@@ -59,6 +66,7 @@ export default function ProfileEditContent() {
             : `/images/${profile.profile_image_url || "default-profile-image.png"}`;
 
           setSelectedImage(imageUrl);
+          setOriginalImage(imageUrl);
         }
       }
       setIsLoading(false);
@@ -80,7 +88,7 @@ export default function ProfileEditContent() {
     return result;
   };
 
-  // 닉네임 변경 시 기존 닉네임과 비교 후 중복확인 상태 초기화
+  // 닉네임 변경 시 기존 닉네임과 비교 후 중복확인 상태 초기화,
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newNickname = e.target.value;
     setNickname(newNickname);
@@ -91,6 +99,18 @@ export default function ProfileEditContent() {
       setIsNicknameChecked(false);
     }
   };
+
+  // 닉네임, 프로필 이미지 미 변경 시 비활성화
+  useEffect(() => {
+    const nicknameChanged = nickname !== originalNickname;
+    const imageChanged = selectedImage !== originalImage;
+
+    if (nicknameChanged || imageChanged) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [nickname, originalNickname, selectedImage, originalImage]);
 
   // 프로필 이미지 목록 팝업창
   const handleImageSelect = () => {
@@ -108,16 +128,16 @@ export default function ProfileEditContent() {
           </DialogDescription>
 
           <div className="mb-10">
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-3 gap-x-2 gap-y-4">
               {profileImages.map((image) => (
                 <label key={image} className="cursor-pointer m-auto">
-                  <picture className="relative block w-[6.25rem] h-[6.25rem]">
+                  <picture className="relative block">
                     <Image
                       src={image}
                       alt="프로필 이미지"
-                      width={100}
-                      height={100}
-                      className="w-full h-[6.25rem] object-cover"
+                      width={50}
+                      height={50}
+                      className="w-[5rem] object-cover"
                       priority
                     />
                     <input
@@ -215,9 +235,15 @@ export default function ProfileEditContent() {
 
         <Button
           type="submit"
-          className="mt-10"
+          className={tw(
+            "mt-10",
+            isDisabled
+              ? "opacity-50 cursor-not-allowed pointer-events-none"
+              : "pointer-events-auto",
+          )}
           height="medium"
           fullWidth={true}
+          disabled={isDisabled}
         >
           완료
           <IconCheck />
