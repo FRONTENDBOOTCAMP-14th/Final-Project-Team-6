@@ -23,18 +23,6 @@ export async function createMatchAndChat({
     throw new Error("자신의 글에는 매칭을 신청할 수 없습니다.");
   }
 
-  const { data: updatedPost, error: updateError } = await supabase
-    .from("posts")
-    .update({ status: "matched" })
-    .eq("id", postId)
-    .eq("status", "open")
-    .select("id")
-    .single();
-
-  if (updateError || !updatedPost) {
-    throw new Error("이미 매칭이 완료되었거나 매칭할 수 없는 상태입니다.");
-  }
-
   const matchData = {
     post_id: postId,
     matched_runner_id: user.id,
@@ -48,9 +36,10 @@ export async function createMatchAndChat({
     .single();
 
   if (matchError || !newMatch) {
-    await supabase.from("posts").update({ status: "open" }).eq("id", postId);
     const errorMessage = matchError
-      ? matchError.message
+      ? matchError.message.includes("violates unique constraint")
+        ? "이미 매칭이 완료되었거나 매칭할 수 없는 상태입니다."
+        : matchError.message
       : "매칭 정보를 생성하지 못했습니다.";
     throw new Error(errorMessage);
   }
