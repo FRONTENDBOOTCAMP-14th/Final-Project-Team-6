@@ -5,24 +5,16 @@ async function getActivityData(userId: string) {
 
   const { data: profileData, error: profileError } = await supabase
     .from("profiles")
-    .select("created_at, nickname, total_join")
+    .select("created_at, nickname, total_join, total_mileage")
     .eq("id", userId)
     .single();
 
-  const { data: postsData, error: postsError } = await supabase
-    .from("posts")
-    .select("goal_km, is_completed")
-    .eq("author_id", userId);
-
-  if (profileError || postsError) {
-    console.error("데이터 조회 중 에러:", profileError || postsError);
-    return null;
+  if (profileError) {
+    throw new Error("데이터 조회 중 에러:", profileError);
   }
 
-  // 총 달린 거리 계산 (완료된 러닝만)
-  const totalDistance = postsData
-    .filter((post) => post.is_completed)
-    .reduce((sum, post) => sum + post.goal_km, 0);
+  // 총 달린 거리
+  const totalDistance = profileData?.total_mileage ?? 0;
 
   // 활동일 계산 (가입일부터 오늘까지)
   const startDate = new Date(profileData.created_at);
