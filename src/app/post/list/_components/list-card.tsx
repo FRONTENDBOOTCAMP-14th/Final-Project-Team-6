@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { PostWithAuthor } from "@/app/post/type";
 import RunnerTypeBadge from "@/components/common/runner-type-badge";
+import ListCardClient from "./list-card-client";
 
 interface Props {
   post: PostWithAuthor;
@@ -107,12 +108,5 @@ export default function ListCard({ post, isLoggedIn }: Props) {
     );
   }
 
-  return (
-    <Link
-      href="/login"
-      className="relative block rounded-lg bg-site-lightblack cursor-pointer"
-    >
-      {CardContent}
-    </Link>
-  );
+  return <ListCardClient post={post}>{CardContent}</ListCardClient>;
 }
