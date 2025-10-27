@@ -104,6 +104,7 @@ export default function PostWritePage() {
           maxLength={500}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="break-all"
         />
 
         <Button type="submit" fullWidth height="medium">
