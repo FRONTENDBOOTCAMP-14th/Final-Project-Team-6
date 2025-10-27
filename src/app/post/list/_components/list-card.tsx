@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { PostWithAuthor } from "@/app/post/type";
 import RunnerTypeBadge from "@/components/common/runner-type-badge";
+import { useDialog } from "@/stores/use-dialog";
 
 interface Props {
   post: PostWithAuthor;
@@ -19,6 +23,9 @@ const formatMeetingTime = (timeString: string) => {
 };
 
 export default function ListCard({ post, isLoggedIn }: Props) {
+  const router = useRouter();
+  const { openDialog } = useDialog();
+
   const runnerType = post.author?.runner_type;
   const formattedMeetingTime = post.meeting_time
     ? formatMeetingTime(post.meeting_time)
@@ -96,21 +103,23 @@ export default function ListCard({ post, isLoggedIn }: Props) {
     </>
   );
 
-  if (isLoggedIn) {
-    return (
-      <Link
-        href={`/post/detail/${post.id}`}
-        className="relative block rounded-lg bg-site-lightblack"
-      >
-        {CardContent}
-      </Link>
-    );
-  }
+  const handleClick = (e: React.MouseEvent) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      openDialog("confirm", {
+        message: `로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?`,
+        onConfirm: () => {
+          router.push("/auth/login");
+        },
+      });
+    }
+  };
 
   return (
     <Link
-      href="/login"
-      className="relative block rounded-lg bg-site-lightblack cursor-pointer"
+      href={`/post/detail/${post.id}`}
+      onClick={!isLoggedIn ? handleClick : undefined}
+      className="relative block rounded-lg bg-site-lightblack"
     >
       {CardContent}
     </Link>
