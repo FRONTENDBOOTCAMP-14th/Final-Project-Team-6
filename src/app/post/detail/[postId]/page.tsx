@@ -1,5 +1,3 @@
-// post/detail/[postId]/page.tsx
-
 import { notFound } from "next/navigation";
 import ActionButtons from "@/app/post/detail/_components/action-buttons";
 import AuthorProfile from "@/app/post/detail/_components/author-profile";
@@ -79,13 +77,16 @@ export default async function PostDetailPage({
     data: { user: authUser },
   } = await supabase.auth.getUser();
 
+  if (!authUser) {
+    throw new Error("로그인을 해주시기 바랍니다.");
+  }
+
   const post = (await getPostById(postId)) as PostWithAuthor | null;
 
   if (!post) {
     notFound();
   }
 
-  // post.status가 'matched'일 때만 'matches' 테이블 조회
   const match =
     post.status === "matched"
       ? ((await getMatchForPost(postId)) as Match | null)
@@ -101,7 +102,7 @@ export default async function PostDetailPage({
   return (
     <div className="flex flex-col mt-10">
       <div className="flex flex-col gap-4">
-        <h2 className="text-2xl font-semibold">{post.title}</h2>
+        <h2 className="text-xl font-semibold">{post.title}</h2>
         <AuthorProfile author={post.author} created_at={post.created_at} />
       </div>
       <hr className="w-full border-t border-[var(--color-site-lightblack)] mt-6 mb-6" />

@@ -40,12 +40,21 @@ export default function ListCard({ post, isLoggedIn }: Props) {
     displayTitle = `${post.title.slice(0, titleMaxLength)}...`;
   }
 
+  const profileImageName =
+    post.author?.profile_image_url || "default-profile-image.png";
+
+  const profileImagePath = `/images/${profileImageName}`;
+
   const CardContent = (
     <>
       <div className="flex items-start gap-4 p-5">
         <Image
-          src="/assets/default-profile.png"
-          alt="기본 프로필 이미지"
+          src={profileImagePath}
+          alt={
+            post.author?.nickname
+              ? `${post.author.nickname}님의 프로필 이미지`
+              : "프로필 이미지"
+          }
           width={50}
           height={50}
           className="rounded-full flex-shrink-0"
@@ -99,8 +108,11 @@ export default function ListCard({ post, isLoggedIn }: Props) {
   }
 
   return (
-    <div className="relative block rounded-lg bg-site-lightblack cursor-not-allowed">
+    <Link
+      href="/login"
+      className="relative block rounded-lg bg-site-lightblack cursor-pointer"
+    >
       {CardContent}
-    </div>
+    </Link>
   );
 }

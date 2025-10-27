@@ -16,7 +16,7 @@ export default function PostListHeader() {
           <button
             type="button"
             aria-label="목록 필터 열기"
-            className="cursor-pointer w-10 aspect-square flex items-center justify-center"
+            className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center"
           >
             <IconFilter />
           </button>

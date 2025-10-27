@@ -24,11 +24,16 @@ export default function AuthorProfile({
       .slice(0, -1);
   };
 
+  const profileImageName =
+    author.profile_image_url || "default-profile-image.png";
+
+  const profileImagePath = `/images/${profileImageName}`;
+
   return (
     <div className="flex items-center gap-3">
       <div className="relative w-10 h-10 overflow-hidden rounded-full">
         <Image
-          src="/assets/default-profile.png"
+          src={profileImagePath}
           alt={`${author.nickname}님의 프로필 사진`}
           fill
           className="object-cover"
@@ -37,14 +42,14 @@ export default function AuthorProfile({
 
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <p className="font-bold text-[var(--color-site-white)]">
+          <p className="text-sm font-bold text-[var(--color-site-white)]">
             {author.nickname}
           </p>
           <RunnerTypeBadge runnerType={author.runner_type} />
         </div>
 
         {created_at && (
-          <p className="text-sm text-[var(--color-site-gray)]">
+          <p className="text-[0.625rem] text-[var(--color-site-gray)]">
             작성일 {formatDate(created_at)}
           </p>
         )}
