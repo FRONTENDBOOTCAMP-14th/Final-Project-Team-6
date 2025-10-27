@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ActivityLog from "@/app/post/list/_components/activity-log";
 import PostCard from "@/app/post/list/_components/list-card";
 import PostListHeader from "@/app/post/list/_components/post-list-header";
@@ -173,9 +174,24 @@ export default async function PostListPage({
         <br />
         ‘눈길’ 입니다.
       </p>
-      <div className="mb-15">
-        <ActivityLog />
-      </div>
+      {isLoggedIn ? (
+        <div className="mb-15">
+          <ActivityLog userId={user.id} />
+        </div>
+      ) : (
+        <div className="mb-15">
+          <div className="rounded-lg overflow-hidden">
+            <Image
+              src="/images/list-main-image.png"
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "auto" }}
+            />
+          </div>
+        </div>
+      )}
       <section>
         <PostListHeader />
         <div className="flex flex-col gap-3">
