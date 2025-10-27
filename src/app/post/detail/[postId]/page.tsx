@@ -25,7 +25,6 @@ async function getPostById(id: string) {
   }
 
   if (post && post.status === "deleted") {
-    console.log(`[Server] Post ${id} is marked as deleted.`);
     return null;
   }
 
@@ -33,8 +32,6 @@ async function getPostById(id: string) {
 }
 
 async function getMatchForPost(postId: string) {
-  console.log(`\n--- [getMatchForPost] postId: ${postId}의 활성 매치 조회 ---`);
-
   const supabase = await createClient();
 
   const { data: activeMatch, error } = await supabase
@@ -49,8 +46,6 @@ async function getMatchForPost(postId: string) {
   if (error) {
     console.error("[Server] getMatchForPost 쿼리 에러:", error.message);
   }
-
-  console.log("[Server] DB에서 가져온 활성 매치 기록:", activeMatch);
 
   return activeMatch;
 }
