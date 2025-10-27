@@ -16,10 +16,14 @@ import { validateNickname } from "@/utils/validators";
 
 export default function ProfileEditContent() {
   const [nickname, setNickname] = useState("");
+  const [originalNickname, setOriginalNickname] = useState("");
   const [selectedImage, setSelectedImage] = useState(
     "/images/default-profile-image.png",
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+
+  // dialog
   const { closeDialog, openDialog } = useDialog();
 
   const profileImages = [
@@ -45,7 +49,10 @@ export default function ProfileEditContent() {
           .single();
 
         if (profile) {
-          setNickname(profile.nickname || "");
+          const currentNickname = profile.nickname || "";
+          setNickname(currentNickname);
+          setOriginalNickname(currentNickname);
+          setIsNicknameChecked(true);
 
           const imageUrl = profile.profile_image_url?.startsWith("/")
             ? profile.profile_image_url
@@ -64,7 +71,25 @@ export default function ProfileEditContent() {
   const handleNicknameCheck = async (nickname: string) => {
     const formData = new FormData();
     formData.append("nickname", nickname);
-    return await checkNickname(formData);
+    const result = await checkNickname(formData);
+
+    if (result?.available) {
+      setIsNicknameChecked(true);
+    }
+
+    return result;
+  };
+
+  // 닉네임 변경 시 기존 닉네임과 비교 후 중복확인 상태 초기화
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newNickname = e.target.value;
+    setNickname(newNickname);
+
+    if (newNickname === originalNickname) {
+      setIsNicknameChecked(true);
+    } else {
+      setIsNicknameChecked(false);
+    }
   };
 
   // 프로필 이미지 목록 팝업창
@@ -130,6 +155,13 @@ export default function ProfileEditContent() {
   };
 
   const handleSubmit = async (formData: FormData) => {
+    if (nickname !== originalNickname && !isNicknameChecked) {
+      openDialog("alert", {
+        message: "닉네임 중복확인을 해주세요.",
+      });
+
+      return;
+    }
     const imageFileName = selectedImage.replace(/^\/images\//, "");
     formData.append("profile_image_url", imageFileName);
     await updateProfile(formData);
@@ -175,7 +207,7 @@ export default function ProfileEditContent() {
           type="text"
           placeholder="닉네임을 입력해주세요."
           value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
+          onChange={handleNicknameChange}
           onCheck={handleNicknameCheck}
           validate={validateNickname}
           required
