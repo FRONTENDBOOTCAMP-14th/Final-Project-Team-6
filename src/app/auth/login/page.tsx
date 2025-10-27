@@ -1,7 +1,11 @@
 import { tw } from "@/utils";
+import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import LoginForm from "../_components/login-form";
 
 export default async function LoginPage() {
+  const user = await getCurrentUser();
+  if (user) throw new Error("로그인이 필요한 페이지 입니다.");
+
   return (
     <div className="mt-[3.75rem]">
       <h2 className="sr-only">로그인 페이지</h2>
