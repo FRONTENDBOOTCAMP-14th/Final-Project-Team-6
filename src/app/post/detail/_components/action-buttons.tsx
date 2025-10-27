@@ -7,8 +7,6 @@ import SameTypeRunnerView from "@/app/post/detail/_components/_views/same-type-r
 import UnmatchedAuthorView from "@/app/post/detail/_components/_views/unmatched-author-view";
 import type { Match, PostWithAuthor, RunnerType } from "@/app/post/type";
 
-// --- 여기까지 ---
-
 // 메인 컴포넌트 Props 타입
 interface ActionButtonsProps {
   post: PostWithAuthor;
@@ -92,5 +90,10 @@ export default function ActionButtons({
     return <SameTypeRunnerView />;
   }
 
-  return <DefaultView actions={{ createMatch: createMatchAction }} />;
+  return (
+    <DefaultView
+      actions={{ createMatch: createMatchAction }}
+      isExpired={post.is_expired}
+    />
+  );
 }
