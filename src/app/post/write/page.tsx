@@ -1,15 +1,9 @@
 import PostWriteForm from "@/app/post/write/_components/post-write-form";
-import { createClient } from "@/utils/supabase/server";
+import { getCurrentUser } from "@/utils/supabase/get-current-user";
+
 export default async function PostWritePage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error("글을 작성하려면 로그인이 필요합니다.");
-  }
+  const user = await getCurrentUser();
+  if (!user) throw new Error("로그인이 필요한 페이지 입니다.");
 
   return (
     <div className="w-full max-w-md mx-auto pt-10">
