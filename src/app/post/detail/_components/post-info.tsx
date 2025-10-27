@@ -46,7 +46,7 @@ export default function PostInfo({ post, className }: PostInfoProps) {
             상세 러닝 내용
           </h4>
 
-          <p className="text-base leading-relaxed text-[var(--color-site-white)]">
+          <p className="text-base leading-relaxed text-[var(--color-site-white)] break-words">
             {post.description}
           </p>
         </div>
