@@ -34,7 +34,7 @@ export default function MessageScrollContainer({
   return (
     <div
       ref={scrollRef}
-      className="fixed top-[150px] overflow-y-auto h-[calc(100vh-222px)] w-full max-w-(--viewport-size) left-1/2 -translate-x-1/2 px-5 custom-scrollbar"
+      className="fixed top-[150px] overflow-y-auto h-[calc(100dvh-222px)] w-full max-w-(--viewport-size) left-1/2 -translate-x-1/2 px-5 custom-scrollbar"
     >
       <ul className="flex flex-col gap-8 py-6">
         <MessageListInitial
