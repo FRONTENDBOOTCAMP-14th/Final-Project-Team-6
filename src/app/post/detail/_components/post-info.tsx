@@ -12,6 +12,10 @@ export default function PostInfo({ post, className }: PostInfoProps) {
   const encodedAddress = encodeURIComponent(address);
   const mapSrc = `https://maps.google.com/maps?q=${encodedAddress}&output=embed`;
 
+  const fullMeetingPlace = post.meeting_detail_place
+    ? `${post.meeting_place} , ${post.meeting_detail_place}`
+    : post.meeting_place;
+
   return (
     <div className={className}>
       <div className="w-full h-[240px] bg-[var(--color-site-lightblack)] rounded-lg overflow-hidden mb-6">
@@ -28,7 +32,7 @@ export default function PostInfo({ post, className }: PostInfoProps) {
       </div>
 
       <div className="flex flex-col gap-4 text-sm">
-        <InfoItem label="러닝 희망 장소" value={post.meeting_place} />
+        <InfoItem label="러닝 희망 장소" value={fullMeetingPlace} />
 
         <InfoItem
           label="러닝 시작 시간"
