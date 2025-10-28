@@ -1,5 +1,6 @@
 import type { User } from "@supabase/supabase-js";
 import Image from "next/image";
+import { IconLogo } from "./icons";
 import Link from "./link";
 
 interface HeaderProps {
@@ -16,19 +17,18 @@ export default async function Header({ user, profile }: HeaderProps) {
       <header className="fixed w-full h-[70px] top-0 z-50 bg-[var(--color-site-black)]  border-b border-[var(--color-site-lightblack)] max-w-(--viewport-size)">
         <div className="h-full flex items-center justify-between px-[20px]">
           <Link href="/">
-            <h1 className="text-xl font-bold text-[var(--color-site-white)]">
-              눈길
-            </h1>
+            <span className="sr-only">눈길</span>
+            <IconLogo size={42} />
           </Link>
 
           <div className="flex items-center gap-2.5">
-            <span className="text-xs">로그인이 필요합니다.</span>
+            <span className="text-sm text-site-gray">로그인이 필요합니다.</span>
             <Link href={"/auth/login"} aria-label="로그인 페이지로 이동">
               <Image
-                src="/images/logo.png"
+                src="/images/default-profile-image.png"
                 alt=""
-                width={40}
-                height={40}
+                width={36}
+                height={36}
                 className="rounded-full"
               />
             </Link>
@@ -42,22 +42,20 @@ export default async function Header({ user, profile }: HeaderProps) {
     <header className="fixed w-full h-[70px] top-0 z-50 bg-[var(--color-site-black)]  border-b border-[var(--color-site-lightblack)] max-w-(--viewport-size)">
       <div className="h-full flex items-center justify-between px-[20px]">
         <Link href="/">
-          <h1 className="text-xl font-bold text-[var(--color-site-white)]">
-            눈길
-          </h1>
+          <span className="sr-only">눈길</span>
+          <IconLogo size={42} />
         </Link>
 
         <div className="flex items-center gap-2.5">
-          <span className="text-xs">
-            환영합니다,{" "}
-            <span className="text-site-blue font-bold">{nickname}</span>님!
+          <span className="text-sm font-bold text-site-gray">
+            <span className="text-white">{nickname}</span>
           </span>
           <Link href={"/profile/my-profile"} aria-label="내 정보 페이지로 이동">
             <Image
               src={`/images/${profileImage}`}
               alt=""
-              width={40}
-              height={40}
+              width={36}
+              height={36}
               className="rounded-full"
             />
           </Link>

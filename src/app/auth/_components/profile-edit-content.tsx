@@ -137,7 +137,7 @@ export default function ProfileEditContent() {
                       alt="프로필 이미지"
                       width={50}
                       height={50}
-                      className="w-[5rem] object-cover"
+                      className="w-[5rem] object-cover rounded-full"
                       priority
                     />
                     <input
