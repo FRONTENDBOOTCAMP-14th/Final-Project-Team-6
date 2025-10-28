@@ -81,6 +81,7 @@ async function getMyApplications(
       { count: "exact" },
     )
     .eq("matches.matched_runner_id", userId)
+    .eq("matches.status", "matched")
     .neq("status", "deleted")
     .order("created_at", { ascending: false })
     .range(from, to);
