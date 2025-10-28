@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import type { RoomChatMessage } from "../_actions/type";
 import MessageListInitial from "./message-list-initial";
@@ -16,12 +17,19 @@ export default function MessageScrollContainer({
   roomId,
   messagesData,
 }: Props) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  useEffect(() => {
+    const handlePopState = () => router.refresh();
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [router]);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: messagesData change triggers scroll
   useEffect(() => {
     const el = scrollRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "auto" });
-  }, []);
+  }, [messagesData]);
 
   return (
     <div
