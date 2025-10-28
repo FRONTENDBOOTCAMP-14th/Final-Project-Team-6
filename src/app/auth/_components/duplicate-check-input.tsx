@@ -78,8 +78,13 @@ export default function DuplicateCheckInput({
         isError={checkMessage !== "" && !isChecked}
         errorMessage={checkMessage}
         suffixButton={
-          <Button type="button" onClick={handleCheck} disabled={isChecking}>
-            {isChecking ? "확인 중..." : "중복 확인"}
+          <Button
+            type="button"
+            onClick={handleCheck}
+            disabled={isChecking}
+            aria-label={label}
+          >
+            {isChecking ? "확인 중..." : "중복확인"}
           </Button>
         }
         required={required}

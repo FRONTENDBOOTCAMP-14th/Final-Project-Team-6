@@ -4,6 +4,7 @@ import { IconCheck, IconLetter } from "@/components/common/icons";
 export default function CheckEmailScreenPage() {
   return (
     <div className="mt-[3.75rem]">
+      <h1 className="sr-only">회원가입 완료 페이지</h1>
       <div className="flex justify-center items-center w-[3.25rem] h-[3.25rem] rounded-full bg-[var(--color-site-lightblack)] m-auto">
         <IconLetter />
       </div>
