@@ -1,3 +1,4 @@
+import type React from "react";
 import AlreadyMatchedView from "@/app/post/detail/_components/_views/already-matched-view";
 import CompletedView from "@/app/post/detail/_components/_views/completed-view";
 import DefaultView from "@/app/post/detail/_components/_views/default-view";
@@ -21,7 +22,6 @@ interface ActionButtonsProps {
   };
 }
 
-// 메인 ActionButtons 컴포넌트
 export default function ActionButtons({
   post,
   match,
@@ -49,7 +49,7 @@ export default function ActionButtons({
         console.error(
           "Inconsistent state: post.status is 'matched' but no match object was provided.",
         );
-        viewToRender = <AlreadyMatchedView />;
+        viewToRender = <AlreadyMatchedView isExpired={post.is_expired} />;
       } else {
         const completeAction = actions.completePost.bind(
           null,
@@ -77,11 +77,11 @@ export default function ActionButtons({
             />
           );
         } else {
-          viewToRender = <AlreadyMatchedView />;
+          viewToRender = <AlreadyMatchedView isExpired={post.is_expired} />;
         }
       }
     } else {
-      viewToRender = <AlreadyMatchedView />;
+      viewToRender = <AlreadyMatchedView isExpired={post.is_expired} />;
     }
   } else if (isAuthor) {
     viewToRender = (
