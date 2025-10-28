@@ -10,19 +10,10 @@ import { IconClose, IconEdit } from "@/components/common/icons";
 import { siteHexColor } from "@/constant";
 import type { PostData } from "../_actions/type";
 import updatePost from "../_actions/update-post";
+import utcToKSTInputValue from "../_utils/utc-to-kst-input-value";
 
 interface Props {
   postData: PostData;
-}
-
-function formatDateTime(isoString: string) {
-  const date = new Date(isoString);
-
-  const offsetDate = new Date(
-    date.getTime() - date.getTimezoneOffset() * 60000,
-  );
-
-  return offsetDate.toISOString().slice(0, 16);
 }
 
 export default function EditForm({ postData }: Props) {
@@ -31,6 +22,17 @@ export default function EditForm({ postData }: Props) {
   const [meetingPlace, setMeetingPlace] = useState(postData.meeting_place);
   const [goalKm, setGoalKm] = useState(`${postData.goal_km}`);
   const [description, setDescription] = useState(postData.description);
+  const [localTime, setLocalTime] = useState(
+    utcToKSTInputValue(postData.meeting_time),
+  );
+
+  const utcTime = localTime ? new Date(localTime).toISOString() : "";
+
+  const handleFormAction = async (formData: FormData) => {
+    formData.append("postId", postData.id);
+    formData.append("utcTime", utcTime);
+    await updatePost(formData);
+  };
 
   const handleGoalKmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -39,10 +41,13 @@ export default function EditForm({ postData }: Props) {
     }
   };
 
-  const handleFormAction = async (formData: FormData) => {
-    formData.append("postId", postData.id);
-    await updatePost(formData);
-  };
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, "0");
+  const day = now.getDate().toString().padStart(2, "0");
+  const hours = now.getHours().toString().padStart(2, "0");
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
 
   return (
     <form action={handleFormAction} className="flex flex-col gap-5">
@@ -73,11 +78,13 @@ export default function EditForm({ postData }: Props) {
       />
       <Input
         label="시간"
-        name="meeting_time"
+        name="meeting_time_local"
         type="datetime-local"
         required
         className="date-input"
-        defaultValue={formatDateTime(postData.meeting_time)}
+        min={minDateTime}
+        value={localTime}
+        onChange={(e) => setLocalTime(e.target.value)}
       />
       <Input
         label="목표 거리 (km)"
@@ -108,7 +115,7 @@ export default function EditForm({ postData }: Props) {
 
       <div className="flex gap-3">
         <Button type="submit" fullWidth height="medium">
-          편집완료
+          편집 완료
           <IconEdit />
         </Button>
         <Button
