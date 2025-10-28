@@ -103,7 +103,7 @@ export default function PostWriteForm() {
       />
 
       <Button type="submit" fullWidth height="medium">
-        작성완료
+        작성 완료
       </Button>
     </form>
   );
