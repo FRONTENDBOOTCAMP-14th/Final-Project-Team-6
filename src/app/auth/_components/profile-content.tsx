@@ -127,7 +127,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
 
   return (
     <div className="mt-[3.75rem]">
-      <h2 className="sr-only">프로필</h2>
+      <h1 className="sr-only">프로필 페이지</h1>
       <figure>
         <picture
           className={tw(
@@ -136,7 +136,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
         >
           <img
             src={getProfileImageUrl(userProfile.profile_image_url)}
-            alt={userProfile.nickname || "프로필"}
+            alt={`${userProfile.nickname} 프로필` || "프로필"}
           />
         </picture>
         <figcaption
