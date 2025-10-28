@@ -37,7 +37,7 @@ export default function FilterDialog() {
 
       <div className="mb-6">
         <h3 className="font-bold text-site-gray mb-2">회원 유형</h3>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 max-[446px]:grid-cols-1 gap-2">
           <button
             type="button"
             onClick={() => setSelectedType("all")}

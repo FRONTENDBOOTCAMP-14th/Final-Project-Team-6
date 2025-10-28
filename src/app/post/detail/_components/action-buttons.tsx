@@ -1,3 +1,4 @@
+import type React from "react";
 import AlreadyMatchedView from "@/app/post/detail/_components/_views/already-matched-view";
 import CompletedView from "@/app/post/detail/_components/_views/completed-view";
 import DefaultView from "@/app/post/detail/_components/_views/default-view";
@@ -7,7 +8,6 @@ import SameTypeRunnerView from "@/app/post/detail/_components/_views/same-type-r
 import UnmatchedAuthorView from "@/app/post/detail/_components/_views/unmatched-author-view";
 import type { Match, PostWithAuthor, RunnerType } from "@/app/post/type";
 
-// 메인 컴포넌트 Props 타입
 interface ActionButtonsProps {
   post: PostWithAuthor;
   match: Match | null;
@@ -22,7 +22,6 @@ interface ActionButtonsProps {
   };
 }
 
-// 메인 ActionButtons 컴포넌트
 export default function ActionButtons({
   post,
   match,
@@ -40,60 +39,70 @@ export default function ActionButtons({
     authorId: post.author_id,
   });
 
-  if (isCompleted) {
-    return <CompletedView />;
-  }
+  let viewToRender: React.ReactNode;
 
-  if (isMatched) {
+  if (isCompleted) {
+    viewToRender = <CompletedView />;
+  } else if (isMatched) {
     if (isAuthor || isApplicant) {
       if (!match) {
         console.error(
           "Inconsistent state: post.status is 'matched' but no match object was provided.",
         );
-        return <AlreadyMatchedView />;
+        viewToRender = <AlreadyMatchedView isExpired={post.is_expired} />;
+      } else {
+        const completeAction = actions.completePost.bind(
+          null,
+          post.id,
+          match.id,
+        );
+        const cancelAction = actions.cancelMatch.bind(null, match.id, post.id);
+
+        if (isAuthor) {
+          viewToRender = (
+            <MatchedAuthorView
+              post={post}
+              actions={{
+                complete: completeAction,
+                cancel: cancelAction,
+                delete: actions.deletePost,
+              }}
+            />
+          );
+        } else if (isApplicant) {
+          viewToRender = (
+            <MatchedApplicantView
+              post={post}
+              actions={{ complete: completeAction, cancel: cancelAction }}
+            />
+          );
+        } else {
+          viewToRender = <AlreadyMatchedView isExpired={post.is_expired} />;
+        }
       }
-      const completeAction = actions.completePost.bind(null, post.id, match.id);
-      const cancelAction = actions.cancelMatch.bind(null, match.id, post.id);
-
-      if (isAuthor)
-        return (
-          <MatchedAuthorView
-            post={post}
-            actions={{
-              complete: completeAction,
-              cancel: cancelAction,
-              delete: actions.deletePost,
-            }}
-          />
-        );
-      if (isApplicant)
-        return (
-          <MatchedApplicantView
-            post={post}
-            actions={{ complete: completeAction, cancel: cancelAction }}
-          />
-        );
+    } else {
+      viewToRender = <AlreadyMatchedView isExpired={post.is_expired} />;
     }
-    return <AlreadyMatchedView />;
-  }
-
-  if (isAuthor) {
-    return (
+  } else if (isAuthor) {
+    viewToRender = (
       <UnmatchedAuthorView
         post={post}
         actions={{ delete: actions.deletePost }}
       />
     );
+  } else if (
+    currentUserRunnerType &&
+    currentUserRunnerType === authorRunnerType
+  ) {
+    viewToRender = <SameTypeRunnerView />;
+  } else {
+    viewToRender = (
+      <DefaultView
+        actions={{ createMatch: createMatchAction }}
+        isExpired={post.is_expired}
+      />
+    );
   }
 
-  if (currentUserRunnerType && currentUserRunnerType === authorRunnerType) {
-    return <SameTypeRunnerView />;
-  }
-
-  return (
-    <DefaultView
-      actions={{ createMatch: createMatchAction }}
-      isExpired={post.is_expired}
-    />
-  );
+  return <div className="mb-[60px]">{viewToRender}</div>;
 }

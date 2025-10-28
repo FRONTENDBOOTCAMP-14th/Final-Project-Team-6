@@ -6,15 +6,13 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function updatePost(formData: FormData) {
   const postId = formData.get("postId") as string;
-
-  const KTCValue = formData.get("meeting_time") as string;
-  const UTCValue = new Date(KTCValue).toISOString();
+  const utcTime = formData.get("utcTime") as string;
 
   const updateData = {
     title: formData.get("title") as string,
     meeting_place: formData.get("meeting_place") as string,
     meeting_detail_place: formData.get("meeting_detail_place") as string,
-    meeting_time: UTCValue,
+    meeting_time: utcTime,
     goal_km: Number(formData.get("goal_km")),
     pace: Number(formData.get("pace")),
     description: formData.get("description") as string,

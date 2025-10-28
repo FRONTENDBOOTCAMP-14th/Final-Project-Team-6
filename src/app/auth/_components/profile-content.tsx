@@ -7,6 +7,7 @@ import type { RunnerType } from "@/app/post/type";
 import { Loading } from "@/components/common";
 import { IconArrowRight } from "@/components/common/icons";
 import RunnerTypeBadge from "@/components/common/runner-type-badge";
+import { useDialog } from "@/stores/use-dialog";
 import { tw } from "@/utils";
 import { createClient } from "@/utils/supabase/client";
 import { signOut } from "../_actions/auth-action";
@@ -33,7 +34,9 @@ export default function ProfileContent({ user }: ProfileContentProps) {
     null,
   );
   const [loading, setLoading] = useState<boolean>(true);
+  const { closeDialog, openDialog } = useDialog();
 
+  // 프로필 데이터 DB에서 가져오기
   useEffect(() => {
     async function loadUserProfile() {
       setLoading(true);
@@ -67,6 +70,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
     loadUserProfile();
   }, [user]);
 
+  // 프로필 이미지 URL 경로 변환
   const getProfileImageUrl = (imageUrl: string | null) => {
     if (!imageUrl) {
       return "/images/default-profile-image.png";
@@ -78,9 +82,16 @@ export default function ProfileContent({ user }: ProfileContentProps) {
     return `/images/${imageUrl}`;
   };
 
+  // 로그아웃
   const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    await signOut();
+    openDialog("confirm", {
+      message: "로그아웃 하시겠습니까?",
+      onConfirm: async () => {
+        await signOut();
+        closeDialog();
+      },
+    });
   };
 
   // 활동일
@@ -91,7 +102,14 @@ export default function ProfileContent({ user }: ProfileContentProps) {
     return Math.floor(diff / (1000 * 60 * 60 * 24));
   };
 
-  useEffect(() => {}, []);
+  // 문의하기, 회원가입 준비중 모달창
+  const handleAlertDialog = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    openDialog("alert", {
+      message: "준비중입니다.",
+    });
+  };
 
   if (loading) {
     return <Loading />;
@@ -109,7 +127,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
 
   return (
     <div className="mt-[3.75rem]">
-      <h2 className="sr-only">프로필</h2>
+      <h1 className="sr-only">프로필 페이지</h1>
       <figure>
         <picture
           className={tw(
@@ -118,7 +136,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
         >
           <img
             src={getProfileImageUrl(userProfile.profile_image_url)}
-            alt={userProfile.nickname || "프로필"}
+            alt={`${userProfile.nickname} 프로필` || "프로필"}
           />
         </picture>
         <figcaption
@@ -182,10 +200,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
           <li>
             <Link
               href="/"
-              onClick={(e) => {
-                e.preventDefault();
-                alert("준비중입니다.");
-              }}
+              onClick={handleAlertDialog}
               className={tw(
                 "flex flex-row justify-between items-center h-[3.75rem] px-[1.25rem]",
               )}
@@ -213,10 +228,7 @@ export default function ProfileContent({ user }: ProfileContentProps) {
           <li>
             <Link
               href="/"
-              onClick={(e) => {
-                e.preventDefault();
-                alert("준비중입니다.");
-              }}
+              onClick={handleAlertDialog}
               className={tw(
                 "flex flex-row justify-between items-center h-[3.75rem] px-[1.25rem] text-[var(--color-site-red)]",
               )}
