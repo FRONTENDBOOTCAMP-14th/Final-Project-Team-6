@@ -26,8 +26,8 @@ export default async function PageLayout({ children }: Props) {
     <div className="pt-[70px] pb-[80px] flex flex-col min-h-[100dvh]">
       <Header user={user} profile={profile} />
       <main className="px-5">{children}</main>
-      <GlobalNavBar />
       <Footer />
+      <GlobalNavBar />
     </div>
   );
 }
