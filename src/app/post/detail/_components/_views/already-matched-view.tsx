@@ -8,7 +8,7 @@ export default function AlreadyMatchedView({
   isExpired,
 }: AlreadyMatchedViewProps) {
   const buttonText = isExpired
-    ? "러닝 시작 시간이 경과된 게시글 입니다"
+    ? "러닝 일정이 종료된 게시글 입니다."
     : "매칭 중인 게시물입니다.";
 
   return (
@@ -16,8 +16,7 @@ export default function AlreadyMatchedView({
       disabled
       fullWidth
       height="medium"
-      buttonColor={isExpired ? "var(--color-site-lightblack)" : undefined}
-      style={{ cursor: isExpired ? "not-allowed" : undefined }}
+      buttonColor="var(--color-site-lightblack)"
     >
       {buttonText}
     </Button>

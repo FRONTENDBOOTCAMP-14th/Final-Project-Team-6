@@ -16,12 +16,19 @@ export default function UnmatchedAuthorView({
   const isEditable = !post.is_completed && !post.is_expired;
 
   const waitMessage = post.is_expired
-    ? "러닝 시작 시간 이후 매칭 불가"
+    ? "러닝 일정이 종료된 게시글 입니다."
     : "매칭을 기다리는 중...";
 
   return (
     <div className="flex flex-col gap-2">
-      <Button disabled fullWidth height="medium">
+      <Button
+        disabled
+        fullWidth
+        height="medium"
+        buttonColor={
+          post.is_expired ? "var(--color-site-lightblack)" : undefined
+        }
+      >
         {waitMessage}
       </Button>
       <div className="flex justify-end gap-2">

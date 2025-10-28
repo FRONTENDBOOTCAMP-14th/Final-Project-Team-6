@@ -10,14 +10,20 @@ export default function CompleteRunningForm({
   post,
   completeAction,
 }: CompleteRunningFormProps) {
+  const isDisabled = !post.is_expired;
+
   return (
-    <fieldset disabled={!post.is_expired} className="w-full">
+    <fieldset disabled={isDisabled} className="w-full">
       <form action={completeAction} className="w-full">
         <Button
           type="submit"
-          buttonColor="var(--color-site-blue)"
+          buttonColor={
+            post.is_expired
+              ? "var(--color-site-blue)"
+              : "var(--color-site-lightblack)"
+          }
           fullWidth
-          disabled={!post.is_expired}
+          disabled={isDisabled}
           height="medium"
         >
           {post.is_expired

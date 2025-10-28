@@ -13,11 +13,11 @@ export default function DefaultView({ actions, isExpired }: DefaultViewProps) {
       <Button
         type="button"
         disabled
-        buttonColor="var(--color-site-blue)"
+        buttonColor="var(--color-site-lightblack)"
         fullWidth
         height="medium"
       >
-        러닝 시작 시간 만료 이후 매칭 불가
+        러닝 일정이 종료된 게시글 입니다.
       </Button>
     );
   }
