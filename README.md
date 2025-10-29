@@ -1,4 +1,4 @@
-# <img src="public/images/logo.png" alt="" width="30" height="30"> 눈길 (Eye-Path)
+# <img src="public/images/logo.png" alt="" width="30" height="30"> 눈길 (EyePath)
 > 시각장애인 러너와 가이드러너를 연결하는 매칭 플랫폼
 
 [🔗 배포 주소 바로가기](https://eyepath.vercel.app/)
@@ -75,33 +75,33 @@
 > 이메일을 통해 회원가입 및 로그인할 수 있습니다.  
 > 회원가입 후 주요 기능(게시글 작성, 채팅 등)을 이용할 수 있습니다.
 
-<img src="public/images/readme/auth.gif" alt="로그인/회원가입 페이지" width="40%">
+<img src="public/images/readme/auth.gif" alt="로그인/회원가입 페이지 화면" width="40%">
 
 ### 동행찾기 / 상세 / 편집
 > 등록된 러닝 동행 모집글을 조회하고 상세 내용을 확인할 수 있습니다.  
 > 게시글을 작성자 본인은 수정할 수 있으며, 신청 시 채팅이 자동 생성됩니다.
 
-<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지" width="40%"> <img src="public/images/readme/post-detail.gif" alt="동행찾기, 상세, 편집 시연" width="40%">
+<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지 화면" width="40%"> <img src="public/images/readme/post-detail.gif" alt="동행찾기, 상세, 편집 페이지 화면" width="40%">
 
 ### 동행신청
 > 러닝 파트너를 모집하는 게시글을 작성 및 등록할 수 있습니다.
 
-<img src="public/images/readme/post-write.gif" alt="동행신청 시연" width="40%">
+<img src="public/images/readme/post-write.gif" alt="동행신청 페이지 화면" width="40%">
 
 ### 채팅 목록 및 채팅
 > 매칭 신청으로 생성된 1:1 실시간 채팅방에서 대화를 주고받을 수 있습니다.
 
-<img src="public/images/readme/chat-list.gif" alt="채팅 목록 시연" width="40%"> <img src="public/images/readme/chat.gif" alt="채팅 시연" width="40%">
+<img src="public/images/readme/chat-list.gif" alt="채팅 목록 페이지 화면" width="40%"> <img src="public/images/readme/chat.gif" alt="채팅 페이지 화면" width="40%">
 
 ### 내 정보
 > 프로필 수정, 참여 통계 확인, 로그아웃 등의 기능을 제공합니다.
 
-<img src="public/images/readme/my-profile.gif" alt="내 정보 시연" width="40%">
+<img src="public/images/readme/my-profile.gif" alt="내 정보 페이지 화면" width="40%">
 
 ---
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 로드맵
-> 눈길(Eye-Path)은 현재 MVP 기준으로 개발되었으며,  
+> 눈길(EyePath)은 현재 MVP 기준으로 개발되었으며,  
 > 아래 기능들은 기획 및 설계 단계에서 정의되어 있으나 추후 단계적으로 구현될 예정입니다.
 
 | 구분 | 기능 | 설명 |
@@ -116,7 +116,7 @@
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 프로젝트 구조 및 실행
 
-###  프로젝트 구조
+### 프로젝트 구조
 ```bash
 project/
 ├── public                 / # 정적 파일 (이미지, 폰트 등)
@@ -164,25 +164,29 @@ project/
 ### 🔎 실행 방법
 
 ```bash
-# 1. 프로젝트 클론
-git clone https://github.com/your-repo/eyepath.git
-cd eyepath
+# 1. 프로젝트 클론 (폴더 이름을 'EyePath'로 지정)
+git clone https://github.com/FRONTENDBOOTCAMP-14th/Final-Project-Team-6.git EyePath
 ```
 
 ```bash
-# 2. 패키지 설치
+# 2. 프로젝트 폴더로 이동
+cd EyePath
+```
+
+```bash
+# 3. 패키지 설치
 bun install
 ```
 
 ```bash
-# 3. .env.local 파일에 환경 변수 설정
+# 4. .env.local 파일에 환경 변수 설정
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_API_KEY
 SUPABASE_SERVICE_ROLE_KEY
 ```
 
 ```bash
-# 4. 개발 서버 실행
+# 5. 개발 서버 실행
 bun dev
 ```
 
@@ -197,7 +201,8 @@ bun dev
 ---
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 서비스 흐름도 (Flow Chart)
-> 사용자 → 게시글 → 채팅 → 연결까지의 서비스 플로우를 시각화했습니다.
+> 전체 사용자의 흐름(회원가입 → 게시글 작성/신청 → 채팅 → 매칭 완료)과
+> 주요 페이지 간의 흐름을 플로우 차트로 시각화했습니다.
 
 <img src="public/images/readme/flow1.png" alt="로그인, 회원가입, 인증 및 비회원 유저 흐름도">
 <img src="public/images/readme/flow2.png" alt="메인 페이지 흐름도">
@@ -207,4 +212,8 @@ bun dev
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 데이터베이스 구조 (ERD)
 > 주요 테이블 및 관계 구조를 ERD로 정리했습니다.
 
-<img src="public/images/readme/erd.png" alt="데이터베이스 ERD">
+<img src="public/images/readme/erd.png" alt="데이터베이스 구조도">
+
+---
+
+> 👟 눈길(EyePath)은 모두가 함께 달릴 수 있는 세상을 위해 계속해서 달려갑니다.
