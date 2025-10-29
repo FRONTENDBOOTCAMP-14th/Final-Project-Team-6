@@ -3,7 +3,7 @@
 
 [🔗 배포 주소 바로가기](https://eyepath.vercel.app/)
 
-<a href="https://eyepath.vercel.app/"><img src="public/images/readme/cover.png" alt="" width="70%"></a>
+<a href="https://eyepath.vercel.app/"><img src="public/images/readme/cover.png" alt=""></a>
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 팀 소개
 > 안녕하세요, 저희는 육회입니다!👋
@@ -81,7 +81,7 @@
 > 등록된 러닝 동행 모집글을 조회하고 상세 내용을 확인할 수 있습니다.  
 > 게시글을 작성자 본인은 수정할 수 있으며, 신청 시 채팅이 자동 생성됩니다.
 
-<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지" width="40%"><img src="public/images/readme/post-detail.gif" alt="동행찾기 상세 맟 편집" width="40%">
+<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지" width="40%"> <img src="public/images/readme/post-detail.gif" alt="동행찾기 상세 맟 편집" width="40%">
 
 ### 동행신청
 > 러닝 파트너를 모집하는 게시글을 작성 및 등록할 수 있습니다.
@@ -91,7 +91,7 @@
 ### 채팅 목록 및 채팅
 > 매칭 신청으로 생성된 1:1 실시간 채팅방에서 대화를 주고받을 수 있습니다.
 
-<img src="public/images/readme/chat-list.gif" alt="채팅 목록 페이지" width="40%"><img src="public/images/readme/chat.gif" alt="채팅 페이지" width="40%">
+<img src="public/images/readme/chat-list.gif" alt="채팅 목록 페이지" width="40%"> <img src="public/images/readme/chat.gif" alt="채팅 페이지" width="40%">
 
 ### 내 정보
 > 프로필 수정, 참여 통계 확인, 로그아웃 등의 기능을 제공합니다.
@@ -200,12 +200,12 @@ bun dev
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 서비스 흐름도 (Flow Chart)
 > 사용자 → 게시글 → 채팅 → 연결까지의 서비스 플로우를 시각화했습니다.
 
-<img src="public/images/readme/flow1.png" alt="데이터베이스 ERD" width="80%">
-<img src="public/images/readme/flow2.png" alt="데이터베이스 ERD" width="80%">
+<img src="public/images/readme/flow1.png" alt="로그인, 회원가입, 인증 및 비회원 유저 흐름도">
+<img src="public/images/readme/flow2.png" alt="메인 페이지 흐름도">
 
 ---
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 데이터베이스 구조 (ERD)
 > 주요 테이블 및 관계 구조를 ERD로 정리했습니다.
 
-<img src="public/images/readme/erd.png" alt="데이터베이스 ERD" width="80%">
+<img src="public/images/readme/erd.png" alt="데이터베이스 ERD">
