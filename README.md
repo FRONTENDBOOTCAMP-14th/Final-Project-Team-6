@@ -5,6 +5,19 @@
 
 <a href="https://eyepath.vercel.app/"><img src="public/images/readme/slide1.png" alt="" width="70%"></a>
 
+## <img src="public/images/logo.png" alt="" width="20" height="20"> 팀 소개
+> 안녕하세요, 저희는 육회입니다!👋
+
+### 팀원 소개 및 역할  
+
+| 육회 팀원 | 전지연 | 성정은 | 이형민 | 조장원 |
+| -------- | ------ | ----- | ----- | ----- |
+| 역할      | PM, FE | QA, FE | 발표자, FE | PL, 디자이너, FE |
+| 작업      | 채팅 | 로그인/회원가입, 내 정보 | 동행찾기, 동행신청 | 채팅 |
+| GitHub    | <a href="https://github.com/jeonjyeon" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/jeonjyeon-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/jeongeunsung" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/jeongeunsung-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/hunky1st" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/hunky1st-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/Jandi95" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Jandi95-lightgray?style=plastic&logo=github&labelColor=black"/></a> |
+
+---
+
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 프로젝트 소개
 
 ### 📅 프로젝트 진행 기간
@@ -29,7 +42,7 @@
 - 인식 개선: 러너 간 상호 이해와 공감 확대를 통한 사회적 통합
 
 
->이러한 문제의식과 목표를 바탕으로, 시각장애인 러너와 가이드러너가 쉽게 연결되고 소통할 수 있는 플랫폼인 **눈길(EyePath)**을 구현하였습니다.
+>이러한 문제의식과 목표를 바탕으로, 시각장애인 러너와 가이드러너가 쉽게 연결되고 소통할 수 있는 플랫폼인 눈길(EyePath)을 구현하였습니다.
 
 ### ✨ 주요 기능
 | 기능                    | 설명                              |
@@ -39,18 +52,6 @@
 | **채팅**         | 게시글에서 이어지는 1:1 실시간 채팅 · 채팅방 목록 · 새 메시지 알림 표시   |
 | **내 정보 (프로필)**     | 프로필 조회 및 편집 · 활동 통계(참여 횟수, 거리, 활동일) 확인 · 회원 탈퇴 및 문의 기능 |
 | **로그인 / 회원가입**     | 이메일 기반 회원가입 및 로그인 기능 제공 |
-
-### 🚧 향후 구현 예정 기능
-> 본 프로젝트는 MVP(최소 기능 제품) 기준으로 개발되었으며,  
-> 아래 기능들은 기획 및 설계 단계에서 정의되어 있으나 추후 구현 예정입니다.
-
-| 구분 | 기능 | 설명 |
-|------|------|------|
-| 인증 | **시각장애인 인증 로직** | 시각장애인 사용자임을 인증받는 절차 (공인 서류 또는 관리기관 API 연동 예정) |
-| 교육 | **가이드러너 교육 이수 로직** | 가이드러너 등록 전, 안전 교육 콘텐츠 및 인증 절차를 통해 활동 권한 부여 |
-| 알림 | **실시간 푸시 알림** | 채팅 및 매칭 상태 변경 시 실시간 알림 기능 |
-| 접근성 | **스크린리더 접근성 개선** | NVDA, VoiceOver 대응을 위한 대체 텍스트/ARIA 개선 |
-| 서비스 | **매칭 후 후기 작성 기능** | 러닝 종료 후 가이드러너·시각장애인 상호 평가 기능 추가 예정 |
 
 
 ### 🛠️ 기술 스택
@@ -66,6 +67,8 @@
 | 버전 관리 & 협업 | <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"> <img src="https://img.shields.io/badge/notion-ffffff?style=for-the-badge&logo=notion&logoColor=black"> |
 | 디자인           | <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">  |
 
+---
+
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 서비스 시연
 
 ### 로그인/회원가입
@@ -78,8 +81,7 @@
 > 등록된 러닝 동행 모집글을 조회하고 상세 내용을 확인할 수 있습니다.  
 > 게시글을 작성자 본인은 수정할 수 있으며, 신청 시 채팅이 자동 생성됩니다.
 
-<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지" width="300">
-<img src="public/images/readme/post-detail.gif" alt="동행찾기 상세 맟 편집" width="300">
+<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지" width="300"><img src="public/images/readme/post-detail.gif" alt="동행찾기 상세 맟 편집" width="300">
 
 ### 동행신청
 > 러닝 파트너를 모집하는 게시글을 작성 및 등록할 수 있습니다.
@@ -89,14 +91,14 @@
 ### 채팅 목록 및 채팅
 > 매칭 신청으로 생성된 1:1 실시간 채팅방에서 대화를 주고받을 수 있습니다.
 
-<img src="public/images/readme/chat-list.gif" alt="채팅 목록 페이지" width="300">
-<img src="public/images/readme/chat.gif" alt="채팅 페이지" width="300">
+<img src="public/images/readme/chat-list.gif" alt="채팅 목록 페이지" width="300"><img src="public/images/readme/chat.gif" alt="채팅 페이지" width="300">
 
 ### 내 정보
 > 프로필 수정, 참여 통계 확인, 로그아웃 등의 기능을 제공합니다.
 
 <img src="public/images/readme/my-profile.gif" alt="내 정보 페이지" width="300">
 
+---
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 로드맵
 > 눈길(Eye-Path)은 현재 MVP 기준으로 개발되었으며,  
@@ -111,17 +113,7 @@
 | 교육 | **가이드러너 교육 이수 로직** | 가이드러너로 가입 후, 안전 교육 콘텐츠 및 인증 절차를 통해 활동 권한 부여 |
 | 데이터 | **시각장애인 복지카드 첨부 및 이미지 DB 저장** | 인증 과정에서 첨부된 복지카드 이미지를 Supabase Storage에 안전하게 저장 및 관리 |
 
-
-## <img src="public/images/logo.png" alt="" width="20" height="20"> 팀 소개
-> 안녕하세요, 저희는 육회입니다!👋
-
-### 팀원 소개 및 역할  
-
-| 육회 팀원 | 전지연 | 성정은 | 이형민 | 조장원 |
-| -------- | ------ | ----- | ----- | ----- |
-| 역할      | PM, FE | QA, FE | 발표자, FE | PL, 디자이너, FE |
-| GitHub    | <a href="https://github.com/jeonjyeon" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/jeonjyeon-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/jeongeunsung" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/jeongeunsung-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/hunky1st" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/hunky1st-lightgray?style=plastic&logo=github&labelColor=black"/></a> | <a href="https://github.com/Jandi95" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Jandi95-lightgray?style=plastic&logo=github&labelColor=black"/></a> |
-
+---
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 프로젝트 구조 및 실행
 
@@ -203,11 +195,15 @@ bun dev
 | 프로덕션 빌드 | `bun prod`    | Next.js 빌드 생성 (`next build`)                |
 | 빌드 미리보기 | `bun preview` | 빌드된 앱을 4000번 포트에서 실행 (`next start -p 4000`) |
 
+---
+
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 서비스 흐름도 (Flow Chart)
 > 사용자 → 게시글 → 채팅 → 연결까지의 서비스 플로우를 시각화했습니다.
 
 <img src="public/images/readme/flow1.png" alt="데이터베이스 ERD" width="800">
 <img src="public/images/readme/flow2.png" alt="데이터베이스 ERD" width="800">
+
+---
 
 ## <img src="public/images/logo.png" alt="" width="20" height="20"> 데이터베이스 구조 (ERD)
 > 주요 테이블 및 관계 구조를 ERD로 정리했습니다.
