@@ -81,22 +81,22 @@
 > 등록된 러닝 동행 모집글을 조회하고 상세 내용을 확인할 수 있습니다.  
 > 게시글을 작성자 본인은 수정할 수 있으며, 신청 시 채팅이 자동 생성됩니다.
 
-<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지" width="40%"> <img src="public/images/readme/post-detail.gif" alt="동행찾기 상세 맟 편집" width="40%">
+<img src="public/images/readme/post-list.gif" alt="동행찾기 페이지" width="40%"> <img src="public/images/readme/post-detail.gif" alt="동행찾기, 상세, 편집 시연" width="40%">
 
 ### 동행신청
 > 러닝 파트너를 모집하는 게시글을 작성 및 등록할 수 있습니다.
 
-<img src="public/images/readme/post-write.gif" alt="동행신청 페이지" width="40%">
+<img src="public/images/readme/post-write.gif" alt="동행신청 시연" width="40%">
 
 ### 채팅 목록 및 채팅
 > 매칭 신청으로 생성된 1:1 실시간 채팅방에서 대화를 주고받을 수 있습니다.
 
-<img src="public/images/readme/chat-list.gif" alt="채팅 목록 페이지" width="40%"> <img src="public/images/readme/chat.gif" alt="채팅 페이지" width="40%">
+<img src="public/images/readme/chat-list.gif" alt="채팅 목록 시연" width="40%"> <img src="public/images/readme/chat.gif" alt="채팅 시연" width="40%">
 
 ### 내 정보
 > 프로필 수정, 참여 통계 확인, 로그아웃 등의 기능을 제공합니다.
 
-<img src="public/images/readme/my-profile.gif" alt="내 정보 페이지" width="40%">
+<img src="public/images/readme/my-profile.gif" alt="내 정보 시연" width="40%">
 
 ---
 
@@ -108,10 +108,9 @@
 |------|------|------|
 | 회원 | **회원 탈퇴 / 아이디·비밀번호 찾기** | 계정 관리 기능 고도화 — 탈퇴 및 아이디/비밀번호 찾기 로직 추가 예정 |
 | 채팅 | **채팅방 자동 숨김 로직** | 러닝 완료·기간 만료·매칭 취소 시 해당 채팅방을 자동으로 목록에서 숨김 처리 |
-| 알림 | **새 채팅 알림 표시 (GNB)** | 새 메시지 수신 시 GNB(하단 내비게이션)에 **빨간 점 표시**로 실시간 알림 구현 |
-| 인증 | **시각장애인 인증 및 복지카드 관리 로직** | 시각장애인 사용자 인증 절차를 위한 복지카드 이미지 업로드 및 Supabase Storage 연동, 추후 관리 페이지 추가 예정 |
-| 교육 | **가이드러너 교육 이수 로직** | 가이드러너로 가입 후, 안전 교육 콘텐츠 및 인증 절차를 통해 활동 권한 부여 |
-| 데이터 | **시각장애인 복지카드 첨부 및 이미지 DB 저장** | 인증 과정에서 첨부된 복지카드 이미지를 Supabase Storage에 안전하게 저장 및 관리 |
+| 알림 | **새 채팅 알림 표시 (GNB)** | 새 메시지 수신 시 GNB(하단 내비게이션)에 빨간 점 표시로 실시간 알림 구현 |
+| 인증 | **시각장애인 인증 및 복지카드 관리** | 시각장애인 사용자 인증 절차를 위한 복지카드 이미지 업로드 및 Supabase Storage 연동, 추후 관리 페이지 추가 예정 |
+| 교육 | **가이드러너 교육** | 가이드러너로 가입 후, 안전 교육 콘텐츠 및 인증 절차를 통해 활동 권한 부여 |
 
 ---
 
