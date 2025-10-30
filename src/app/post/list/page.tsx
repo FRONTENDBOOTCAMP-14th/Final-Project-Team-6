@@ -185,8 +185,8 @@ export default async function PostListPage({
             <Image
               src="/images/list-main-image.png"
               alt=""
-              width={0}
-              height={0}
+              width={440}
+              height={178}
               sizes="100vw"
               style={{ width: "100%", height: "auto" }}
             />
