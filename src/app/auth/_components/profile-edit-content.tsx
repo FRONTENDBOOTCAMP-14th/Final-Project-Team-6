@@ -238,7 +238,7 @@ export default function ProfileEditContent() {
           className={tw(
             "mt-10",
             isDisabled
-              ? "opacity-50 cursor-not-allowed pointer-events-none"
+              ? "opacity-80 cursor-not-allowed pointer-events-none"
               : "pointer-events-auto",
           )}
           height="medium"

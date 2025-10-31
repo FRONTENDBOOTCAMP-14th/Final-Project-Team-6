@@ -157,49 +157,45 @@ export default function SignupForm() {
           러너타입
         </label>
         <div className="flex gap-2">
-          <label className="flex-1 cursor-pointer">
-            <input
-              className="peer appearance-none absolute"
-              type="radio"
-              id="guide_runner"
-              name="runner_type"
-              value="guide_runner"
-              aria-label="가이드러너"
-              defaultChecked
-              required
-            />
-            <div
-              className={tw(
-                "flex justify-center items-center",
-                "w-full h-[52px] px-4",
-                "rounded-lg border-1 border-[var(--color-site-gray)]",
-                "font-bold  text-[var(--color-site-gray)]",
-                "peer-checked:bg-[var(--color-site-yellow)] peer-checked:border-[var(--color-site-yellow)] peer-checked:text-[var(--color-site-black)] transition",
-              )}
-            >
-              가이드러너
-            </div>
+          <input
+            type="radio"
+            id="guide_runner"
+            name="runner_type"
+            value="guide_runner"
+            className="sr-only peer/guide"
+            defaultChecked
+          />
+          <label
+            htmlFor="guide_runner"
+            className={tw(
+              "flex-1 cursor-pointer flex justify-center items-center",
+              "w-full h-[52px] px-4 rounded-xl border border-[var(--color-site-gray)] font-semibold transition-all duration-200",
+              "text-[var(--color-site-gray)] bg-transparent",
+              "peer-checked/guide:bg-[var(--color-site-yellow)] peer-checked/guide:border-[var(--color-site-yellow)] peer-checked/guide:text-[var(--color-site-black)]",
+              "hover:bg-[var(--color-site-yellow)] hover:text-[var(--color-site-black)]",
+            )}
+          >
+            가이드러너
           </label>
-          <label className="flex-1 cursor-pointer">
-            <input
-              className="peer appearance-none absolute"
-              type="radio"
-              id="blind_runner"
-              name="runner_type"
-              value="blind_runner"
-              aria-label="시각장애인"
-              required
-            />
-            <div
-              className={tw(
-                "flex justify-center items-center",
-                "w-full h-[52px] px-4 rounded-lg border-1 border-[var(--color-site-gray)]",
-                "font-bold text-[var(--color-site-gray)]",
-                "peer-checked:bg-[var(--color-site-yellow)] peer-checked:border-[var(--color-site-yellow)] peer-checked:text-[var(--color-site-black)] transition",
-              )}
-            >
-              시각장애인
-            </div>
+
+          <input
+            type="radio"
+            id="blind_runner"
+            name="runner_type"
+            value="blind_runner"
+            className="sr-only peer/blind"
+          />
+          <label
+            htmlFor="blind_runner"
+            className={tw(
+              "flex-1 cursor-pointer flex justify-center items-center",
+              "w-full h-[52px] px-4 rounded-xl border border-[var(--color-site-gray)] font-semibold transition-all duration-200",
+              "text-[var(--color-site-gray)] bg-transparent",
+              "peer-checked/blind:bg-[var(--color-site-yellow)] peer-checked/blind:border-[var(--color-site-yellow)] peer-checked/blind:text-[var(--color-site-black)]",
+              "hover:bg-[var(--color-site-yellow)] hover:text-[var(--color-site-black)]",
+            )}
+          >
+            시각장애인
           </label>
         </div>
       </fieldset>
