@@ -1,5 +1,11 @@
 import { Button, Link } from "@/components/common";
 import { IconCheck, IconLetter } from "@/components/common/icons";
+import { createMetadata } from "@/utils";
+
+export const metadata = {
+  ...createMetadata("SIGNUP_COMPLETE"),
+  robots: { index: false, follow: false },
+};
 
 export default function CheckEmailScreenPage() {
   return (

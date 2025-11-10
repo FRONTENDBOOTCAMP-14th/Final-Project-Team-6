@@ -3,14 +3,16 @@ import ActionButtons from "@/app/post/detail/_components/action-buttons";
 import AuthorProfile from "@/app/post/detail/_components/author-profile";
 import PostInfo from "@/app/post/detail/_components/post-info";
 import type { Match, PostWithAuthor, RunnerType } from "@/app/post/type";
+import { createMetadata } from "@/utils/metadata";
 import { createClient } from "@/utils/supabase/server";
-
 import {
   cancelMatch,
   completePost,
   createMatchAndChat,
   deletePost,
 } from "./action";
+
+export const metadata = createMetadata("POST_DETAIL");
 
 async function getPostById(id: string) {
   const supabase = await createClient();

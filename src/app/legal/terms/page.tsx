@@ -1,3 +1,7 @@
+import { createMetadata } from "@/utils";
+
+export const metadata = createMetadata("TERMS");
+
 export default function Terms() {
   return (
     <div className="pt-10">

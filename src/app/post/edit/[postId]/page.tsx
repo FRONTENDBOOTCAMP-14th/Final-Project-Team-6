@@ -1,6 +1,12 @@
+import { createMetadata } from "@/utils";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import getPostContents from "./_actions/get-post-contents-id";
 import EditForm from "./_components/edit-form";
+
+export const metadata = {
+  ...createMetadata("POST_EDIT"),
+  robots: { index: false, follow: false },
+};
 
 interface Props {
   params: Promise<{ postId: string }>;

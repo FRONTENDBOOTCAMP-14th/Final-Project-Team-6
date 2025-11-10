@@ -1,5 +1,11 @@
 import ProfileEditContent from "@/app/auth/_components/profile-edit-content";
+import { createMetadata } from "@/utils";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
+
+export const metadata = {
+  ...createMetadata("PROFILE_EDIT"),
+  robots: { index: false, follow: false },
+};
 
 export default async function ProfileEditPage() {
   const user = await getCurrentUser();

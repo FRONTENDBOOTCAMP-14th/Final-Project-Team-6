@@ -1,5 +1,11 @@
 import PostWriteForm from "@/app/post/write/_components/post-write-form";
+import { createMetadata } from "@/utils";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
+
+export const metadata = {
+  ...createMetadata("POST_WRITE"),
+  robots: { index: false, follow: false },
+};
 
 export default async function PostWritePage() {
   const user = await getCurrentUser();
