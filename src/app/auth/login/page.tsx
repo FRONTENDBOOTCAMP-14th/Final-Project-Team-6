@@ -1,6 +1,11 @@
-import { tw } from "@/utils";
+import { createMetadata, tw } from "@/utils";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import LoginForm from "../_components/login-form";
+
+export const metadata = {
+  ...createMetadata("LOGIN"),
+  robots: { index: false, follow: false },
+};
 
 export default async function LoginPage() {
   const user = await getCurrentUser();

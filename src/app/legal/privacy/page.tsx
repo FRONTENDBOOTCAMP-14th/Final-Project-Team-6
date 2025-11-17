@@ -1,3 +1,7 @@
+import { createMetadata } from "@/utils";
+
+export const metadata = createMetadata("PRIVACY");
+
 export default function Privacy() {
   return (
     <div className="pt-10">
