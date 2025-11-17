@@ -36,7 +36,11 @@ export default function PostListHeader() {
 
   return (
     <div className="flex justify-between items-center mb-4 min-h-10">
+      <label htmlFor="postListType" className="sr-only">
+        게시글 목록 유형 선택
+      </label>
       <select
+        id="postListType"
         value={currentListType}
         onChange={handleListTypeChange}
         className="text-2xl font-bold bg-transparent text-site-white cursor-pointer"

@@ -4,7 +4,10 @@ import PostCard from "@/app/post/list/_components/list-card";
 import PostListHeader from "@/app/post/list/_components/post-list-header";
 import type { PostWithAuthor } from "@/app/post/type";
 import Pagination from "@/components/pagination/pagination";
+import { createMetadata } from "@/utils";
 import { createClient } from "@/utils/supabase/server";
+
+export const metadata = createMetadata("HOME");
 
 async function getAllPosts(
   page: number,
@@ -185,8 +188,8 @@ export default async function PostListPage({
             <Image
               src="/images/list-main-image.png"
               alt=""
-              width={0}
-              height={0}
+              width={440}
+              height={178}
               sizes="100vw"
               style={{ width: "100%", height: "auto" }}
             />

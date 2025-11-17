@@ -1,3 +1,4 @@
+import { createMetadata } from "@/utils";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import { createClient } from "@/utils/supabase/server";
 import {
@@ -7,6 +8,11 @@ import {
 } from "./_components";
 import { fetchChatRoomsData, fetchOpponentData } from "./_libs";
 import type { ChatItemsState } from "./_types";
+
+export const metadata = {
+  ...createMetadata("CHAT_LIST"),
+  robots: { index: false, follow: false },
+};
 
 type ChatListPageProps = {
   searchParams: Promise<{

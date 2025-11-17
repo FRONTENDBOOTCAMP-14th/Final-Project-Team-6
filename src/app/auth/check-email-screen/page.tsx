@@ -1,5 +1,12 @@
-import { Button, Link } from "@/components/common";
+import { Button } from "@/components/common";
 import { IconCheck, IconLetter } from "@/components/common/icons";
+import { createMetadata } from "@/utils";
+import { signOut } from "../_actions/auth-action";
+
+export const metadata = {
+  ...createMetadata("SIGNUP_COMPLETE"),
+  robots: { index: false, follow: false },
+};
 
 export default function CheckEmailScreenPage() {
   return (
@@ -16,12 +23,16 @@ export default function CheckEmailScreenPage() {
         <br />
         메일함을 확인하여 회원가입을 완료해주세요.
       </p>
-      <Link href="/auth/login" className="block mt-10">
-        <Button type="button" height="medium" fullWidth={true}>
-          확인
-          <IconCheck />
-        </Button>
-      </Link>
+      <Button
+        type="button"
+        onClick={signOut}
+        height="medium"
+        fullWidth={true}
+        className="mt-10"
+      >
+        확인
+        <IconCheck />
+      </Button>
     </div>
   );
 }

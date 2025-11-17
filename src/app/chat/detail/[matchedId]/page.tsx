@@ -1,8 +1,14 @@
+import { createMetadata } from "@/utils";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import getRoomDataByMatchedId from "./_actions/get-room-data-by-matched-id";
 import MessageScrollContainer from "./_components/message-scroll-container";
 import PostLink from "./_components/post-link";
 import SendMessageForm from "./_components/send-message-form";
+
+export const metadata = {
+  ...createMetadata("CHAT_DETAIL"),
+  robots: { index: false, follow: false },
+};
 
 interface Props {
   params: Promise<{ matchedId: string }>;

@@ -1,6 +1,11 @@
-import { tw } from "@/utils";
+import { createMetadata, tw } from "@/utils";
 import { getCurrentUser } from "@/utils/supabase/get-current-user";
 import SignupForm from "../_components/signup-form";
+
+export const metadata = {
+  ...createMetadata("SIGNUP"),
+  robots: { index: false, follow: false },
+};
 
 export default async function SiginUpPage() {
   const user = await getCurrentUser();

@@ -12,8 +12,16 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "빛나는 동반주자 연결고리, 눈길",
+  metadataBase: new URL("https://eyepath.vercel.app"),
+  title: {
+    template: "%s | 눈길",
+    default: "빛나는 동반주자 연결고리, 눈길",
+  },
   description: "시각장애인 러너와 가이드러너의 매칭 플랫폼",
+  openGraph: {
+    siteName: "눈길",
+    locale: "ko_KR",
+  },
 };
 
 export default function RootLayout({
